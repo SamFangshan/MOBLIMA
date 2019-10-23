@@ -1,7 +1,7 @@
 package edu.ntu.scse.entity;
 
 public enum MovieType {
-	MovieType_REGULAR("Regular", 11), MovieType_3D("3D", 15);
+	MovieType_DIGITAL("Dolby Digital", 11), MovieType_3D("3D", 15);
 
 	private final String desc;
 	private final double price;
