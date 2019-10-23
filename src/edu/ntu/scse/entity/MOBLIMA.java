@@ -111,7 +111,7 @@ public class MOBLIMA {
 				// MovieUI.showMovieUI(movies); //TODO remove/replace
 				System.out.println("NOT DONE LUL REPLACE CODE THX");// TODO remove/replace
 				for(Movie m : movies) {// TODO remove/replace
-					System.out.println(m.getTitle());// TODO remove/replace
+					m.print();// TODO remove/replace
 				}// TODO remove/replace
 				break;
 			default:

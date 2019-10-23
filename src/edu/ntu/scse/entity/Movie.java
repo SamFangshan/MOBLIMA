@@ -93,7 +93,25 @@ public class Movie {
 		this.movieStatus = movieStatus;
 		this.movieType = movieType;
 	}
-	
+
+	/**
+	 * prints all attributes of Movie
+	 */
+	public void print() {
+		System.out.println("Id: " + movieId + " | Movie Title: " + title);
+		System.out.println("Movie Rating: " + movieRating.name() + " (" + movieRating.toString() + ")"
+				+ " | Movie Status: " + movieStatus.toString() + " | Movie Type: " + movieType.toString());
+		System.out.println("Synopsis: " + synopsis);
+		System.out.println("Director: " + director);
+		System.out.println("Cast: " + cast);
+		if (isBlockbuster) {
+			System.out.println("Blockbuster: Yes");
+		} else {
+			System.out.println("Blockbuster: No");
+		}
+		System.out.println("Overall Rating: " + getOverallRating());		
+	}
+
 	/**
 	 * returns a String of a Movie, including all of its attributes
 	 */
@@ -151,6 +169,7 @@ public class Movie {
 	}
 
 	public float getOverallRating() {
+		// TODO add getOverallRating logic
 		return overallRating;
 	}
 
