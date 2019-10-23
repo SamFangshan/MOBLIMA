@@ -13,14 +13,17 @@ import edu.ntu.scse.control.ReadFileWriteData;
  *
  */
 public class MOBLIMA {
+	
+	private ReadFileWriteData readFileWriteData;
 
-	private ArrayList<Movie> movies = null;
+	private ArrayList<Movie> movies;	
 
 	/**
 	 * Constructor of MOBLIMA <br>
-	 * Will load saved data
+	 * Load saved data
 	 */
 	public MOBLIMA() {
+		readFileWriteData = new ReadFileWriteData();
 		loadData();
 	}
 
@@ -28,15 +31,18 @@ public class MOBLIMA {
 	 * Load MOBLIMA data from previous saved data
 	 */
 	private void loadData() {
-		ReadFileWriteData readFileWriteData = new ReadFileWriteData();
+		System.out.println("Loading data...");
 		movies = readFileWriteData.initMovies("movies.txt");
+		System.out.println("Loading data done.");
 	};
 
 	/**
 	 * Save MOBLIMA data
 	 */
-	public void saveData() {
-
+	public void saveData() {		
+		System.out.println("Saving data...");
+		readFileWriteData.saveMovies("movies.txt", movies);
+		System.out.println("Saving data done.");
 	}
 
 	/**

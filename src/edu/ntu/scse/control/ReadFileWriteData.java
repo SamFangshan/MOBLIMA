@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import edu.ntu.scse.entity.Movie;
@@ -19,12 +20,12 @@ import edu.ntu.scse.entity.MovieType;
  */
 public class ReadFileWriteData {
 	/**
-	 * Initialize MOBLIMA's Movie(s) from movies.txt
+	 * Initialize MOBLIMA's Movie(s) from a text file
 	 */
 	public ArrayList<Movie> initMovies(String filename) {
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 
-		// read/load data from text file, data.txt
+		// read/load data from text file
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 			String line = "";
 			while ((line = reader.readLine()) != null) { // check and read next line
@@ -45,11 +46,33 @@ public class ReadFileWriteData {
 			}
 			reader.close();
 		} catch (FileNotFoundException ex) {
-			System.out.println("No previous data found for Movie(s). Creating new txt file...");
+			System.out.println("Error: Unable to load Movie(s), file " + filename + " not found.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		return movies;
+	}
+
+	/**
+	 * Save all Movie into a text file
+	 * @param filename
+	 * @param movies
+	 */
+	public void saveMovies(String filename, ArrayList<Movie> movies) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			// save all Movie
+			for (int i = 0; i < movies.size(); i++) {
+				String line = movies.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

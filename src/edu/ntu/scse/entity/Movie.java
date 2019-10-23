@@ -93,6 +93,14 @@ public class Movie {
 		this.movieStatus = movieStatus;
 		this.movieType = movieType;
 	}
+	
+	/**
+	 * returns a String of a Movie, including all of its attributes
+	 */
+	public String toString() {
+		return "Movie|" + movieId + "|" + title + "|" + synopsis + "|" + director + "|" + cast + "|" + isBlockbuster
+				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name();
+	}
 
 	public int getMovieId() {
 		return movieId;
@@ -147,7 +155,7 @@ public class Movie {
 	}
 
 	public void setOverallRating(float overallRating) {
-		//TODO add setOverallRating logic
+		// TODO add setOverallRating logic
 		this.overallRating = overallRating;
 	}
 
