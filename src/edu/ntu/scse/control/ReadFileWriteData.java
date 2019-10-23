@@ -22,7 +22,7 @@ public class ReadFileWriteData {
 	/**
 	 * Initialize MOBLIMA's Movie(s) from a text file
 	 */
-	public ArrayList<Movie> initMovies(String filename) {
+	public ArrayList<Movie> readMovies(String filename) {
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 
 		// read/load data from text file
@@ -59,7 +59,7 @@ public class ReadFileWriteData {
 	 * @param filename
 	 * @param movies
 	 */
-	public void saveMovies(String filename, ArrayList<Movie> movies) {
+	public void writeMovies(String filename, ArrayList<Movie> movies) {
 		// output to text
 		try {
 			PrintWriter out = new PrintWriter(filename);

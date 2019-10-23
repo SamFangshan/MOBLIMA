@@ -32,7 +32,7 @@ public class MOBLIMA {
 	 */
 	private void loadData() {
 		System.out.println("Loading data...");
-		movies = readFileWriteData.initMovies("movies.txt");
+		movies = readFileWriteData.readMovies("data/movies.txt");
 		System.out.println("Loading data done.");
 	};
 
@@ -41,7 +41,7 @@ public class MOBLIMA {
 	 */
 	public void saveData() {		
 		System.out.println("Saving data...");
-		readFileWriteData.saveMovies("movies.txt", movies);
+		readFileWriteData.writeMovies("data/movies.txt", movies);
 		System.out.println("Saving data done.");
 	}
 
