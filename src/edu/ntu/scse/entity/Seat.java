@@ -34,4 +34,19 @@ public class Seat {
     public void setBooked(boolean booked) {
         isBooked = booked;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!obj.getClass().equals(this.getClass())) {
+            return false;
+        }
+
+        if (this.getRowId() == ((Seat)obj).getRowId() &&
+                this.getColId() == ((Seat)obj).getColId() &&
+                this.isBooked() == ((Seat)obj).isBooked()) {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -46,4 +46,20 @@ public class Cinema {
     public void setCinemaClass(CinemaClass cinemaClass) {
         this.cinemaClass = cinemaClass;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!obj.getClass().equals(this.getClass())) {
+            return false;
+        }
+
+        if (this.getCinemaId() == ((Cinema)obj).getCinemaId() &&
+                this.getSeats().equals(((Cinema)obj).getCinemaId()) &&
+                this.getCineplex().equals(((Cinema)obj).getCineplex()) &&
+                this.getCinemaClass().equals(((Cinema)obj).getCinemaClass())) {
+            return true;
+        }
+
+        return false;
+    }
 }

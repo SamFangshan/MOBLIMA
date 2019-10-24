@@ -36,4 +36,19 @@ public class Showtime {
     public void setMovie(Movie movie) {
         this.movie = movie;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!obj.getClass().equals(this.getClass())) {
+            return false;
+        }
+
+        if (this.getScreeningTime().equals(((Showtime)obj).getScreeningTime()) &&
+                this.getCinema().equals(((Showtime)obj).getCinema()) &&
+                this.getMovie().equals(((Showtime)obj).getMovie())) {
+            return true;
+        }
+
+        return false;
+    }
 }

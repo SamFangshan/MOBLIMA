@@ -36,4 +36,19 @@ public class Cineplex {
     public void setCinemas(ArrayList<Cinema> cinemas) {
         this.cinemas = cinemas;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!obj.getClass().equals(this.getClass())) {
+            return false;
+        }
+
+        if (this.getCineplexId() == ((Cineplex)obj).getCineplexId() &&
+                this.getLocation().equals(((Cineplex)obj).getLocation()) &&
+                this.getCinemas().equals(((Cineplex)obj).getCinemas())) {
+            return true;
+        }
+
+        return false;
+    }
 }
