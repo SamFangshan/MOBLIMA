@@ -1,15 +1,18 @@
 package edu.ntu.scse.entity;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Showtime {
     private Calendar screeningTime;
     private Cinema cinema;
     private Movie movie;
+    private ArrayList<Seat> seats;
 
-    public Showtime(Calendar screeningTime, Cinema cinema, Movie movie) {
+    public Showtime(Calendar screeningTime, Cinema cinema, Movie movie, ArrayList<Seat> seats) {
         this.screeningTime = screeningTime;
         this.cinema = cinema;
         this.movie = movie;
+        this.seats = seats;
     }
 
     public Calendar getScreeningTime() {
@@ -24,6 +27,10 @@ public class Showtime {
         return movie;
     }
 
+    public ArrayList<Seat> getSeats() {
+        return seats;
+    }
+
     public void setScreeningTime(Calendar screeningTime) {
         this.screeningTime = screeningTime;
     }
@@ -34,6 +41,10 @@ public class Showtime {
 
     public void setMovie(Movie movie) {
         this.movie = movie;
+    }
+
+    public void setSeats(ArrayList<Seat> seats) {
+        this.seats = seats;
     }
 
     @Override

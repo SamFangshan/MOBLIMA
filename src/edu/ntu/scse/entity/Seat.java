@@ -3,9 +3,9 @@ package edu.ntu.scse.entity;
 public class Seat {
     private char rowId;
     private int colId;
-    private SeatStatus isBooked;
+    private boolean isBooked;
 
-    public Seat(char rowId, int colId, SeatStatus isBooked) {
+    public Seat(char rowId, int colId, boolean isBooked) {
         this.rowId = rowId;
         this.colId = colId;
         this.isBooked = isBooked;
@@ -19,7 +19,7 @@ public class Seat {
         return colId;
     }
 
-    public SeatStatus isBooked() {
+    public boolean isBooked() {
         return isBooked;
     }
 
@@ -31,7 +31,7 @@ public class Seat {
         this.colId = colId;
     }
 
-    public void setBooked(SeatStatus booked) {
+    public void setBooked(boolean booked) {
         isBooked = booked;
     }
 
@@ -53,7 +53,7 @@ public class Seat {
     @Override
     public String toString() {
         String idString = "Seat ID: " + rowId + ": " + colId;
-        String isBookedString = (isBooked == SeatStatus.BOOKED) ? "Booked" : "Not Booked";
+        String isBookedString = (isBooked) ? "Booked" : "Not Booked";
         return idString + "\n" + isBookedString + "\n";
     }
 }

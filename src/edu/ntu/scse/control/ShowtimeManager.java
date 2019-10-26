@@ -4,7 +4,6 @@ import edu.ntu.scse.entity.Cinema;
 import edu.ntu.scse.entity.Cineplex;
 import edu.ntu.scse.entity.Showtime;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ShowtimeManager {
@@ -46,5 +45,8 @@ public class ShowtimeManager {
     public void displaySeatsLayout(Showtime showtime) {
         String seatsLayout = new SeatToStringConverter(showtime.getCinema().getSeats()).convert();
         System.out.println(seatsLayout);
+        System.out.println("O indicates that the seat is already booked.");
+        System.out.println("X indicates that this seat does not exist.");
+        System.out.println("You can choose from any empty seats.");
     }
 }
