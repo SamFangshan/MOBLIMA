@@ -1,5 +1,7 @@
 package edu.ntu.scse.entity;
 
+import edu.ntu.scse.control.SeatToStringConverter;
+
 import java.util.ArrayList;
 
 public class Cinema {
@@ -61,5 +63,15 @@ public class Cinema {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String cineplexString = "Cineplex ID: " + cineplex.getCineplexId()
+                + "\n" + "Cineplex Location: " + cineplex.getLocation();
+        String cinemaIdString = "Cinema ID: " + cinemaId;
+        String cinemaClassString = "Cinema Class: " + cinemaClass.toString();
+        String seatsString = new SeatToStringConverter(seats).convert();
+        return cineplexString + "\n" + cinemaIdString + "\n" + cinemaClassString + "\n" + seatsString + "\n";
     }
 }

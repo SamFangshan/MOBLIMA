@@ -42,6 +42,4 @@ public class ShowtimeManager {
         }
         return showtimesResult;
     }
-
-
 }

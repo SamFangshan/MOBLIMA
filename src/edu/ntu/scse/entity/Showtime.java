@@ -1,19 +1,18 @@
 package edu.ntu.scse.entity;
-
-import java.util.Date;
+import java.util.Calendar;
 
 public class Showtime {
-    private Date screeningTime;
+    private Calendar screeningTime;
     private Cinema cinema;
     private Movie movie;
 
-    public Showtime(Date screeningTime, Cinema cinema, Movie movie) {
+    public Showtime(Calendar screeningTime, Cinema cinema, Movie movie) {
         this.screeningTime = screeningTime;
         this.cinema = cinema;
         this.movie = movie;
     }
 
-    public Date getScreeningTime() {
+    public Calendar getScreeningTime() {
         return screeningTime;
     }
 
@@ -25,7 +24,7 @@ public class Showtime {
         return movie;
     }
 
-    public void setScreeningTime(Date screeningTime) {
+    public void setScreeningTime(Calendar screeningTime) {
         this.screeningTime = screeningTime;
     }
 
@@ -50,5 +49,14 @@ public class Showtime {
         }
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        String movieString = "Movie: " + movie.getTitle();
+        String screeningTimeString = "Screening Time: " + screeningTime.get(Calendar.DATE)
+                + " " + screeningTime.get(Calendar.HOUR_OF_DAY) + ": " + screeningTime.get(Calendar.MINUTE);
+        String cinemaString = "Cinema: " + cinema.getCinemaId() + " (" + cinema.getCinemaClass() + ")";
+        return movieString + "\n" + screeningTimeString + "\n" + cinemaString + "\n";
     }
 }

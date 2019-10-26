@@ -51,4 +51,18 @@ public class Cineplex {
 
         return false;
     }
+
+    @Override
+    public String toString() {
+        String cineplexIdString = "Cineplex ID: " + cineplexId;
+        String locationString = "Location: " + location;
+        String cinemasString = "Cinemas: ";
+        for (int i = 0; i < cinemas.size(); i++) {
+            cinemasString += cinemas.get(i).getCinemaId();
+            if (i < cinemas.size() - 1) {
+                cinemasString += ", ";
+            }
+        }
+        return cineplexIdString + "\n" + locationString + "\n" + cinemasString + "\n";
+    }
 }
