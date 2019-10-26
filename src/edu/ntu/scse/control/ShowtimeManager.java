@@ -42,4 +42,9 @@ public class ShowtimeManager {
         }
         return showtimesResult;
     }
+
+    public void displaySeatsLayout(Showtime showtime) {
+        String seatsLayout = new SeatToStringConverter(showtime.getCinema().getSeats()).convert();
+        System.out.println(seatsLayout);
+    }
 }
