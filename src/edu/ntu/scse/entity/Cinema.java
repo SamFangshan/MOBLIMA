@@ -4,12 +4,40 @@ import edu.ntu.scse.control.SeatToStringConverter;
 
 import java.util.ArrayList;
 
+/**
+ * Represents individual cinema inside of a cineplex
+ *
+ * @author Fangshan
+ *
+ */
 public class Cinema {
+    /**
+     * Cinema ID of a cinema
+     */
     private int cinemaId;
+
+    /**
+     * List of seats in a cinema
+     */
     private ArrayList<Seat> seats;
+
+    /**
+     * The cineplex that the cinema belong to
+     */
     private Cineplex cineplex;
+
+    /**
+     * Class of the cinema
+     */
     private CinemaClass cinemaClass;
 
+    /**
+     * Constructor with all attributes of cinema
+     * @param cinemaId
+     * @param seats
+     * @param cineplex
+     * @param cinemaClass
+     */
     public Cinema(int cinemaId, ArrayList<Seat> seats, Cineplex cineplex, CinemaClass cinemaClass) {
         this.cinemaId = cinemaId;
         this.seats = seats;

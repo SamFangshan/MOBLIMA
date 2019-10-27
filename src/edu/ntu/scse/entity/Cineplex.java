@@ -2,11 +2,34 @@ package edu.ntu.scse.entity;
 
 import java.util.ArrayList;
 
+/**
+ * Represents a cineplex
+ *
+ * @author Fangshan
+ *
+ */
 public class Cineplex {
+    /**
+     * Cineplex ID of a cineplex
+     */
     private int cineplexId;
+
+    /**
+     * Location of a cineplex
+     */
     private String location;
+
+    /**
+     * List of cinemas inside a cineplex
+     */
     private ArrayList<Cinema> cinemas;
 
+    /**
+     * Constructor with all attributes of cineplex
+     * @param cineplexId
+     * @param location
+     * @param cinemas
+     */
     public Cineplex(int cineplexId, String location, ArrayList<Cinema> cinemas) {
         this.cineplexId = cineplexId;
         this.location = location;

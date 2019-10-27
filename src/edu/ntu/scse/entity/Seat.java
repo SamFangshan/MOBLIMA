@@ -1,10 +1,34 @@
 package edu.ntu.scse.entity;
 
+/**
+ * Represents a seat in a cinema
+ *
+ * @author Fangshan
+ *
+ */
 public class Seat {
+    /**
+     * Row ID of a seat
+     */
     private char rowId;
+
+    /**
+     * Column ID of a seat
+     */
     private int colId;
+
+    /**
+     * Whether or not the seat is booked.
+     * Its value is true when it is booked.
+     */
     private boolean isBooked;
 
+    /**
+     * Constructor with all attributes of seat
+     * @param rowId
+     * @param colId
+     * @param isBooked
+     */
     public Seat(char rowId, int colId, boolean isBooked) {
         this.rowId = rowId;
         this.colId = colId;

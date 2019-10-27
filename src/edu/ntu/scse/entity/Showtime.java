@@ -2,12 +2,40 @@ package edu.ntu.scse.entity;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+/**
+ * Represents a specific showtime of a movie
+ *
+ * @author Fangshan
+ *
+ */
 public class Showtime {
+    /**
+     * The timing of the show
+     */
     private Calendar screeningTime;
+
+    /**
+     * The cinema where the movie is shown
+     */
     private Cinema cinema;
+
+    /**
+     * The movie to be shown
+     */
     private Movie movie;
+
+    /**
+     * List of seats in the cinema with booking information filled
+     */
     private ArrayList<Seat> seats;
 
+    /**
+     * Constructor with all attributes of showtime
+     * @param screeningTime
+     * @param cinema
+     * @param movie
+     * @param seats
+     */
     public Showtime(Calendar screeningTime, Cinema cinema, Movie movie, ArrayList<Seat> seats) {
         this.screeningTime = screeningTime;
         this.cinema = cinema;
