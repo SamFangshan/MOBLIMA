@@ -8,7 +8,6 @@ import edu.ntu.scse.entity.MOBLIMA;
  *
  */
 public class Main {
-
 	public static void main(String[] args) {
 		System.out.println("Start of Application.");
 
