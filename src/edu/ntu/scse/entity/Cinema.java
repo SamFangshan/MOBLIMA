@@ -32,6 +32,13 @@ public class Cinema {
     private CinemaClass cinemaClass;
 
     /**
+     * Default constructor of cinema
+     */
+    public Cinema() {
+
+    }
+
+    /**
      * Constructor with all attributes of cinema
      * @param cinemaId
      * @param seats
@@ -98,7 +105,8 @@ public class Cinema {
         String cineplexString = "Cineplex ID: " + cineplex.getCineplexId()
                 + "\n" + "Cineplex Location: " + cineplex.getLocation();
         String cinemaIdString = "Cinema ID: " + cinemaId;
-        String cinemaClassString = "Cinema Class: " + cinemaClass.toString();
+        String cinemaClassString = "Cinema Class: " + cinemaClass.toString() +
+                "\nAdditional fee: $" + cinemaClass.getPrice();
         String seatsString = new SeatToStringConverter(seats).convert();
         return cineplexString + "\n" + cinemaIdString + "\n" + cinemaClassString + "\n" + seatsString + "\n";
     }

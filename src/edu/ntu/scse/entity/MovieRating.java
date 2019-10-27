@@ -17,6 +17,7 @@ public enum MovieRating {
 	 * 
 	 * @return description of MovieStatus
 	 */
+	@Override
 	public String toString() {
 		return desc;
 	}

@@ -20,6 +20,7 @@ public enum MovieStatus {
 	 * 
 	 * @return description of MovieStatus
 	 */
+	@Override
 	public String toString() {
 		return desc;
 	}

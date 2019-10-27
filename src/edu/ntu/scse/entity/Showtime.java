@@ -30,6 +30,13 @@ public class Showtime {
     private ArrayList<Seat> seats;
 
     /**
+     * Default constructor of showtime
+     */
+    public Showtime() {
+
+    }
+
+    /**
      * Constructor with all attributes of showtime
      * @param screeningTime
      * @param cinema
