@@ -25,6 +25,13 @@ public class Cineplex {
     private ArrayList<Cinema> cinemas;
 
     /**
+     * Default constructor of cineplex
+     */
+    public Cineplex() {
+
+    }
+
+    /**
      * Constructor with all attributes of cineplex
      * @param cineplexId
      * @param location

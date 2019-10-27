@@ -24,6 +24,13 @@ public class Seat {
     private boolean isBooked;
 
     /**
+     * Default constructor of seat
+     */
+    public Seat() {
+
+    }
+
+    /**
      * Constructor with all attributes of seat
      * @param rowId
      * @param colId

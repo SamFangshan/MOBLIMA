@@ -21,4 +21,8 @@ public enum CinemaClass {
     public String toString() {
         return this.desc;
     }
+
+    public double getPrice() {
+        return price;
+    }
 }

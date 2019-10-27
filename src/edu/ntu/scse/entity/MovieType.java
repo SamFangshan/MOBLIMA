@@ -16,6 +16,7 @@ public enum MovieType {
 	 * 
 	 * @return description of MovieType
 	 */
+	@Override
 	public String toString() {
 		return desc;
 	}

@@ -94,30 +94,39 @@ public class Movie {
 		this.movieType = movieType;
 	}
 
-	/**
-	 * prints all attributes of Movie
-	 */
-	public void print() {
-		System.out.println("Id: " + movieId + " | Movie Title: " + title);
-		System.out.println("Movie Rating: " + movieRating.name() + " (" + movieRating.toString() + ")"
-				+ " | Movie Status: " + movieStatus.toString() + " | Movie Type: " + movieType.toString());
-		System.out.println("Synopsis: " + synopsis);
-		System.out.println("Director: " + director);
-		System.out.println("Cast: " + cast);
-		if (isBlockbuster) {
-			System.out.println("Blockbuster: Yes");
-		} else {
-			System.out.println("Blockbuster: No");
-		}
-		System.out.println("Overall Rating: " + getOverallRating());		
+	@Override
+	public String toString() {
+		String movieIdString = "Movie ID: " + movieId;
+		String titleString = "Title: " + title;
+		String synopsisString = "Synopsis: " + synopsis;
+		String directorString = "Director: " + director;
+		String castString = "Cast: " + cast;
+		String isBlockbusterString = "Blockbuster: " + ((isBlockbuster) ? "Yes" : "No");
+		String overallRatingString = "Overall Rating: " + overallRating;
+		String movieRatingString = "Movie Rating: " + movieRating;
+		String movieStatusString = "Movie Status: " + movieStatus.toString();
+		String movieTypeString = "Movie Type: " + movieType.toString()
+				+ "\nPrice: " + movieType.getPrice();
+
+		return movieIdString + "\n" + titleString + "\n" + synopsisString + "\n" + directorString
+				+ "\n" + castString + "\n" + isBlockbusterString + "\n" + overallRatingString + "\n"
+				+ movieRatingString + "\n" + movieStatusString + "\n" + movieTypeString;
 	}
 
-	/**
-	 * returns a String of a Movie, including all of its attributes
-	 */
-	public String toString() {
-		return "Movie|" + movieId + "|" + title + "|" + synopsis + "|" + director + "|" + cast + "|" + isBlockbuster
-				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name();
+	@Override
+	public boolean equals(Object o) {
+		if (!o.getClass().equals(this.getClass())) {
+			return false;
+		}
+		Movie mv = (Movie)o;
+		if (this.movieId == mv.getMovieId() && this.title.equals(mv.getTitle())
+				&& this.synopsis.equals(mv.getSynopsis()) && this.director.equals(mv.getDirector())
+				&& this.cast.equals(mv.getCast()) && this.isBlockbuster == mv.isBlockbuster()
+				&& this.overallRating == mv.overallRating && this.movieRating.equals(mv.getMovieRating())
+				&& this.movieStatus.equals(mv.getMovieRating()) && this.movieType.equals(mv.getMovieType())) {
+			return true;
+		}
+		return false;
 	}
 
 	public int getMovieId() {

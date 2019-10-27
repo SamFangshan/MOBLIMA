@@ -3,6 +3,7 @@ package edu.ntu.scse.control;
 import edu.ntu.scse.entity.Cinema;
 import edu.ntu.scse.entity.Cineplex;
 import edu.ntu.scse.entity.Showtime;
+import edu.ntu.scse.entity.Movie;
 
 import java.util.ArrayList;
 
