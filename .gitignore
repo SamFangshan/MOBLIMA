@@ -1,4 +1,12 @@
+.DS_Store
+/bin/
+
+# JDE specific (IntelliJ)
 /out
 /.idea
 MOBLIMA.iml
-.DS_Store
+
+# Eclipse Core      
+.project
+# JDT-specific (Eclipse Java Development Tools)     
+.classpath
