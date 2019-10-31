@@ -25,7 +25,7 @@ public enum MovieRating {
 	/**
 	 * Get minAge of MovieStatus
 	 * 
-	 * @return
+	 * @return minAge of MovieStatus
 	 */
 	public int getMinAge() {
 		return minAge;
