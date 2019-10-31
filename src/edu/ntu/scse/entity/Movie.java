@@ -1,5 +1,7 @@
 package edu.ntu.scse.entity;
 
+import java.util.Objects;
+
 /**
  * Represents individual Movie
  * 
@@ -115,18 +117,19 @@ public class Movie {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!o.getClass().equals(this.getClass())) {
-			return false;
-		}
-		Movie mv = (Movie)o;
-		if (this.movieId == mv.getMovieId() && this.title.equals(mv.getTitle())
-				&& this.synopsis.equals(mv.getSynopsis()) && this.director.equals(mv.getDirector())
-				&& this.cast.equals(mv.getCast()) && this.isBlockbuster == mv.isBlockbuster()
-				&& this.overallRating == mv.overallRating && this.movieRating.equals(mv.getMovieRating())
-				&& this.movieStatus.equals(mv.getMovieRating()) && this.movieType.equals(mv.getMovieType())) {
-			return true;
-		}
-		return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Movie movie = (Movie) o;
+		return getMovieId() == movie.getMovieId() &&
+				isBlockbuster() == movie.isBlockbuster() &&
+				Float.compare(movie.getOverallRating(), getOverallRating()) == 0 &&
+				getTitle().equals(movie.getTitle()) &&
+				getSynopsis().equals(movie.getSynopsis()) &&
+				getDirector().equals(movie.getDirector()) &&
+				getCast().equals(movie.getCast()) &&
+				getMovieRating() == movie.getMovieRating() &&
+				getMovieStatus() == movie.getMovieStatus() &&
+				getMovieType() == movie.getMovieType();
 	}
 
 	public int getMovieId() {

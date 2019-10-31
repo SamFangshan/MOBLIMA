@@ -1,4 +1,8 @@
+package edu.ntu.scse.entity;
+
 import java.util.ArrayList;
+import java.util.Objects;
+
 /**
  * 
  * @author suhuangyuan
@@ -60,24 +64,16 @@ public class MovieGoer extends Person{
 	public void setReviews(ArrayList<Review> reviews) {
 		this.reviews = reviews;
 	}
-	
+
 	@Override
-    public boolean equals(Object obj) {
-        if (!obj.getClass().equals(this.getClass())) {
-            return false;
-        }
-
-        if (this.getLastName().equals(((Person)obj).getLastName()) &&
-                this.getFirstName().equals(((Person)obj).getFirstName()) &&
-                this.getEmail().equals(((Person)obj).getEmail())&&
-                this.getPhoneNo().equals(((Person)obj).getPhoneNo())&&
-                this.getMovieGoerId()==((MovieGoer)obj).getMovieGoerId() &&
-                this.getAge() == ((MovieGoer)obj).getAge() &&
-                this.getBookings() == ((MovieGoer)obj).getBookings() &&
-                this.getReviews().equals(((MovieGoer)obj).getReviews())) {
-            return true;
-        }
-
-        return false;
-    }
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		MovieGoer movieGoer = (MovieGoer) o;
+		return getMovieGoerId() == movieGoer.getMovieGoerId() &&
+				getAge() == movieGoer.getAge() &&
+				getBookings().equals(movieGoer.getBookings()) &&
+				getReviews().equals(movieGoer.getReviews());
+	}
 }

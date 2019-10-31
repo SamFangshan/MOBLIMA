@@ -1,3 +1,7 @@
+package edu.ntu.scse.entity;
+
+import java.util.Objects;
+
 /**
  * 
  * @author suhuangyuan
@@ -40,21 +44,14 @@ public class Staff extends Person{
 //		super();
 //	}
 //	
+
 	@Override
-    public boolean equals(Object obj) {
-        if (!obj.getClass().equals(this.getClass())) {
-            return false;
-        }
-
-        if (this.getLastName().equals(((Person)obj).getLastName()) &&
-                this.getFirstName().equals(((Person)obj).getFirstName()) &&
-                this.getEmail().equals(((Person)obj).getEmail())&&
-                this.getPhoneNo().equals(((Person)obj).getPhoneNo())&&
-        		this.getCinemaStaffId()==((Staff)obj).getCinemaStaffId() &&
-                this.getPassword().equals(((Staff)obj).getPassword())) {
-            return true;
-        }
-
-        return false;
-    }
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		Staff staff = (Staff) o;
+		return getCinemaStaffId() == staff.getCinemaStaffId() &&
+				getPassword().equals(staff.getPassword());
+	}
 }

@@ -1,6 +1,7 @@
 package edu.ntu.scse.entity;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
 
 /**
  * Represents a specific showtime of a movie
@@ -83,25 +84,20 @@ public class Showtime {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!obj.getClass().equals(this.getClass())) {
-            return false;
-        }
-
-        if (this.getScreeningTime().equals(((Showtime)obj).getScreeningTime()) &&
-                this.getCinema().equals(((Showtime)obj).getCinema()) &&
-                this.getMovie().equals(((Showtime)obj).getMovie())) {
-            return true;
-        }
-
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Showtime showtime = (Showtime) o;
+        return getScreeningTime().equals(showtime.getScreeningTime()) &&
+                getCinema().equals(showtime.getCinema()) &&
+                getMovie().equals(showtime.getMovie()) &&
+                getSeats().equals(showtime.getSeats());
     }
 
     @Override
     public String toString() {
         String movieString = "Movie: " + movie.getTitle();
-        String screeningTimeString = "Screening Time: " + screeningTime.get(Calendar.DATE)
-                + " " + screeningTime.get(Calendar.HOUR_OF_DAY) + ": " + screeningTime.get(Calendar.MINUTE);
+        String screeningTimeString = "Screening Time: " + screeningTime.toString();
         String cinemaString = "Cinema: " + cinema.getCinemaId() + " (" + cinema.getCinemaClass() + ")";
         return movieString + "\n" + screeningTimeString + "\n" + cinemaString + "\n";
     }

@@ -1,5 +1,7 @@
 package edu.ntu.scse.entity;
 
+import java.util.Objects;
+
 /**
  * Represents a seat in a cinema
  *
@@ -67,18 +69,13 @@ public class Seat {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!obj.getClass().equals(this.getClass())) {
-            return false;
-        }
-
-        if (this.getRowId() == ((Seat)obj).getRowId() &&
-                this.getColId() == ((Seat)obj).getColId() &&
-                this.isBooked() == ((Seat)obj).isBooked()) {
-            return true;
-        }
-
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Seat seat = (Seat) o;
+        return getRowId() == seat.getRowId() &&
+                getColId() == seat.getColId() &&
+                isBooked() == seat.isBooked();
     }
 
     @Override

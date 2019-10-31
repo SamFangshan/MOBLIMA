@@ -1,3 +1,7 @@
+package edu.ntu.scse.entity;
+
+import java.util.Objects;
+
 /**
  * 
  * @author suhuangyuan
@@ -60,21 +64,15 @@ public class Review {
 	public void setMovieGoer(MovieGoer movieGoer) {
 		this.movieGoer = movieGoer;
 	}
-	
+
 	@Override
-    public boolean equals(Object obj) {
-        if (!obj.getClass().equals(this.getClass())) {
-            return false;
-        }
-
-        if (this.getReviewId()==((Review)obj).getReviewId() &&
-                this.getReviewText().equals(((Review)obj).getReviewText()) &&
-                this.getRating() == ((Review)obj).getRating() &&
-                this.getMovieGoer().equals(((Review)obj).getMovieGoer())) {
-            return true;
-        }
-
-        return false;
-    }
-	
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Review review = (Review) o;
+		return getReviewId() == review.getReviewId() &&
+				getRating() == review.getRating() &&
+				getReviewText().equals(review.getReviewText()) &&
+				getMovieGoer().equals(review.getMovieGoer());
+	}
 }
