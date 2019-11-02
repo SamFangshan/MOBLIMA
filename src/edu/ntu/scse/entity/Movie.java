@@ -58,6 +58,8 @@ public class Movie {
 	 * type of Movie
 	 */
 	private MovieType movieType;
+	
+	//TODO add private ArrayList<Review> reviews
 
 	/**
 	 * Default constructor of Movie

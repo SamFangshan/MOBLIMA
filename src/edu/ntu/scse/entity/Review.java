@@ -20,9 +20,9 @@ public class Review {
 	 */
 	private int rating;
 	/**
-	 * movieGoer(author of the movie)
+	 * moviegoer(author of the movie)
 	 */
-	private MovieGoer movieGoer;
+	private Moviegoer moviegoer;
 
 	/**
 	 * Constructor of a movie
@@ -30,14 +30,14 @@ public class Review {
 	 * @param reviewId
 	 * @param reviewText
 	 * @param rating
-	 * @param movieGoer
+	 * @param moviegoer
 	 */
-	public Review(int reviewId, String reviewText, int rating, MovieGoer movieGoer) {
+	public Review(int reviewId, String reviewText, int rating, Moviegoer moviegoer) {
 		super();
 		this.reviewId = reviewId;
 		this.reviewText = reviewText;
 		this.rating = rating;
-		this.movieGoer = movieGoer;
+		this.moviegoer = moviegoer;
 	}
 
 	public int getReviewId() {
@@ -64,12 +64,12 @@ public class Review {
 		this.rating = rating;
 	}
 
-	public MovieGoer getMovieGoer() {
-		return movieGoer;
+	public Moviegoer getMovieGoer() {
+		return moviegoer;
 	}
 
-	public void setMovieGoer(MovieGoer movieGoer) {
-		this.movieGoer = movieGoer;
+	public void setMovieGoer(Moviegoer moviegoer) {
+		this.moviegoer = moviegoer;
 	}
 
 	@Override

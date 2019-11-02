@@ -7,48 +7,48 @@ import java.util.ArrayList;
  * @author suhuangyuan
  *
  */
-public class MovieGoer extends Person {
+public class Moviegoer extends Person {
 
 	/**
 	 * ID of movie goer
 	 */
-	private int movieGoerId;
+	private int moviegoerId;
 	/**
 	 * age of movie goer, used in calculating ticket price
 	 */
 	private int age;
 	/**
-	 * bookings history of movieGoer
+	 * bookings history of moviegoer
 	 */
 	private ArrayList<Booking> bookings;
 	/**
-	 * reviews history of movieGoer
+	 * reviews history of moviegoer
 	 */
 	private ArrayList<Review> reviews;
 
 	/**
-	 * Constructor of MovieGoer with all attributes and default constructor from
+	 * Constructor of Moviegoer with all attributes and default constructor from
 	 * super class
 	 * 
-	 * @param movieGoerId
+	 * @param moviegoerId
 	 * @param age
 	 * @param bookings
 	 * @param reviews
 	 */
-	public MovieGoer(int movieGoerId, int age, ArrayList<Booking> bookings, ArrayList<Review> reviews) {
+	public Moviegoer(int moviegoerId, int age, ArrayList<Booking> bookings, ArrayList<Review> reviews) {
 		super();
-		this.movieGoerId = movieGoerId;
+		this.moviegoerId = moviegoerId;
 		this.age = age;
 		this.bookings = bookings;
 		this.reviews = reviews;
 	}
 
-	public int getMovieGoerId() {
-		return movieGoerId;
+	public int getMoviegoerId() {
+		return moviegoerId;
 	}
 
-	public void setMovieGoerId(int movieGoerId) {
-		this.movieGoerId = movieGoerId;
+	public void setMoviegoerId(int moviegoerId) {
+		this.moviegoerId = moviegoerId;
 	}
 
 	public int getAge() {
@@ -85,9 +85,9 @@ public class MovieGoer extends Person {
 				&& this.getFirstName().equals(((Person) obj).getFirstName())
 				&& this.getEmail().equals(((Person) obj).getEmail())
 				&& this.getPhoneNo().equals(((Person) obj).getPhoneNo())
-				&& this.getMovieGoerId() == ((MovieGoer) obj).getMovieGoerId()
-				&& this.getAge() == ((MovieGoer) obj).getAge() && this.getBookings() == ((MovieGoer) obj).getBookings()
-				&& this.getReviews().equals(((MovieGoer) obj).getReviews())) {
+				&& this.getMoviegoerId() == ((Moviegoer) obj).getMoviegoerId()
+				&& this.getAge() == ((Moviegoer) obj).getAge() && this.getBookings() == ((Moviegoer) obj).getBookings()
+				&& this.getReviews().equals(((Moviegoer) obj).getReviews())) {
 			return true;
 		}
 
