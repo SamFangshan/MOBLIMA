@@ -109,11 +109,7 @@ public class Movie {
 		System.out.println("Synopsis: " + synopsis);
 		System.out.println("Director: " + director);
 		System.out.println("Cast: " + cast);
-		if (isBlockbuster) {
-			System.out.println("Blockbuster: Yes");
-		} else {
-			System.out.println("Blockbuster: No");
-		}
+		System.out.println("Blockbuster: " + isBlockbuster);
 		System.out.println("Overall Rating: " + getOverallRating());
 	}
 

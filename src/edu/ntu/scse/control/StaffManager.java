@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import edu.ntu.scse.entity.Movie;
 import edu.ntu.scse.entity.MovieRating;
 import edu.ntu.scse.entity.MovieStatus;
-import edu.ntu.scse.entity.MovieType;
+import edu.ntu.scse.factor.MovieType;
 import edu.ntu.scse.entity.Staff;
 /**
  * 

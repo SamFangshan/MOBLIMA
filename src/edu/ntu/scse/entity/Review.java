@@ -22,7 +22,7 @@ public class Review {
 	/**
 	 * moviegoer(author of the movie)
 	 */
-	private Moviegoer moviegoer;
+	private MovieGoer moviegoer;
 
 	/**
 	 * Constructor of a movie
@@ -32,7 +32,7 @@ public class Review {
 	 * @param rating
 	 * @param moviegoer
 	 */
-	public Review(int reviewId, String reviewText, int rating, Moviegoer moviegoer) {
+	public Review(int reviewId, String reviewText, int rating, MovieGoer moviegoer) {
 		super();
 		this.reviewId = reviewId;
 		this.reviewText = reviewText;
@@ -64,11 +64,11 @@ public class Review {
 		this.rating = rating;
 	}
 
-	public Moviegoer getMovieGoer() {
+	public MovieGoer getMovieGoer() {
 		return moviegoer;
 	}
 
-	public void setMovieGoer(Moviegoer moviegoer) {
+	public void setMovieGoer(MovieGoer moviegoer) {
 		this.moviegoer = moviegoer;
 	}
 
