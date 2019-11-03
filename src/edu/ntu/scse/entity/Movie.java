@@ -1,5 +1,8 @@
 package edu.ntu.scse.entity;
 
+import edu.ntu.scse.factor.Blockbuster;
+import edu.ntu.scse.factor.MovieType;
+
 /**
  * Represents individual Movie
  * 
@@ -37,7 +40,7 @@ public class Movie {
 	 * If Movie is a Blockbuster, isBlockbuster = true<br>
 	 * If Movie is not a Blockbuster, isBlockbuster = false
 	 */
-	private boolean isBlockbuster;
+	private Blockbuster isBlockbuster;
 
 	/**
 	 * overall reviewer rating (1 – 5 [best]) of Movie
@@ -82,7 +85,7 @@ public class Movie {
 	 * @param movieStatus
 	 * @param movieType
 	 */
-	public Movie(int movieId, String title, String synopsis, String director, String cast, boolean isBlockbuster,
+	public Movie(int movieId, String title, String synopsis, String director, String cast, Blockbuster isBlockbuster,
 			float overallRating, MovieRating movieRating, MovieStatus movieStatus, MovieType movieType) {
 		this.movieId = movieId;
 		this.title = title;
@@ -125,11 +128,11 @@ public class Movie {
 		String synopsisString = "Synopsis: " + synopsis;
 		String directorString = "Director: " + director;
 		String castString = "Cast: " + cast;
-		String isBlockbusterString = "Blockbuster: " + ((isBlockbuster) ? "Yes" : "No");
+		String isBlockbusterString = "Blockbuster: " + isBlockbuster;
 		String overallRatingString = "Overall Rating: " + overallRating;
 		String movieRatingString = "Movie Rating: " + movieRating;
 		String movieStatusString = "Movie Status: " + movieStatus.toString();
-		String movieTypeString = "Movie Type: " + movieType.toString() + "\nPrice: " + movieType.getPrice();
+		String movieTypeString = "Movie Type: " + movieType.toString();
 
 		return movieIdString + "\n" + titleString + "\n" + synopsisString + "\n" + directorString + "\n" + castString
 				+ "\n" + isBlockbusterString + "\n" + overallRatingString + "\n" + movieRatingString + "\n"
@@ -138,18 +141,19 @@ public class Movie {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!o.getClass().equals(this.getClass())) {
-			return false;
-		}
-		Movie mv = (Movie) o;
-		if (this.movieId == mv.getMovieId() && this.title.equals(mv.getTitle())
-				&& this.synopsis.equals(mv.getSynopsis()) && this.director.equals(mv.getDirector())
-				&& this.cast.equals(mv.getCast()) && this.isBlockbuster == mv.isBlockbuster()
-				&& this.overallRating == mv.overallRating && this.movieRating.equals(mv.getMovieRating())
-				&& this.movieStatus.equals(mv.getMovieStatus()) && this.movieType.equals(mv.getMovieType())) {
-			return true;
-		}
-		return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Movie movie = (Movie) o;
+		return getMovieId() == movie.getMovieId() &&
+				isBlockbuster() == movie.isBlockbuster() &&
+				Float.compare(movie.getOverallRating(), getOverallRating()) == 0 &&
+				getTitle().equals(movie.getTitle()) &&
+				getSynopsis().equals(movie.getSynopsis()) &&
+				getDirector().equals(movie.getDirector()) &&
+				getCast().equals(movie.getCast()) &&
+				getMovieRating() == movie.getMovieRating() &&
+				getMovieStatus() == movie.getMovieStatus() &&
+				getMovieType() == movie.getMovieType();
 	}
 
 	/**
@@ -242,22 +246,22 @@ public class Movie {
 		this.cast = cast;
 	}
 
-	/**
+    /**
 	 * Get isBlockbuster of Movie
 	 * 
 	 * @return true if it is a blockbuster<br>
 	 *         false if it is not a blockbuster movie
 	 */
-	public boolean isBlockbuster() {
+	public Blockbuster isBlockbuster() {
 		return isBlockbuster;
 	}
-
-	/**
+	
+    /**
 	 * Change isBlockbuster of Movie
 	 * 
 	 * @param isBlockbuster of Movie
 	 */
-	public void setBlockbuster(boolean isBlockbuster) {
+	public void setBlockbuster(Blockbuster isBlockbuster) {
 		this.isBlockbuster = isBlockbuster;
 	}
 

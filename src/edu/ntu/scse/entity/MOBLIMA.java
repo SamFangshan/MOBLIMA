@@ -3,6 +3,7 @@ package edu.ntu.scse.entity;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import edu.ntu.scse.config.PriceConfig;
 import edu.ntu.scse.control.ReadFileWriteData;
 
 /**
@@ -25,6 +26,7 @@ public class MOBLIMA {
 	public MOBLIMA() {
 		readFileWriteData = new ReadFileWriteData();
 		loadData();
+		PriceConfig.init();
 	}
 
 	/**

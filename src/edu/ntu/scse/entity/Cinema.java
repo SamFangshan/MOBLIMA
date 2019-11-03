@@ -1,6 +1,7 @@
 package edu.ntu.scse.entity;
 
 import edu.ntu.scse.control.SeatToStringConverter;
+import edu.ntu.scse.factor.CinemaClass;
 
 import java.util.ArrayList;
 
@@ -85,19 +86,14 @@ public class Cinema {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!obj.getClass().equals(this.getClass())) {
-            return false;
-        }
-
-        if (this.getCinemaId() == ((Cinema)obj).getCinemaId() &&
-                this.getSeats().equals(((Cinema)obj).getCinemaId()) &&
-                this.getCineplex().equals(((Cinema)obj).getCineplex()) &&
-                this.getCinemaClass().equals(((Cinema)obj).getCinemaClass())) {
-            return true;
-        }
-
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cinema cinema = (Cinema) o;
+        return getCinemaId() == cinema.getCinemaId() &&
+                getSeats().equals(cinema.getSeats()) &&
+                getCineplex().equals(cinema.getCineplex()) &&
+                getCinemaClass() == cinema.getCinemaClass();
     }
 
     @Override
@@ -105,8 +101,7 @@ public class Cinema {
         String cineplexString = "Cineplex ID: " + cineplex.getCineplexId()
                 + "\n" + "Cineplex Location: " + cineplex.getLocation();
         String cinemaIdString = "Cinema ID: " + cinemaId;
-        String cinemaClassString = "Cinema Class: " + cinemaClass.toString() +
-                "\nAdditional fee: $" + cinemaClass.getPrice();
+        String cinemaClassString = "Cinema Class: " + cinemaClass.toString();
         String seatsString = new SeatToStringConverter(seats).convert();
         return cineplexString + "\n" + cinemaIdString + "\n" + cinemaClassString + "\n" + seatsString + "\n";
     }

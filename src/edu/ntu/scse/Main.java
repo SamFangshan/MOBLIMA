@@ -1,5 +1,6 @@
 package edu.ntu.scse;
 
+import edu.ntu.scse.config.PriceConfig;
 import edu.ntu.scse.entity.MOBLIMA;
 
 /**
@@ -14,7 +15,7 @@ public class Main {
 		MOBLIMA moblima = new MOBLIMA();
 		moblima.displayLoginMenu();
 		moblima.saveData();
-		
+
 		System.out.println("End of Application.");
 	}
 }

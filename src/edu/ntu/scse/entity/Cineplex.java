@@ -68,18 +68,13 @@ public class Cineplex {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!obj.getClass().equals(this.getClass())) {
-            return false;
-        }
-
-        if (this.getCineplexId() == ((Cineplex)obj).getCineplexId() &&
-                this.getLocation().equals(((Cineplex)obj).getLocation()) &&
-                this.getCinemas().equals(((Cineplex)obj).getCinemas())) {
-            return true;
-        }
-
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Cineplex cineplex = (Cineplex) o;
+        return getCineplexId() == cineplex.getCineplexId() &&
+                getLocation().equals(cineplex.getLocation()) &&
+                getCinemas().equals(cineplex.getCinemas());
     }
 
     @Override

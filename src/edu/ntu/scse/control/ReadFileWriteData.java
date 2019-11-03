@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import edu.ntu.scse.entity.Movie;
 import edu.ntu.scse.entity.MovieRating;
 import edu.ntu.scse.entity.MovieStatus;
-import edu.ntu.scse.entity.MovieType;
+import edu.ntu.scse.factor.Blockbuster;
+import edu.ntu.scse.factor.MovieType;
 
 /**
  * Read and write MOBLIMA's data from and into .txt files
@@ -36,7 +37,7 @@ public class ReadFileWriteData {
 				if (tokens[0].equals("Movie")) { // Movie
 					// TODO add reviews Id
 					movies.add(new Movie(Integer.parseInt(tokens[1]), tokens[2], tokens[3], tokens[4], tokens[5],
-							Boolean.parseBoolean(tokens[6]), Float.parseFloat(tokens[7]),
+							Blockbuster.valueOf(tokens[6].toUpperCase()), Float.parseFloat(tokens[7]),
 							MovieRating.valueOf(tokens[8]), MovieStatus.valueOf(tokens[9]),
 							MovieType.valueOf(tokens[10])));
 				} else {

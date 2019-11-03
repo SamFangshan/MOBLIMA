@@ -80,16 +80,13 @@ public class Person {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (!obj.getClass().equals(this.getClass())) {
-			return false;
-		}
-		if (this.getLastName().equals(((Person) obj).getLastName())
-				&& this.getFirstName().equals(((Person) obj).getFirstName())
-				&& this.getEmail().equals(((Person) obj).getEmail())
-				&& this.getPhoneNo().equals(((Person) obj).getPhoneNo())) {
-			return true;
-		}
-		return false;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Person)) return false;
+		Person person = (Person) o;
+		return getFirstName().equals(person.getFirstName()) &&
+				getLastName().equals(person.getLastName()) &&
+				getEmail().equals(person.getEmail()) &&
+				getPhoneNo().equals(person.getPhoneNo());
 	}
 }
