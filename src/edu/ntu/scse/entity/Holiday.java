@@ -2,11 +2,34 @@ package edu.ntu.scse.entity;
 
 import java.util.Calendar;
 
+/**
+ * Represents a holiday
+ *
+ * @author Fangshan
+ *
+ */
 public class Holiday {
+    /**
+     * Holiday ID of a holiday
+     */
     private int holidayId;
+
+    /**
+     * Holiday name of a holiday
+     */
     private String name;
+
+    /**
+     * Date of a holiday
+     */
     private Calendar date;
 
+    /**
+     * Constructor with all attributed of holiday
+     * @param holidayId
+     * @param name
+     * @param date
+     */
     public Holiday(int holidayId, String name, Calendar date) {
         this.holidayId = holidayId;
         this.name = name;

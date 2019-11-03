@@ -1,6 +1,6 @@
 package edu.ntu.scse.entity;
 
-import java.util.Objects;
+import edu.ntu.scse.factor.AgeCategory;
 
 public class Ticket {
     private double price;

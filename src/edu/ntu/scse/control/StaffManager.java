@@ -1,4 +1,11 @@
-//package edu.ntu.scse.entity;
+package edu.ntu.scse.control;
+import edu.ntu.scse.entity.Movie;
+import edu.ntu.scse.entity.MovieRating;
+import edu.ntu.scse.entity.MovieStatus;
+import edu.ntu.scse.entity.Staff;
+import edu.ntu.scse.factor.Blockbuster;
+import edu.ntu.scse.factor.MovieType;
+
 import java.util.ArrayList;
 /**
  * 
@@ -41,7 +48,8 @@ public class StaffManager {
 	 * @param isBlockbuster
 	 * @return
 	 */
-	public ArrayList<Movie> addMovieToList(ArrayList<Movie> listMovies, int movieId,String title,String synopsis,String director,String cast,MovieStatus mvStatus,MovieType movieType,boolean isBlockbuster,MovieRating movieRating){
+
+	public ArrayList<Movie> addMovieToList(ArrayList<Movie> listMovies, int movieId, String title, String synopsis, String director, String cast, MovieStatus mvStatus, MovieType movieType, Blockbuster isBlockbuster, MovieRating movieRating){
 		//When a movie is first added, it has no review
 		float overRating = 0;
 		Movie newMovie = new Movie(movieId,title,synopsis,director,cast,isBlockbuster,overRating,movieRating,mvStatus,movieType);
@@ -62,7 +70,7 @@ public class StaffManager {
 	 * @param isBlockbuster
 	 * @return
 	 */
-	public ArrayList<Movie> UpdateMovieListing(ArrayList<Movie> listMovies,int movieId, String title, String synopsis,String director,String cast,MovieStatus movieStatus,MovieType movieType,boolean isBlockbuster,MovieRating movieRating){
+	public ArrayList<Movie> UpdateMovieListing(ArrayList<Movie> listMovies,int movieId, String title, String synopsis,String director,String cast,MovieStatus movieStatus,MovieType movieType,Blockbuster isBlockbuster,MovieRating movieRating){
 		for(Movie movie:listMovies) {
 			if(movie.getMovieId() == movieId) {
 				movie.setBlockbuster(isBlockbuster);

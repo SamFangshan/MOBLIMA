@@ -2,16 +2,53 @@ package edu.ntu.scse.entity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
+/**
+ * Represents a booking
+ *
+ * @author Fangshan
+ *
+ */
 public class Booking {
+    /**
+     * Transaction ID of a booking
+     */
     private String TID;
+
+    /**
+     * Transaction time of a booking
+     */
     private Calendar transactionTime;
+
+    /**
+     * Total price of a booking
+     */
     private double totalPrice;
+
+    /**
+     * Movie goer of a booking
+     */
     private MovieGoer movieGoer;
+
+    /**
+     * Showtime of a booking
+     */
     private Showtime showTime;
+
+    /**
+     * Tickets of a booking
+     */
     private ArrayList<Ticket> tickets;
 
+    /**
+     * Constructor with all attributes of booking
+     * @param TID
+     * @param transactionTime
+     * @param movieGoer
+     * @param showTime
+     * @param tickets
+     * @param totalPrice
+     */
     public Booking(String TID, Calendar transactionTime, MovieGoer movieGoer,
                    Showtime showTime, ArrayList<Ticket> tickets, double totalPrice) {
         this.TID = TID;

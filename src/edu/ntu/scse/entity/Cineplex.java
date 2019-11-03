@@ -1,7 +1,6 @@
 package edu.ntu.scse.entity;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Represents a cineplex

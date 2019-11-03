@@ -1,15 +1,34 @@
 package edu.ntu.scse.control;
 
+import edu.ntu.scse.config.PriceConfig;
 import edu.ntu.scse.entity.*;
+import edu.ntu.scse.factor.AgeCategory;
+import edu.ntu.scse.factor.Blockbuster;
+import edu.ntu.scse.factor.CinemaClass;
+import edu.ntu.scse.factor.MovieType;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
+/**
+ * Performs control logic operations related to booking
+ *
+ * @author Fangshan
+ *
+ */
 public class BookingManager {
-    private static final double BLOCK_BUSTER_ADDITIONAL_CHARGE = 1;
+    private static final int CHILD_MIN_AGE = 0;
+    private static final int CHILD_MAX_AGE = 6;
+    private static final int STUDENT_MIN_AGE = 7;
+    private static final int STUDENT_MAX_AGE = 18;
+    private static final int ADULT_MIN_AGE = 19;
+    private static final int ADULT_MAX_AGE = 54;
+    private static final int SENIOR_MIN_AGE = 55;
+
     private static final int SIX_PM = 18;
     private static final int TID_LENGTH = 12;
+
     private ArrayList<Booking> bookings;
     private ArrayList<Holiday> holidays;
 
@@ -18,33 +37,52 @@ public class BookingManager {
         this.bookings = new ArrayList<Booking>();
     }
 
+    /**
+     * Calculate ticket price based on movie type, age category, cinema class,
+     * blockbuster status, and showtime.
+     * @param showtime
+     * @param ageCategory
+     * @return price
+     */
     public double calculateTicketPrice(Showtime showtime, AgeCategory ageCategory) {
         MovieType movieType = showtime.getMovie().getMovieType();
         CinemaClass cinemaClass = showtime.getCinema().getCinemaClass();
+        Blockbuster isBlockbuster = showtime.getMovie().isBlockbuster();
         boolean isHolidayOrWeekend = isHolidayOrWeekend(showtime.getScreeningTime());
 
-        double price = movieType.getPrice() + cinemaClass.getPrice();
+        double price = PriceConfig.getPrice(movieType)
+                            + PriceConfig.getPrice(cinemaClass)
+                            + PriceConfig.getPrice(isBlockbuster);
+
+        //Every one charged at normal price
         if (isHolidayOrWeekend) {
             return price;
         }
 
+        //Child is free on a regular day
         if (ageCategory == AgeCategory.CHILD) {
             return 0;
         }
 
-        if (movieType == MovieType.MovieType_3D) {
-            price += ageCategory.getPrice3D();
-        } else {
-            price += ageCategory.getPriceRegular();
-        }
+        price += PriceConfig.getPrice(ageCategory);
 
         return price;
     }
 
+    /**
+     * Retrieve booking history of a movie goer
+     * @param movieGoer
+     * @return
+     */
     public ArrayList<Booking> getBookingHistory(MovieGoer movieGoer) {
         return movieGoer.getBookings();
     }
 
+    /**
+     * Create a booking for a movie goer
+     * @param movieGoer
+     * @param showtime
+     */
     public void createBooking(MovieGoer movieGoer, Showtime showtime) {
         Scanner input = new Scanner(System.in);
         ArrayList<Ticket> tickets = new ArrayList<Ticket>();
@@ -73,6 +111,10 @@ public class BookingManager {
         System.out.println(booking.toString());
     }
 
+    /**
+     * Generate transaction ID for a booking
+     * @return
+     */
     private String generateTID() {
         String characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         String TID = "";
@@ -83,6 +125,11 @@ public class BookingManager {
         return TID;
     }
 
+    /**
+     * Select a seat
+     * @param showtime
+     * @return seat
+     */
     private Seat selectSeat(Showtime showtime) {
         Scanner input = new Scanner(System.in);
         System.out.println(new SeatToStringConverter(showtime.getSeats()).convert());
@@ -97,6 +144,11 @@ public class BookingManager {
         return seat;
     }
 
+    /**
+     * Return a valid seat object based on user's entry
+     * @param showtime
+     * @return seat
+     */
     private Seat getSeatObject(Showtime showtime) {
         Scanner input = new Scanner(System.in);
         Seat seat = null;
@@ -138,19 +190,23 @@ public class BookingManager {
 
     }
 
+    /**
+     * Get age category based on age
+     * @return
+     */
     private AgeCategory getAgeCategory() {
         Scanner input = new Scanner(System.in);
         AgeCategory ageCategory;
         while (true) {
             System.out.print("Enter the age of the movie goer: ");
             int age = input.nextInt();
-            if (AgeCategory.CHILD.getMinAge() <= age && age <=  AgeCategory.CHILD.getMaxAge()) {
+            if (CHILD_MIN_AGE <= age && age <=  CHILD_MAX_AGE) {
                 ageCategory = AgeCategory.CHILD; break;
-            } else if (AgeCategory.STUDENT.getMinAge() <= age && age <=  AgeCategory.STUDENT.getMaxAge()) {
+            } else if (STUDENT_MIN_AGE <= age && age <=  STUDENT_MAX_AGE) {
                 ageCategory = AgeCategory.STUDENT; break;
-            } else if (AgeCategory.ADULT.getMinAge() <= age && age <=  AgeCategory.ADULT.getMaxAge()) {
+            } else if (ADULT_MIN_AGE <= age && age <= ADULT_MAX_AGE) {
                 ageCategory = AgeCategory.ADULT; break;
-            } else if (AgeCategory.SENIOR.getMinAge() <= age && age <=  AgeCategory.SENIOR.getMaxAge()) {
+            } else if (SENIOR_MIN_AGE <= age) {
                 ageCategory = AgeCategory.SENIOR; break;
             } else {
                 System.out.println("Invalid age entered! Please try again.");
@@ -159,6 +215,11 @@ public class BookingManager {
         return ageCategory;
     }
 
+    /**
+     * Check if a showtime is on a holiday / weekend or not
+     * @param screeningTime
+     * @return isHolidayOrWeekend
+     */
     private boolean isHolidayOrWeekend(Calendar screeningTime) {
         for (Holiday holiday : holidays) {
             if (holiday.getDate().get(Calendar.DATE) == screeningTime.get(Calendar.DATE)
