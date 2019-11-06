@@ -1,7 +1,5 @@
 package edu.ntu.scse.entity;
 
-import java.util.Objects;
-
 /**
  * 
  * @author suhuangyuan
@@ -18,51 +16,60 @@ public class Review {
 	 */
 	private String reviewText;
 	/**
-	 * rating 
+	 * rating
 	 */
 	private int rating;
 	/**
-	 * movieGoer(author of the movie)
+	 * moviegoer(author of the movie)
 	 */
-	private MovieGoer movieGoer;
-	
+	private MovieGoer moviegoer;
+
 	/**
 	 * Constructor of a movie
+	 * 
 	 * @param reviewId
 	 * @param reviewText
 	 * @param rating
-	 * @param movieGoer
+	 * @param moviegoer
 	 */
-	public Review(int reviewId, String reviewText, int rating, MovieGoer movieGoer) {
+	public Review(int reviewId, String reviewText, int rating, MovieGoer moviegoer) {
 		super();
 		this.reviewId = reviewId;
 		this.reviewText = reviewText;
 		this.rating = rating;
-		this.movieGoer = movieGoer;
+		this.moviegoer = moviegoer;
 	}
+
 	public int getReviewId() {
 		return reviewId;
 	}
+
 	public void setReviewId(int reviewId) {
 		this.reviewId = reviewId;
 	}
+
 	public String getReviewText() {
 		return reviewText;
 	}
+
 	public void setReviewText(String reviewText) {
 		this.reviewText = reviewText;
 	}
+
 	public int getRating() {
 		return rating;
 	}
+
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
+
 	public MovieGoer getMovieGoer() {
-		return movieGoer;
+		return moviegoer;
 	}
-	public void setMovieGoer(MovieGoer movieGoer) {
-		this.movieGoer = movieGoer;
+
+	public void setMovieGoer(MovieGoer moviegoer) {
+		this.moviegoer = moviegoer;
 	}
 
 	@Override

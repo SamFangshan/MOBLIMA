@@ -1,4 +1,5 @@
 package edu.ntu.scse.control;
+
 import edu.ntu.scse.entity.Movie;
 import edu.ntu.scse.entity.MovieRating;
 import edu.ntu.scse.entity.MovieStatus;
@@ -7,6 +8,12 @@ import edu.ntu.scse.factor.Blockbuster;
 import edu.ntu.scse.factor.MovieType;
 
 import java.util.ArrayList;
+
+import edu.ntu.scse.entity.Movie;
+import edu.ntu.scse.entity.MovieRating;
+import edu.ntu.scse.entity.MovieStatus;
+import edu.ntu.scse.factor.MovieType;
+import edu.ntu.scse.entity.Staff;
 /**
  * 
  * @author suhuangyuan

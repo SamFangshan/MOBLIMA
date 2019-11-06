@@ -1,13 +1,11 @@
 package edu.ntu.scse.entity;
 
-import java.util.Objects;
-
 /**
  * 
  * @author suhuangyuan
  *
  */
-public class Staff extends Person{
+public class Staff extends Person {
 	/**
 	 * ID of staff
 	 */
@@ -18,7 +16,9 @@ public class Staff extends Person{
 	private String password;
 
 	/**
-	 * Constructor for Staff with all attributes and default constructor from super class
+	 * Constructor for Staff with all attributes and default constructor from super
+	 * class
+	 * 
 	 * @param cinemaStaffId
 	 * @param password
 	 */
@@ -27,19 +27,23 @@ public class Staff extends Person{
 		this.cinemaStaffId = cinemaStaffId;
 		this.password = password;
 	}
+
 	public int getCinemaStaffId() {
 		return cinemaStaffId;
 	}
+
 	public void setCinemaStaffId(int cinemaStaffId) {
 		this.cinemaStaffId = cinemaStaffId;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 //	public Staff() {
 //		super();
 //	}

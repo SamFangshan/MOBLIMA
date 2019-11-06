@@ -61,6 +61,8 @@ public class Movie {
 	 * type of Movie
 	 */
 	private MovieType movieType;
+	
+	//TODO add private ArrayList<Review> reviews
 
 	/**
 	 * Default constructor of Movie
@@ -97,6 +99,24 @@ public class Movie {
 		this.movieType = movieType;
 	}
 
+	/**
+	 * prints all attributes of Movie
+	 */
+	public void print() {
+		System.out.println("Id: " + movieId + " | Movie Title: " + title);
+		System.out.println("Movie Rating: " + movieRating.name() + " (" + movieRating.toString() + ")"
+				+ " | Movie Status: " + movieStatus.toString() + " | Movie Type: " + movieType.toString());
+		System.out.println("Synopsis: " + synopsis);
+		System.out.println("Director: " + director);
+		System.out.println("Cast: " + cast);
+		System.out.println("Blockbuster: " + isBlockbuster);
+		System.out.println("Overall Rating: " + getOverallRating());
+	}
+
+	/**
+	 * returns a String of a Movie, includes all of its attributes, separated by
+	 * deliminiter ='|'
+	 */
 	@Override
 	public String toString() {
 		String movieIdString = "Movie ID: " + movieId;
@@ -110,9 +130,9 @@ public class Movie {
 		String movieStatusString = "Movie Status: " + movieStatus.toString();
 		String movieTypeString = "Movie Type: " + movieType.toString();
 
-		return movieIdString + "\n" + titleString + "\n" + synopsisString + "\n" + directorString
-				+ "\n" + castString + "\n" + isBlockbusterString + "\n" + overallRatingString + "\n"
-				+ movieRatingString + "\n" + movieStatusString + "\n" + movieTypeString;
+		return movieIdString + "\n" + titleString + "\n" + synopsisString + "\n" + directorString + "\n" + castString
+				+ "\n" + isBlockbusterString + "\n" + overallRatingString + "\n" + movieRatingString + "\n"
+				+ movieStatusString + "\n" + movieTypeString;
 	}
 
 	@Override
@@ -132,84 +152,190 @@ public class Movie {
 				getMovieType() == movie.getMovieType();
 	}
 
+	/**
+	 * Get movieId of Movie
+	 * 
+	 * @return movieId of Movie
+	 */
 	public int getMovieId() {
 		return movieId;
 	}
 
+	/**
+	 * Change movieId of Movie
+	 * 
+	 * @param movieId of Movie
+	 */
 	public void setMovieId(int movieId) {
 		this.movieId = movieId;
 	}
 
+	/**
+	 * Get title of Movie
+	 * 
+	 * @return title of Movie
+	 */
 	public String getTitle() {
 		return title;
 	}
 
+	/**
+	 * Change title of Movie
+	 * 
+	 * @param title of Movie
+	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
+	/**
+	 * Get synopsis of Movie
+	 * 
+	 * @return synopsis of Movie
+	 */
 	public String getSynopsis() {
 		return synopsis;
 	}
 
+	/**
+	 * Change synopsis of Movie
+	 * 
+	 * @param synopsis of Movie
+	 */
 	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
 	}
 
+	/**
+	 * Get director of Movie
+	 * 
+	 * @return director of Movie
+	 */
 	public String getDirector() {
 		return director;
 	}
 
+	/**
+	 * Change director of Movie
+	 * 
+	 * @param director of Movie
+	 */
 	public void setDirector(String director) {
 		this.director = director;
 	}
 
+	/**
+	 * Get cast of Movie
+	 * 
+	 * @return cast of Movie
+	 */
 	public String getCast() {
 		return cast;
 	}
 
+	/**
+	 * Change cast of Movie
+	 * 
+	 * @param cast of Movie
+	 */
 	public void setCast(String cast) {
 		this.cast = cast;
 	}
 
+    /**
+	 * Get isBlockbuster of Movie
+	 * 
+	 * @return true if it is a blockbuster<br>
+	 *         false if it is not a blockbuster movie
+	 */
 	public Blockbuster isBlockbuster() {
 		return isBlockbuster;
 	}
-
+	
+    /**
+	 * Change isBlockbuster of Movie
+	 * 
+	 * @param isBlockbuster of Movie
+	 */
 	public void setBlockbuster(Blockbuster isBlockbuster) {
 		this.isBlockbuster = isBlockbuster;
 	}
 
+	/**
+	 * Get overallRating of Movie<br>
+	 * Overall reviewer rating will only be displayed if there are more than ONE
+	 * individual rating, else “NA” is displayed
+	 * 
+	 * @return overallRating of Movie<br>
+	 *         -1 if there are zero or one review
+	 */
 	public float getOverallRating() {
 		// TODO add getOverallRating logic
 		return overallRating;
 	}
 
+	/**
+	 * Change overallRating of Movie<br>
+	 * *
+	 * 
+	 * @param overallRating of Movie
+	 */
 	public void setOverallRating(float overallRating) {
 		// TODO add setOverallRating logic
+		// TODO overallRating = -1 when there are zero or one review
 		this.overallRating = overallRating;
 	}
 
+	/**
+	 * Get movieRating of movie
+	 * 
+	 * @return movieRating of movie
+	 */
 	public MovieRating getMovieRating() {
 		return movieRating;
 	}
 
+	/**
+	 * Change movieRating of Movie
+	 * 
+	 * @param movieRating of Movie
+	 */
 	public void setMovieRating(MovieRating movieRating) {
 		this.movieRating = movieRating;
 	}
 
+	/**
+	 * Get movieStatus of Movie
+	 * 
+	 * @return movieStatus of Movie
+	 */
 	public MovieStatus getMovieStatus() {
 		return movieStatus;
 	}
 
+	/**
+	 * Change movieStatus of Movie
+	 * 
+	 * @param movieStatus of Movie
+	 */
 	public void setMovieStatus(MovieStatus movieStatus) {
 		this.movieStatus = movieStatus;
 	}
 
+	/**
+	 * Get movieType of Movie
+	 * 
+	 * @return movieType of Movie
+	 */
 	public MovieType getMovieType() {
 		return movieType;
 	}
 
+	/**
+	 * Change movieType of Movie
+	 * 
+	 * @param movieType of Movie
+	 */
 	public void setMovieType(MovieType movieType) {
 		this.movieType = movieType;
 	}
