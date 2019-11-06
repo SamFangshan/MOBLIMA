@@ -87,7 +87,7 @@ public class Booking {
         this.TID = TID;
     }
 
-    public void setTransactionTime(Calendar transactionDate) {
+    public void setTransactionTime(Calendar transactionTime) {
         this.transactionTime = transactionTime;
     }
 
