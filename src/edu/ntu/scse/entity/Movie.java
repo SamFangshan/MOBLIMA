@@ -119,20 +119,8 @@ public class Movie {
 	 */
 	@Override
 	public String toString() {
-		String movieIdString = "Movie ID: " + movieId;
-		String titleString = "Title: " + title;
-		String synopsisString = "Synopsis: " + synopsis;
-		String directorString = "Director: " + director;
-		String castString = "Cast: " + cast;
-		String isBlockbusterString = "Blockbuster: " + isBlockbuster;
-		String overallRatingString = "Overall Rating: " + overallRating;
-		String movieRatingString = "Movie Rating: " + movieRating;
-		String movieStatusString = "Movie Status: " + movieStatus.toString();
-		String movieTypeString = "Movie Type: " + movieType.toString();
-
-		return movieIdString + "\n" + titleString + "\n" + synopsisString + "\n" + directorString + "\n" + castString
-				+ "\n" + isBlockbusterString + "\n" + overallRatingString + "\n" + movieRatingString + "\n"
-				+ movieStatusString + "\n" + movieTypeString;
+		return "Movie|" + movieId + "|" + title + "|" + synopsis + "|" + director + "|" + cast + "|" + isBlockbuster
+				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name();
 	}
 
 	@Override
