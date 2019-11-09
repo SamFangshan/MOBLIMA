@@ -52,11 +52,11 @@ public class HolidayManager {
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line = "";
             while((line = reader.readLine()) != null) {
-                String[] tokens = line.split(" |\\|");
+                String[] tokens = line.split("\\|");
 
                 if(tokens[0].equals("Holiday")) { //unsure about calendar date construction
-                    holidays.add(new Holiday(Integer.parseInt(tokens[2]), tokens[5],
-                            Calendar.getInstance().set(Calendar.DATE, Integer.parseInt(tokens[8]));
+                    holidays.add(new Holiday(Integer.parseInt(tokens[1]), tokens[2],
+                            Calendar.getInstance().set(Calendar.DATE, Integer.parseInt(tokens[3]));
                 }
                 else {
                     System.out.println("Error reading data.");
