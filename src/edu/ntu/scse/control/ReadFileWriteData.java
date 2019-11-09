@@ -1,3 +1,4 @@
+
 package edu.ntu.scse.control;
 
 import java.io.BufferedReader;
@@ -18,7 +19,7 @@ import edu.ntu.scse.factor.MovieType;
 
 /**
  * Read and write MOBLIMA's data from and into .txt files
- * 
+ *
  * @author Kailing, Fangshan
  *
  */
@@ -243,4 +244,93 @@ public class ReadFileWriteData {
 		}
 		return seats2;
 	}
+
+	/**
+	 * Initialize moviegoers
+	 * @param filename
+	 * @param bookings
+	 * @param reviews
+	 * @return
+	 */
+	public ArrayList<MovieGoer> readMovieGoer(String filename, ArrayList<Booking> bookings, ArrayList<Review> reviews) {
+		ArrayList<MovieGoer> movieGoers = new ArrayList<>();
+
+		//read data from text file
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) {
+
+				String[] tokens = line.split("\\|");
+				if (tokens[0].equals("MovieGoer")) {
+					//id
+					//age
+					//use transaction id to find the Booking
+					//use review ids(a list of integers separated by comma) to find the Reviews
+					movieGoers.add(new MovieGoer(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), StringToBooknigs(tokens[3], bookings), StringToReviews(tokens[4], reviews)));
+				} else {
+					System.out.println("Error reading data.");
+				}
+			}
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load MovieGoer(s) " + filename + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return movieGoers;
+	}
+
+	public void writeMovieGoers(String filename, ArrayList<MovieGoer> movieGoers) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < movieGoers.size(); i++) {
+				String line = movieGoers.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	/**
+	 * Parse a string of review IDs and return the reviews selected
+	 *
+	 * @param s:string of review IDs
+	 * @param reviews: reviews(read from txt file)
+	 * @return
+	 */
+	private ArrayList<Review> StringToReviews(String s, ArrayList<Review> reviews) {
+		String[] tokens = s.split(",");
+
+		ArrayList<Review> reviewsSelected = new ArrayList<>();
+		int id;
+		for (String token : tokens) {
+			reviewsSelected.add(reviews.get(Integer.parseInt(token) - 1));
+		}
+		return reviewsSelected;
+	}
+
+	/**
+	 * Parse a string of Booking(transaction) IDs and return the Bookings selected
+	 *
+	 * @param s
+	 * @param bookings: reviews(read from txt file)
+	 * @return
+	 */
+	private ArrayList<Booking> StringToBooknigs(String s, ArrayList<Booking> bookings) {
+		String[] tokens = s.split(",");
+
+		ArrayList<Booking> bookingsSelected = new ArrayList<>();
+		int id;
+		for (String token : tokens) {
+			bookingsSelected.add(bookings.get(Integer.parseInt(token) - 1));
+		}
+		return bookingsSelected;
+	}
+
 }
