@@ -7,8 +7,8 @@ package edu.ntu.scse.factor;
  *
  */
 public enum CinemaClass implements TicketFactor {
-    STANDARD("Standard: provides standard view experience."),
-    PLATINUM("Platinum: provides more luxurious view experience.");
+    STANDARD("Standard: provides standard viewing experience."),
+    PLATINUM("Platinum: provides more luxurious viewing experience.");
 
     private String desc;
 

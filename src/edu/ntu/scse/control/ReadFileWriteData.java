@@ -5,18 +5,21 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
-import edu.ntu.scse.entity.Movie;
-import edu.ntu.scse.entity.MovieRating;
-import edu.ntu.scse.entity.MovieStatus;
+import edu.ntu.scse.entity.*;
 import edu.ntu.scse.factor.Blockbuster;
+import edu.ntu.scse.factor.CinemaClass;
 import edu.ntu.scse.factor.MovieType;
 
 /**
  * Read and write MOBLIMA's data from and into .txt files
  * 
- * @author Kailing
+ * @author Kailing, Fangshan
  *
  */
 public class ReadFileWriteData {
@@ -75,5 +78,169 @@ public class ReadFileWriteData {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Initialize MOBLIMA's Cineplex(es) and Cinema(s) from a text file
+	 * @param cineplexFile
+	 * @param cinemaFile
+	 * @return Cineplexes & Cinemas
+	 */
+	public Object[] readCineplexesAndCinemas(String cineplexFile, String cinemaFile) {
+		Object[] result = new Object[2];
+
+		ArrayList<Cinema> cinemas = new ArrayList<Cinema>();
+		ArrayList<Integer> cineplexIds = new ArrayList<Integer>();
+		ArrayList<Cineplex> cineplexes = new ArrayList<Cineplex>();
+		// read/load data from text file
+		try (BufferedReader reader = new BufferedReader(new FileReader(cinemaFile))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) { // check and read next line
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("Cinema")) {
+					cinemas.add(new Cinema(Integer.parseInt(tokens[1]), stringListToSeats(tokens[2]), CinemaClass.valueOf(tokens[4])));
+					cineplexIds.add(Integer.parseInt(tokens[3]));
+				} else {
+					System.out.println("Error reading data.");
+				}
+			}
+			reader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load Cinema(s), file " + cinemaFile + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		try (BufferedReader reader = new BufferedReader(new FileReader(cineplexFile))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) { // check and read next line
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("Cineplex")) {
+					cineplexes.add(new Cineplex(Integer.parseInt(tokens[1]), tokens[2], cinemaIdsToObjects(tokens[3], cinemas)));
+				} else {
+					System.out.println("Error reading data.");
+				}
+			}
+			reader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load Cineplex(es), file " + cineplexFile + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (int i = 0; i < cinemas.size(); i++) {
+			cinemas.get(i).setCineplex(cineplexes.get(cineplexIds.get(i) - 1));
+		}
+
+		result[0] = cineplexes;
+		result[1] = cinemas;
+		return result;
+	}
+
+	/**
+	 * Initialize MOBLIMA's Showtime(s) from a text file
+	 * @param filename
+	 * @param movies
+	 * @param cinemas
+	 * @return showtimes
+	 */
+	public ArrayList<Showtime> readShowtimes(String filename, ArrayList<Movie> movies, ArrayList<Cinema> cinemas) {
+		ArrayList<Showtime> showtimes = new ArrayList<Showtime>();
+
+		// read/load data from text file
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) { // check and read next line
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("Showtime")) {
+					showtimes.add(new Showtime(StringToCalendar(tokens[1]), cinemas.get(Integer.parseInt(tokens[3]) - 1),
+							movies.get(Integer.parseInt(tokens[2]) - 1), copySeats(cinemas.get(Integer.parseInt(tokens[3]) - 1))));
+				} else {
+					System.out.println("Error reading data.");
+				}
+
+			}
+			reader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load Showtime(s), file " + filename + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return showtimes;
+	}
+
+	/**
+	 * Save all Showtime(s) into a text file
+	 * @param filename
+	 * @param showtimes
+	 */
+	public void writeShowtimes(String filename, ArrayList<Showtime> showtimes) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < showtimes.size(); i++) {
+				String line = showtimes.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	private ArrayList<Seat> stringListToSeats(String seatsString) {
+		ArrayList<Seat> seats = new ArrayList<Seat>();
+		String[] tokens = seatsString.split(",");
+		for (String token : tokens) {
+			char row = token.charAt(0);
+			int col = Integer.parseInt(token.substring(1));
+			seats.add(new Seat(row, col, false));
+		}
+		return seats;
+	}
+
+	private ArrayList<Cinema> cinemaIdsToObjects(String ids, ArrayList<Cinema> cinemas) {
+		ArrayList<Cinema> cinemaArrayList = new ArrayList<Cinema>();
+		String[] tokens = ids.split(",");
+		for (String token : tokens) {
+			int id = Integer.parseInt(token);
+			cinemaArrayList.add(cinemas.get(id - 1));
+		}
+		return cinemaArrayList;
+	}
+
+	private Calendar StringToCalendar(String s) {
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);
+		} catch (ParseException e) {
+			System.out.println("Wrong date format!");
+			return null;
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar;
+	}
+
+	private ArrayList<Seat> copySeats(Cinema cinema) {
+		ArrayList<Seat> seats1 = cinema.getSeats();
+		ArrayList<Seat> seats2 = new ArrayList<Seat>();
+		for (int i = 0; i < seats1.size(); i++) {
+			seats2.add(seats1.get(i).clone());
+		}
+		return seats2;
 	}
 }

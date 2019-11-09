@@ -1,4 +1,5 @@
 package edu.ntu.scse.entity;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
@@ -96,9 +97,17 @@ public class Showtime {
 
     @Override
     public String toString() {
-        String movieString = "Movie: " + movie.getTitle();
-        String screeningTimeString = "Screening Time: " + screeningTime.toString();
-        String cinemaString = "Cinema: " + cinema.getCinemaId() + " (" + cinema.getCinemaClass() + ")";
-        return movieString + "\n" + screeningTimeString + "\n" + cinemaString + "\n";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmm");
+        String strDate = dateFormat.format(screeningTime.getTime());
+        return "Showtime" +
+                "|" + strDate +
+                "|" + movie.getMovieId() +
+                "|" + cinema.getCinemaId();
+    }
+
+    public void print() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmm");
+        String strDate = dateFormat.format(screeningTime.getTime());
+        System.out.println(strDate + " Cinema: " + cinema.getCinemaId());
     }
 }
