@@ -266,7 +266,7 @@ public class ReadFileWriteData {
 					//age
 					//use transaction id to find the Booking
 					//use review ids(a list of integers separated by comma) to find the Reviews
-					movieGoers.add(new MovieGoer(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), StringToBooknigs(tokens[3], bookings), StringToReviews(tokens[4], reviews)));
+					movieGoers.add(new MovieGoer(tokens[1],Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), StringToBooknigs(tokens[4], bookings), StringToReviews(tokens[5], reviews)));
 				} else {
 					System.out.println("Error reading data.");
 				}

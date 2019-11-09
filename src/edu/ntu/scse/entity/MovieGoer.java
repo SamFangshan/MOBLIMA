@@ -32,7 +32,7 @@ public class MovieGoer extends Person{
 	 * @param bookings
 	 * @param reviews
 	 */
-	public MovieGoer(int movieGoerId, int age, ArrayList<Booking> bookings, ArrayList<Review> reviews) {
+	public MovieGoer(String email,int movieGoerId, int age, ArrayList<Booking> bookings, ArrayList<Review> reviews) {
 		super();
 		this.movieGoerId = movieGoerId;
 		this.age = age;
