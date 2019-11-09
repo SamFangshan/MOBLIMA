@@ -53,10 +53,11 @@ public class HolidayManager {
             String line = "";
             while((line = reader.readLine()) != null) {
                 String[] tokens = line.split("\\|");
-
                 if(tokens[0].equals("Holiday")) { //unsure about calendar date construction
+                    Calendar date = Calendar.getInstance();
+                    date.set(Calendar.DATE, Integer.parseInt(tokens[3]));
                     holidays.add(new Holiday(Integer.parseInt(tokens[1]), tokens[2],
-                            null)); //Calendar.getInstance().set(Calendar.DATE, Integer.parseInt(tokens[3])
+                            date));
                 }
                 else {
                     System.out.println("Error reading data.");
@@ -110,7 +111,7 @@ public class HolidayManager {
      */
     public void removeHoliday(ArrayList<Holiday> holidays, String holidayName) {
         for(int i = 0; i < holidays.size(); i++) {
-            if(holidays.get(i).getName() == holidayId) {
+            if(holidays.get(i).getName().equals(holidayName)) {
                 holidays.remove(holidays.get(i));
             }
         }
