@@ -107,6 +107,14 @@ public class BookingManager {
                 break;
             }
         }
+        System.out.println("Please pay $" + totalPrice + " (Y/N)");
+        String choice = input.next();
+        if (choice.equalsIgnoreCase("Y")) {
+            System.out.println("Payment successful.");
+        } else {
+            System.out.println("Booking Canceled...");
+            return;
+        }
         Calendar currentTime = Calendar.getInstance();
         String TID = generateTID(currentTime, showtime.getCinema());
         Booking booking = new Booking(TID, currentTime, movieGoer, showtime, tickets, totalPrice);
