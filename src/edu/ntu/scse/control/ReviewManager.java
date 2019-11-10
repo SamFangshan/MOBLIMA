@@ -27,8 +27,9 @@ public class ReviewManager {
 	public Review createReview(Movie movie, MovieGoer moviegoer, String reviewText, int rating) {
 		// Simply increment the id by 1 each time a new ID is added.
 		int id = reviews.size() + 1;
+		int movieId = movie.getMovieId();
 
-		Review newReview = new Review(id, reviewText, rating, moviegoer);
+		Review newReview = new Review(id, reviewText, rating, movieId, moviegoer);
 		//Add new review to the list
 		reviews.add(newReview);
 		return newReview;
