@@ -54,7 +54,7 @@ public class MOBLIMA {
 		cineplexes = (ArrayList<Cineplex>) results[0];
 		cinemas = (ArrayList<Cinema>) results[1];
 		showtimes = readFileWriteData.readShowtimes("data/showtime.txt", movies, cinemas);
-		staffs = readFileWriteData.readStaff("staffs.txt");
+		staffs = readFileWriteData.readStaff("data/staffs.txt");
 		System.out.println("Loading data done.");
 	};
 
@@ -99,10 +99,11 @@ public class MOBLIMA {
 				System.out.println("Your Staff Id?");
 				int staffId = sc.nextInt();
 				System.out.println("Your Password?");
-				String staffPassoword = sc.nextLine();
+				String staffPassoword = sc.next();
 				for(Staff staff: staffs){
+					System.out.println(staff.getCinemaStaffId() + " " + staff.getPassword());
 					if(staff.getCinemaStaffId() == staffId){
-						if(staff.getPassword() == staffPassoword){
+						if(staff.getPassword().equals(staffPassoword)) {
 							System.out.println("Staff login successful!");
 							displayAdminModule(staff);
 							break;
