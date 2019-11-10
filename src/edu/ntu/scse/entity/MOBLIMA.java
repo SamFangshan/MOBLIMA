@@ -6,7 +6,11 @@ import java.util.Scanner;
 import edu.ntu.scse.boundary.ShowtimeUI;
 import edu.ntu.scse.boundary.StaffUI;
 import edu.ntu.scse.config.PriceConfig;
+<<<<<<< HEAD
+import edu.ntu.scse.control.HolidayManager;
+=======
 import edu.ntu.scse.control.BookingManager;
+>>>>>>> 88d3c3c1bce0ae59bf33a86a62093a56a1648598
 import edu.ntu.scse.control.ReadFileWriteData;
 import edu.ntu.scse.control.ShowtimeManager;
 
@@ -20,6 +24,7 @@ import edu.ntu.scse.control.ShowtimeManager;
 public class MOBLIMA {
 	
 	private ReadFileWriteData readFileWriteData;
+	private HolidayManager holidayManager;
 	private ArrayList<Cinema> cinemas;
 	private ArrayList<Cineplex> cineplexes;
 	private ArrayList<Showtime> showtimes;
@@ -35,6 +40,7 @@ public class MOBLIMA {
 	 */
 	public MOBLIMA() {
 		readFileWriteData = new ReadFileWriteData();
+		holidayManager = new HolidayManager("data/holidays.txt");
 		loadData();
 		PriceConfig.init();
 	}
@@ -45,6 +51,7 @@ public class MOBLIMA {
 	private void loadData() {
 		System.out.println("Loading data...");
 		movies = readFileWriteData.readMovies("data/movies.txt");
+		holidays = holidayManager.readHolidays();
 		Object[] results = readFileWriteData.readCineplexesAndCinemas("data/cineplexes.txt",
 				"data/cinemas.txt");
 		cineplexes = (ArrayList<Cineplex>) results[0];
@@ -60,6 +67,7 @@ public class MOBLIMA {
 	public void saveData() {		
 		System.out.println("Saving data...");
 		readFileWriteData.writeMovies("data/movies.txt", movies);
+		holidayManager.writeHolidaysToFile(holidays);
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
 		System.out.println("Saving data done.");
 	}

@@ -72,9 +72,6 @@ public class Holiday {
 
     @Override
     public String toString() {
-        String holidayIdString = "Holiday ID: " + holidayId;
-        String nameString = "Holiday Name: " + name;
-        String dateString = "Holiday Date: " + date.get(Calendar.DATE);
-        return holidayIdString + "\n" + nameString + "\n" + dateString + "\n";
+        return "Holiday|" + holidayId + "|" + name + "|" + date.get(Calendar.DATE);
     }
 }

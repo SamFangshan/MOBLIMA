@@ -25,7 +25,7 @@ public class HolidayManager {
      * @param holidays
      * @param holiday entry to be updated
      */
-    public void updateHolidays(ArraList<Holiday> holidays, Holiday holiday) {
+    public void updateHolidays(ArrayList<Holiday> holidays, Holiday holiday) {
         boolean found = false;
         for(int i = 0; i < holidays.size(); i++) {
             if(holiday.getHolidayId() == holidays.get(i).getHolidayId()) {
@@ -52,11 +52,12 @@ public class HolidayManager {
         try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line = "";
             while((line = reader.readLine()) != null) {
-                String[] tokens = line.split(" |\\|");
-
+                String[] tokens = line.split("\\|");
                 if(tokens[0].equals("Holiday")) { //unsure about calendar date construction
-                    holidays.add(new Holiday(Integer.parseInt(tokens[2]), tokens[5],
-                            Calendar.getInstance().set(Calendar.DATE, Integer.parseInt(tokens[8]));
+                    Calendar date = Calendar.getInstance();
+                    date.set(Calendar.DATE, Integer.parseInt(tokens[3]));
+                    holidays.add(new Holiday(Integer.parseInt(tokens[1]), tokens[2],
+                            date));
                 }
                 else {
                     System.out.println("Error reading data.");
@@ -77,7 +78,7 @@ public class HolidayManager {
      * @param holidays
      * @param holiday
      */
-    public void addNewHoliday(ArraList<Holiday> holidays, Holiday holiday) {
+    public void addNewHoliday(ArrayList<Holiday> holidays, Holiday holiday) {
         holidays.add(holiday);
     }
 
@@ -86,7 +87,7 @@ public class HolidayManager {
      * @param holidays
      * @param holiday
      */
-    public void removeHoliday(ArraList<Holiday> holidays, Holiday holiday) {
+    public void removeHoliday(ArrayList<Holiday> holidays, Holiday holiday) {
         holidays.remove(holiday);
     }
 
@@ -95,7 +96,7 @@ public class HolidayManager {
      * @param holidays
      * @param holidayId
      */
-    public void removeHoliday(ArraList<Holiday> holidays, int holidayId) {
+    public void removeHoliday(ArrayList<Holiday> holidays, int holidayId) {
         for(int i = 0; i < holidays.size(); i++) {
             if(holidays.get(i).getHolidayId() == holidayId) {
                 holidays.remove(holidays.get(i));
@@ -108,9 +109,9 @@ public class HolidayManager {
      * @param holidays
      * @param holidayName
      */
-    public void removeHoliday(ArraList<Holiday> holidays, String holidayName) {
+    public void removeHoliday(ArrayList<Holiday> holidays, String holidayName) {
         for(int i = 0; i < holidays.size(); i++) {
-            if(holidays.get(i).getName() == holidayId) {
+            if(holidays.get(i).getName().equals(holidayName)) {
                 holidays.remove(holidays.get(i));
             }
         }
