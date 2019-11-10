@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author Fangshan
  *
  */
-public class Seat {
+public class Seat implements Cloneable {
     /**
      * Row ID of a seat
      */
@@ -80,8 +80,12 @@ public class Seat {
 
     @Override
     public String toString() {
-        String idString = "Seat ID: " + rowId + ": " + colId;
-        String isBookedString = (isBooked) ? "Booked" : "Not Booked";
-        return idString + "\n" + isBookedString + "\n";
+        return "Seat|" + rowId + colId +
+                "|" + isBooked;
+    }
+
+    @Override
+    public Seat clone() {
+        return new Seat(rowId, colId, isBooked);
     }
 }

@@ -75,6 +75,6 @@ public class Holiday {
         String holidayIdString = "Holiday ID: " + holidayId;
         String nameString = "Holiday Name: " + name;
         String dateString = "Holiday Date: " + date.get(Calendar.DATE);
-        return holidayIdString + "\\|" + nameString + "\\|" + dateString + "\n";
+        return holidayIdString + "\n" + nameString + "\n" + dateString + "\n";
     }
 }

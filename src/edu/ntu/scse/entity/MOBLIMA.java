@@ -3,8 +3,12 @@ package edu.ntu.scse.entity;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import edu.ntu.scse.boundary.ShowtimeUI;
+import edu.ntu.scse.boundary.StaffUI;
 import edu.ntu.scse.config.PriceConfig;
+import edu.ntu.scse.control.BookingManager;
 import edu.ntu.scse.control.ReadFileWriteData;
+import edu.ntu.scse.control.ShowtimeManager;
 
 /**
  * MOvie Booking and LIsting Management Application (MOBLIMA) <br>
@@ -16,8 +20,14 @@ import edu.ntu.scse.control.ReadFileWriteData;
 public class MOBLIMA {
 	
 	private ReadFileWriteData readFileWriteData;
-
-	private ArrayList<Movie> movies;	
+	private ArrayList<Cinema> cinemas;
+	private ArrayList<Cineplex> cineplexes;
+	private ArrayList<Showtime> showtimes;
+	private ArrayList<Movie> movies;
+	private ArrayList<MovieGoer> movieGoers;
+	private ArrayList<Staff> staffs;
+	private ArrayList<Review> reviews;
+	private ArrayList<Holiday> holidays;
 
 	/**
 	 * Constructor of MOBLIMA <br>
@@ -35,6 +45,12 @@ public class MOBLIMA {
 	private void loadData() {
 		System.out.println("Loading data...");
 		movies = readFileWriteData.readMovies("data/movies.txt");
+		Object[] results = readFileWriteData.readCineplexesAndCinemas("data/cineplexes.txt",
+				"data/cinemas.txt");
+		cineplexes = (ArrayList<Cineplex>) results[0];
+		cinemas = (ArrayList<Cinema>) results[1];
+		showtimes = readFileWriteData.readShowtimes("data/showtime.txt", movies, cinemas);
+		staffs = readFileWriteData.readStaff("staffs.txt");
 		System.out.println("Loading data done.");
 	};
 
@@ -44,6 +60,7 @@ public class MOBLIMA {
 	public void saveData() {		
 		System.out.println("Saving data...");
 		readFileWriteData.writeMovies("data/movies.txt", movies);
+		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
 		System.out.println("Saving data done.");
 	}
 
@@ -73,9 +90,21 @@ public class MOBLIMA {
 				break;
 			case 1: // Login as Staff
 				// TODO add staff login
-				System.out.println("TODO VERIFY LOGIN AS STAFF, pls add");// TODO remove/replace
-				System.out.println("Currently no verification of staff login");// TODO remove/replace
-				displayAdminModule();
+				System.out.println("LOGIN AS STAFF");
+				System.out.println("Your Staff Id?");
+				int staffId = sc.nextInt();
+				System.out.println("Your Password?");
+				String staffPassoword = sc.nextLine();
+				for(Staff staff: staffs){
+					if(staff.getCinemaStaffId() == staffId){
+						if(staff.getPassword() == staffPassoword){
+							System.out.println("Staff login successful!");
+							displayAdminModule(staff);
+							break;
+						}
+					}
+				}
+				//System.out.println("");
 				break;
 			case 2: // Continue as Moviegoer
 				displayMoviegoerModule();
@@ -91,7 +120,7 @@ public class MOBLIMA {
 	/**
 	 * User is using MOBLIMA as Staff and has access to admin module
 	 */
-	private void displayAdminModule() {
+	private void displayAdminModule(Staff staff) {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
 
@@ -110,11 +139,14 @@ public class MOBLIMA {
 				System.out.println("Returning to MOBLIMA Login System...");
 				break;
 			case 1: // Movies
-				// MovieUI.showMovieUI(movies); //TODO remove/replace
-				System.out.println("NOT DONE LUL REPLACE CODE THX");// TODO remove/replace
-				for(Movie m : movies) {// TODO remove/replace
-					m.print();// TODO remove/replace
-				}// TODO remove/replace
+
+				System.out.println("NOT DONE LUL REPLACE CODE THX");
+				for(Movie m : movies) {
+					m.print();
+				}
+				StaffUI staffUI = new StaffUI(movies,showtimes,cinemas,staff);
+				staffUI.start();
+
 				break;
 			default:
 				System.out.println("No such option.");
@@ -131,11 +163,23 @@ public class MOBLIMA {
 		Scanner sc = new Scanner(System.in);
 		int option = 0;
 
+		MovieGoer movieGoerObject = null;
+		do {
+			System.out.print("Please enter your email: ");
+			String email = sc.next();
+			for (MovieGoer movieGoer : movieGoers) {
+				if (movieGoer.getEmail().equalsIgnoreCase(email)) {
+					movieGoerObject = movieGoer;
+				}
+			}
+		} while (movieGoerObject == null);
+
 		do {
 			System.out.println("\n================================");
 			System.out.println("=== [MOBLIMA Moviegoer Main Menu] ===");
 			System.out.println("Choose an option:");
-			System.out.println("[1] Search/List Movie NOT DONE"); // TODO remove/replace
+			System.out.println("[1] Search/List Movie");
+			System.out.println("[2] View Booking History");
 			System.out.println("[0] Logout");
 			System.out.println("================================");
 
@@ -145,9 +189,15 @@ public class MOBLIMA {
 			case 0:
 				System.out.println("Returning to MOBLIMA Login System...");
 				break;
-			case 1: // Movies
-				// ShowtimeUI.showShowtimeUI(movies); //TODO remove/replace
-				System.out.println("NOT DONE LUL REPLACE CODE THX");// TODO remove/replace
+			case 1:
+				new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays), movieGoerObject).start();
+				break;
+			case 2:
+				System.out.println("The following is the booking history of " + movieGoerObject.getFirstName() + " " + movieGoerObject.getLastName());
+				ArrayList<Booking> bookings = new BookingManager(holidays).getBookingHistory(movieGoerObject);
+				for (Booking booking : bookings) {
+					System.out.println(booking);
+				}
 				break;
 			default:
 				System.out.println("No such option.");
