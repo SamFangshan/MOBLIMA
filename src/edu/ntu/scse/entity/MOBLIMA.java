@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import edu.ntu.scse.config.PriceConfig;
+import edu.ntu.scse.control.HolidayManager;
 import edu.ntu.scse.control.ReadFileWriteData;
 
 /**
@@ -16,8 +17,10 @@ import edu.ntu.scse.control.ReadFileWriteData;
 public class MOBLIMA {
 	
 	private ReadFileWriteData readFileWriteData;
+	private HolidayManager holidayManager;
 
-	private ArrayList<Movie> movies;	
+	private ArrayList<Movie> movies;
+	private ArrayList<Holiday> holidays;
 
 	/**
 	 * Constructor of MOBLIMA <br>
@@ -25,6 +28,7 @@ public class MOBLIMA {
 	 */
 	public MOBLIMA() {
 		readFileWriteData = new ReadFileWriteData();
+		holidayManager = new HolidayManager("data/holidays.txt");
 		loadData();
 		PriceConfig.init();
 	}
@@ -35,6 +39,7 @@ public class MOBLIMA {
 	private void loadData() {
 		System.out.println("Loading data...");
 		movies = readFileWriteData.readMovies("data/movies.txt");
+		holidays = holidayManager.readHolidays();
 		System.out.println("Loading data done.");
 	};
 
@@ -44,6 +49,7 @@ public class MOBLIMA {
 	public void saveData() {		
 		System.out.println("Saving data...");
 		readFileWriteData.writeMovies("data/movies.txt", movies);
+		holidayManager.writeHolidaysToFile(holidays);
 		System.out.println("Saving data done.");
 	}
 
