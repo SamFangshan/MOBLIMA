@@ -1,5 +1,6 @@
 package edu.ntu.scse.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -72,9 +73,9 @@ public class Holiday {
 
     @Override
     public String toString() {
-        String holidayIdString = "Holiday ID: " + holidayId;
-        String nameString = "Holiday Name: " + name;
-        String dateString = "Holiday Date: " + date.get(Calendar.DATE);
-        return holidayIdString + "\n" + nameString + "\n" + dateString + "\n";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm");
+        String strDate = dateFormat.format(date.getTime());
+
+        return "Holiday|" + holidayId + "|" + name + "|" + strDate;
     }
 }
