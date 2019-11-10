@@ -223,7 +223,7 @@ public class ReadFileWriteData {
 		return cinemaArrayList;
 	}
 
-	private Calendar StringToCalendar(String s) {
+	public Calendar StringToCalendar(String s) {
 		Date date = null;
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);

@@ -129,7 +129,7 @@ public class BookingManager {
      */
     private String generateTID(Calendar currentTime, Cinema cinema) {
         String TID = "00" + String.valueOf(cinema.getCinemaId());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm");
         String strDate = dateFormat.format(currentTime.getTime());
         TID += strDate;
         return TID;

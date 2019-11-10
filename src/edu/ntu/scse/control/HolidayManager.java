@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Scanner;
 import java.io.*;
 
 /**
@@ -102,7 +101,9 @@ public class HolidayManager {
     public void removeHoliday(ArrayList<Holiday> holidays, int holidayId) {
         for(int i = 0; i < holidays.size(); i++) {
             if(holidays.get(i).getHolidayId() == holidayId) {
-                holidays.remove(holidays.get(i));
+                Holiday hol = holidays.get(i);
+                holidays.remove(hol);
+                System.out.println("Successfully removed holiday " + hol.toString());
             }
         }
     }
@@ -115,7 +116,9 @@ public class HolidayManager {
     public void removeHoliday(ArrayList<Holiday> holidays, String holidayName) {
         for(int i = 0; i < holidays.size(); i++) {
             if(holidays.get(i).getName().equals(holidayName)) {
+                Holiday hol = holidays.get(i);
                 holidays.remove(holidays.get(i));
+                System.out.println("Successfully removed holiday " + hol.toString());
             }
         }
     }
