@@ -49,6 +49,7 @@ public class RankingManager {
      */
     public ArrayList<Movie> getTopRankedBySelling() {
         ArrayList<Movie> mostPopular = new ArrayList<>();
+        //int occurances = Collections.frequency(ticketSales, movieId);
 
         int[] ticketsSold = new int[movies.size()];
 
