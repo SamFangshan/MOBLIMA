@@ -34,6 +34,7 @@ public class MovieGoer extends Person{
 	 */
 	public MovieGoer(String email,int movieGoerId, int age, ArrayList<Booking> bookings, ArrayList<Review> reviews) {
 		super();
+		this.setEmail(email);
 		this.movieGoerId = movieGoerId;
 		this.age = age;
 		this.bookings = bookings;
