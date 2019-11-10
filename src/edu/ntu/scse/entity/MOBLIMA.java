@@ -6,11 +6,8 @@ import java.util.Scanner;
 import edu.ntu.scse.boundary.ShowtimeUI;
 import edu.ntu.scse.boundary.StaffUI;
 import edu.ntu.scse.config.PriceConfig;
-<<<<<<< HEAD
 import edu.ntu.scse.control.HolidayManager;
-=======
 import edu.ntu.scse.control.BookingManager;
->>>>>>> 88d3c3c1bce0ae59bf33a86a62093a56a1648598
 import edu.ntu.scse.control.ReadFileWriteData;
 import edu.ntu.scse.control.ShowtimeManager;
 
