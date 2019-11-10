@@ -2,13 +2,17 @@ package edu.ntu.scse.control;
 
 import edu.ntu.scse.config.PriceConfig;
 import edu.ntu.scse.entity.*;
+import edu.ntu.scse.entity.Booking;
 import edu.ntu.scse.factor.AgeCategory;
 import edu.ntu.scse.factor.Blockbuster;
 import edu.ntu.scse.factor.CinemaClass;
 import edu.ntu.scse.factor.MovieType;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -103,8 +107,16 @@ public class BookingManager {
                 break;
             }
         }
-        String TID = generateTID();
+        System.out.println("Please pay $" + totalPrice + " (Y/N)");
+        String choice = input.next();
+        if (choice.equalsIgnoreCase("Y")) {
+            System.out.println("Payment successful.");
+        } else {
+            System.out.println("Booking Canceled...");
+            return;
+        }
         Calendar currentTime = Calendar.getInstance();
+        String TID = generateTID(currentTime, showtime.getCinema());
         Booking booking = new Booking(TID, currentTime, movieGoer, showtime, tickets, totalPrice);
         movieGoer.getBookings().add(booking);
         System.out.println("The following booking is successfully created: ");
@@ -115,13 +127,11 @@ public class BookingManager {
      * Generate transaction ID for a booking
      * @return
      */
-    private String generateTID() {
-        String characterSet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        String TID = "";
-        for (int i = 0; i < TID_LENGTH; i++) {
-            int index = (int)(characterSet.length() * Math.random());
-            TID += characterSet.charAt(index);
-        }
+    private String generateTID(Calendar currentTime, Cinema cinema) {
+        String TID = "00" + String.valueOf(cinema.getCinemaId());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmm");
+        String strDate = dateFormat.format(currentTime.getTime());
+        TID += strDate;
         return TID;
     }
 
@@ -132,10 +142,7 @@ public class BookingManager {
      */
     private Seat selectSeat(Showtime showtime) {
         Scanner input = new Scanner(System.in);
-        System.out.println(new SeatToStringConverter(showtime.getSeats()).convert());
-        System.out.println("O indicates that the seat is already booked.");
-        System.out.println("X indicates that this seat does not exist.");
-        System.out.println("You can choose from any empty seats.\n");
+        new ShowtimeManager().displaySeatsLayout(showtime);
 
         Seat seat = getSeatObject(showtime);
         seat.setBooked(true);
