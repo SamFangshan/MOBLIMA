@@ -88,4 +88,123 @@ public class ShowtimeManager {
         System.out.println("X indicates that this seat does not exist.");
         System.out.println("You can choose from any empty seats.");
     }
+
+    /**
+     * Create a new showtime entry
+     */
+    private void createShowtime(){
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Screening Time?");
+        String date = sc.nextLine();
+        Calendar time = StringToCalendar(date);
+
+        System.out.println("Which Cinema?");
+        int cinemaId = sc.nextInt();
+        Cinema cinema = cinemas.get(cinemaId-1);
+
+        System.out.println("Which Movie?");
+        int movieId = sc.nextInt();
+        Movie movie = movies.get(movieId-1);
+
+        //When Showtime is first created, all the seats should be empty
+        ArrayList<Seat> seats = new ArrayList<>();
+        seats = copySeats(cinema);
+
+        Showtime showtime = new Showtime(time, cinema, movie, seats);
+
+        showtimes.add(showtime);
+        System.out.println("Showtime Created!");
+    }
+
+    /**
+     * Update details of a Showtime
+     */
+    private void updateShowtime(){
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Which cinema(ID)?");
+        int cinemaId = sc.nextInt();
+
+        System.out.println("Which moive(ID)?");
+        int movieId = sc.nextInt();
+
+        for(Showtime showtime: showtimes){
+            if(showtime.getCinema().getCinemaId() == cinemaId && showtime.getMovie().getMovieId() == movieId){
+                System.out.println("Which attribute of the showtime do you want to change?");
+                System.out.println("1: Screening Time");
+                System.out.println("2: Cinema");
+                System.out.println("3: Movie");
+                int option = sc.nextInt();
+                switch (option){
+                    case 1:
+                        System.out.println("New Screening Time: ");
+                        String time = sc.nextLine();
+                        Calendar date = StringToCalendar(time);
+                        showtime.setScreeningTime(date);
+                        break;
+                    case 2:
+                        System.out.println("New Cinema ID: ");
+                        int newCinemaId = sc.nextInt();
+                        showtime.setCinema(cinemas.get(newCinemaId - 1));
+                        break;
+                    case 3:
+                        System.out.println("No Movie ID: ");
+                        int newMovieId = sc.nextInt();
+                        showtime.setMovie(movies.get(newMovieId - 1));
+                        break;
+                    default:
+                        System.out.println("No such option");
+                        break;
+                }
+                System.out.println("Showtime updated!");
+                return;
+            }
+        }
+        System.out.println("Showtime not found");
+    }
+
+    /**
+     * Remove a Showtime
+     */
+    private void removeShowtime(){
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Which cinema(ID)?");
+        int cinemaId = sc.nextInt();
+
+        System.out.println("Which moive(ID)?");
+        int movieId = sc.nextInt();
+
+        for(Showtime showtime: showtimes){
+            if(showtime.getCinema().getCinemaId() == cinemaId && showtime.getMovie().getMovieId() == movieId){
+                showtimes.remove(showtime);
+                System.out.println("Showtime removed!");
+                return;
+            }
+        }
+        System.out.println("Showtime not found");
+    }
+
+    // Util functions
+    private Calendar StringToCalendar(String s) {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);
+        } catch (ParseException e) {
+            System.out.println("Wrong date format!");
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
+    private ArrayList<Seat> copySeats(Cinema cinema) {
+        ArrayList<Seat> seats1 = cinema.getSeats();
+        ArrayList<Seat> seats2 = new ArrayList<Seat>();
+        for (int i = 0; i < seats1.size(); i++) {
+            seats2.add(seats1.get(i).clone());
+        }
+        return seats2;
+    }
 }
