@@ -12,6 +12,9 @@ public enum MovieRating {
 
 	private final String desc;
 
+	MovieRating(){
+		this.desc = null;
+	}
 	MovieRating(String desc) {
 		this.desc = desc;
 	}

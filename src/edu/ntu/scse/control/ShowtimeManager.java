@@ -28,6 +28,11 @@ public class ShowtimeManager {
     }
 
     /**
+     * Default Constructor
+     */
+    public ShowtimeManager() {}
+
+    /**
      * Returns the list of movies shown in a specific cineplex
      * @param cineplex
      * @return movies
@@ -76,6 +81,7 @@ public class ShowtimeManager {
      * @param showtime
      */
     public void displaySeatsLayout(Showtime showtime) {
+        System.out.println(showtime.getCinema().getCinemaClass().toString());
         String seatsLayout = new SeatToStringConverter(showtime.getCinema().getSeats()).convert();
         System.out.println(seatsLayout);
         System.out.println("O indicates that the seat is already booked.");

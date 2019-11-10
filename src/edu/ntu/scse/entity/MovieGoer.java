@@ -1,7 +1,6 @@
 package edu.ntu.scse.entity;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * 
@@ -33,8 +32,9 @@ public class MovieGoer extends Person{
 	 * @param bookings
 	 * @param reviews
 	 */
-	public MovieGoer(int movieGoerId, int age, ArrayList<Booking> bookings, ArrayList<Review> reviews) {
+	public MovieGoer(String email,int movieGoerId, int age, ArrayList<Booking> bookings, ArrayList<Review> reviews) {
 		super();
+		this.setEmail(email);
 		this.movieGoerId = movieGoerId;
 		this.age = age;
 		this.bookings = bookings;

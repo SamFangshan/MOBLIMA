@@ -53,6 +53,18 @@ public class Cinema {
         this.cinemaClass = cinemaClass;
     }
 
+    /**
+     * Constructor without Cineplex
+     * @param cinemaId
+     * @param seats
+     * @param cinemaClass
+     */
+    public Cinema(int cinemaId, ArrayList<Seat> seats, CinemaClass cinemaClass) {
+        this.cinemaId = cinemaId;
+        this.seats = seats;
+        this.cinemaClass = cinemaClass;
+    }
+
     public int getCinemaId() {
         return cinemaId;
     }

@@ -20,23 +20,29 @@ public class Review {
 	 */
 	private int rating;
 	/**
-	 * moviegoer(author of the movie)
+	 * Movie ID this review is for
+	 */
+	private int movieId;
+	/**
+	 * moviegoer(author of the review)
 	 */
 	private MovieGoer moviegoer;
 
 	/**
-	 * Constructor of a movie
-	 * 
+	 * Constructor of a Review
+	 *
 	 * @param reviewId
 	 * @param reviewText
 	 * @param rating
+	 * @param movieId
 	 * @param moviegoer
 	 */
-	public Review(int reviewId, String reviewText, int rating, MovieGoer moviegoer) {
+	public Review(int reviewId, String reviewText, int rating,int movieId, MovieGoer moviegoer) {
 		super();
 		this.reviewId = reviewId;
 		this.reviewText = reviewText;
 		this.rating = rating;
+		this.movieId = movieId;
 		this.moviegoer = moviegoer;
 	}
 
@@ -64,6 +70,9 @@ public class Review {
 		this.rating = rating;
 	}
 
+	public int getMovieId() {return movieId;}
+	public void setMovieId(int movieId) {this.movieId = movieId;}
+
 	public MovieGoer getMovieGoer() {
 		return moviegoer;
 	}
@@ -80,6 +89,7 @@ public class Review {
 		return getReviewId() == review.getReviewId() &&
 				getRating() == review.getRating() &&
 				getReviewText().equals(review.getReviewText()) &&
+				getMovieId() == review.getMovieId()&&
 				getMovieGoer().equals(review.getMovieGoer());
 	}
 }
