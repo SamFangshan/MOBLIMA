@@ -2,17 +2,19 @@ package edu.ntu.scse.boundary;
 
 import edu.ntu.scse.control.BookingManager;
 import edu.ntu.scse.control.ShowtimeManager;
+import edu.ntu.scse.entity.Booking;
 import edu.ntu.scse.entity.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ShowtimeUI {
-    private ArrayList<Movie> movies;
-    private ArrayList<Showtime> showtimes;
-    private ShowtimeManager showtimeManager;
-    private BookingManager bookingManager;
-    private MovieGoer movieGoer;
+    ArrayList<Movie> movies;
+    ArrayList<Showtime> showtimes;
+    ShowtimeManager showtimeManager;
+    BookingManager bookingManager;
+    MovieGoer movieGoer;
+    ArrayList<Review> reviews;
 
     public ShowtimeUI(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ShowtimeManager showtimeManager, BookingManager bookingManager, MovieGoer movieGoer) {
         this.movies = movies;
@@ -33,6 +35,8 @@ public class ShowtimeUI {
             System.out.println("[0] Quit");
             System.out.println("[1] List Movie");
             System.out.println("[2] Search Movie");
+            System.out.println("[3] View More Details about Movie");
+            System.out.println("[4] Write Review/Rating for Movie");
             System.out.println("================================");
 
             option = sc.nextInt();
@@ -47,6 +51,10 @@ public class ShowtimeUI {
                 case 2:
                     movieIndex = searchMovie();
                     break;
+                case 3:
+                    printDetailsOfMovie();
+                case 4:
+                    addReviewRatingforMovie();
                 default:
                     System.out.println("No such option.");
                     break;
@@ -112,5 +120,64 @@ public class ShowtimeUI {
         }
         System.out.println("Non existent movie.");
         return -1;
+    }
+
+    private void printDetailsOfMovie(){
+        System.out.println("Enter the name of the movie that you want more details about: ");
+        Scanner input = new Scanner(System.in);
+        String title = input.nextLine();
+        for(Movie movie: movies){
+            if(movie.getTitle().toUpperCase().contains(title.toUpperCase())){
+                int movieId = movie.getMovieId();
+                for(Review review: reviews){
+                    if(review.getMovieId() == movieId){
+                        System.out.println("Review:");
+                        System.out.println(review.getReviewText());
+                        System.out.println("Rating:"+review.getRating());
+                    }
+                }
+                return;
+            }
+        }
+        System.out.println("Movie Not Found");
+    }
+
+    private void addReviewRatingforMovie(){
+        System.out.println("Enter the name of the movie that you want to write Review/Rating for: ");
+        Scanner sc = new Scanner(System.in);
+        String title = sc.nextLine();
+        for(Movie movie:movies){
+            if(movie.getTitle().toUpperCase().contains(title.toUpperCase())){
+                System.out.println("Your Review Text:");
+                String reviewText = sc.nextLine();
+                System.out.println("Your Rating for the movie (1-5):");
+                int rating = sc.nextInt();
+
+                int reviewId = reviews.size();
+
+                Review review = new Review(reviewId,reviewText,rating,movie.getMovieId(),movieGoer);
+                reviews.add(review);
+                System.out.println("New review added!");
+
+                // Update the overall rating for this movie
+                float sum = 0;
+                int total = 0;
+                for(Review review1: reviews){
+                    if(review1.getMovieId() == movie.getMovieId()){
+                        sum += review1.getRating();
+                        total ++;
+                    }
+                }
+                if(total != 0){
+                    sum /= total;
+                    movie.setOverallRating(sum);
+                }else{
+                    movie.setOverallRating(-1);
+                }
+
+                return;
+            }
+        }
+        System.out.println("Movie Not Found");
     }
 }
