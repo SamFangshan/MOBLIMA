@@ -2,8 +2,11 @@ package edu.ntu.scse.control;
 
 import edu.ntu.scse.entity.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 import java.io.*;
 
@@ -54,10 +57,10 @@ public class HolidayManager {
             while((line = reader.readLine()) != null) {
                 String[] tokens = line.split("\\|");
                 if(tokens[0].equals("Holiday")) { //unsure about calendar date construction
-                    Calendar date = Calendar.getInstance();
-                    date.set(Calendar.DATE, Integer.parseInt(tokens[3]));
+//                    Calendar date = Calendar.getInstance();
+//                    date.set(Calendar.DATE, Integer.parseInt(tokens[3]));
                     holidays.add(new Holiday(Integer.parseInt(tokens[1]), tokens[2],
-                            date));
+                            StringToCalendar(tokens[3])));
                 }
                 else {
                     System.out.println("Error reading data.");
@@ -135,5 +138,18 @@ public class HolidayManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private Calendar StringToCalendar(String s) {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);
+        } catch (ParseException e) {
+            System.out.println("Wrong date format!");
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
     }
 }

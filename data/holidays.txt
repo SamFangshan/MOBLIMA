@@ -4,4 +4,4 @@ Holiday|3|Good Luck Friday|2020-04-10 00:00
 Holiday|4|Labour Day|2020-05-01 00:00
 Holiday|5|National Day of Singapore|2020-08-10 00:00
 Holiday|6|Diwali|2020-11-14 00:00
-Holiday|7|Christmas Day|2019-12-25
+Holiday|7|Christmas Day|2019-12-25 00:00
