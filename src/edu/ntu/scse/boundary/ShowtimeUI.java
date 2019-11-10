@@ -2,20 +2,17 @@ package edu.ntu.scse.boundary;
 
 import edu.ntu.scse.control.BookingManager;
 import edu.ntu.scse.control.ShowtimeManager;
-import edu.ntu.scse.entity.Booking;
-import edu.ntu.scse.entity.Movie;
-import edu.ntu.scse.entity.MovieGoer;
-import edu.ntu.scse.entity.Showtime;
+import edu.ntu.scse.entity.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class ShowtimeUI {
-    ArrayList<Movie> movies;
-    ArrayList<Showtime> showtimes;
-    ShowtimeManager showtimeManager;
-    BookingManager bookingManager;
-    MovieGoer movieGoer;
+    private ArrayList<Movie> movies;
+    private ArrayList<Showtime> showtimes;
+    private ShowtimeManager showtimeManager;
+    private BookingManager bookingManager;
+    private MovieGoer movieGoer;
 
     public ShowtimeUI(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ShowtimeManager showtimeManager, BookingManager bookingManager, MovieGoer movieGoer) {
         this.movies = movies;

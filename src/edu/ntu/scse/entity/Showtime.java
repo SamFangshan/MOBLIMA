@@ -12,6 +12,10 @@ import java.util.Objects;
  */
 public class Showtime {
     /**
+     * ID of showtime
+     */
+    private int showtimeId;
+    /**
      * The timing of the show
      */
     private Calendar screeningTime;
@@ -40,16 +44,22 @@ public class Showtime {
 
     /**
      * Constructor with all attributes of showtime
+     * @param showtimeId
      * @param screeningTime
      * @param cinema
      * @param movie
      * @param seats
      */
-    public Showtime(Calendar screeningTime, Cinema cinema, Movie movie, ArrayList<Seat> seats) {
+    public Showtime(int showtimeId, Calendar screeningTime, Cinema cinema, Movie movie, ArrayList<Seat> seats) {
+        this.showtimeId = showtimeId;
         this.screeningTime = screeningTime;
         this.cinema = cinema;
         this.movie = movie;
         this.seats = seats;
+    }
+
+    public int getShowtimeId() {
+        return showtimeId;
     }
 
     public Calendar getScreeningTime() {
@@ -66,6 +76,10 @@ public class Showtime {
 
     public ArrayList<Seat> getSeats() {
         return seats;
+    }
+
+    public void setShowtimeId(int showtimeId) {
+        this.showtimeId = showtimeId;
     }
 
     public void setScreeningTime(Calendar screeningTime) {
@@ -100,6 +114,7 @@ public class Showtime {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmm");
         String strDate = dateFormat.format(screeningTime.getTime());
         return "Showtime" +
+                "|" + showtimeId +
                 "|" + strDate +
                 "|" + movie.getMovieId() +
                 "|" + cinema.getCinemaId();

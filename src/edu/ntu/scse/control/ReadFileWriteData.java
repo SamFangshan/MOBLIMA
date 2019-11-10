@@ -163,8 +163,8 @@ public class ReadFileWriteData {
 				String[] tokens = line.split("\\|");
 
 				if (tokens[0].equals("Showtime")) {
-					showtimes.add(new Showtime(StringToCalendar(tokens[1]), cinemas.get(Integer.parseInt(tokens[3]) - 1),
-							movies.get(Integer.parseInt(tokens[2]) - 1), copySeats(cinemas.get(Integer.parseInt(tokens[3]) - 1))));
+					showtimes.add(new Showtime(Integer.parseInt(tokens[1]), StringToCalendar(tokens[2]), cinemas.get(Integer.parseInt(tokens[4]) - 1),
+							movies.get(Integer.parseInt(tokens[3]) - 1), copySeats(cinemas.get(Integer.parseInt(tokens[4]) - 1))));
 				} else {
 					System.out.println("Error reading data.");
 				}

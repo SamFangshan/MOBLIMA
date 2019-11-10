@@ -35,10 +35,14 @@ public class BookingManager {
 
     private ArrayList<Booking> bookings;
     private ArrayList<Holiday> holidays;
+    private ArrayList<Ticket> bookedTickets;
+    private ArrayList<Booking> pastBookings;
 
-    public BookingManager(ArrayList<Holiday> holidays) {
+    public BookingManager(ArrayList<Holiday> holidays, ArrayList<Ticket> bookedTickets, ArrayList<Booking> pastBookings) {
         this.holidays = holidays;
         this.bookings = new ArrayList<Booking>();
+        this.bookedTickets = bookedTickets;
+        this.pastBookings = pastBookings;
     }
 
     /**
@@ -97,7 +101,9 @@ public class BookingManager {
             totalPrice += price;
             Seat seat = selectSeat(showtime);
             System.out.println("Current total is: $" + totalPrice);
-            tickets.add(new Ticket(price, seat, ageCategory));
+            Ticket ticket = new Ticket(bookedTickets.size() + 1, price, seat, ageCategory);
+            tickets.add(ticket);
+            bookedTickets.add(ticket);
             System.out.println();
             System.out.print("Do you want to add another ticket? (Y for Yes, other character for No): ");
             String choice = input.next();
@@ -119,6 +125,7 @@ public class BookingManager {
         String TID = generateTID(currentTime, showtime.getCinema());
         Booking booking = new Booking(TID, currentTime, movieGoer, showtime, tickets, totalPrice);
         movieGoer.getBookings().add(booking);
+        pastBookings.add(booking);
         System.out.println("The following booking is successfully created: ");
         System.out.println(booking.toString());
     }

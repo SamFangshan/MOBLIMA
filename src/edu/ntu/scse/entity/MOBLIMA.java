@@ -25,6 +25,8 @@ public class MOBLIMA {
 	private ArrayList<Movie> movies;
 	private ArrayList<MovieGoer> movieGoers;
 	private ArrayList<Holiday> holidays;
+	private ArrayList<Ticket> tickets;
+	private ArrayList<Booking> bookings;
 
 	/**
 	 * Constructor of MOBLIMA <br>
@@ -171,12 +173,12 @@ public class MOBLIMA {
 				System.out.println("Returning to MOBLIMA Login System...");
 				break;
 			case 1:
-				new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays), movieGoerObject).start();
+				new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays, tickets, bookings), movieGoerObject).start();
 				break;
 			case 2:
 				System.out.println("The following is the booking history of " + movieGoerObject.getFirstName() + " " + movieGoerObject.getLastName());
-				ArrayList<Booking> bookings = new BookingManager(holidays).getBookingHistory(movieGoerObject);
-				for (Booking booking : bookings) {
+				ArrayList<Booking> bookingsMovieGoer = new BookingManager(holidays, tickets, bookings).getBookingHistory(movieGoerObject);
+				for (Booking booking : bookingsMovieGoer) {
 					System.out.println(booking);
 				}
 				break;
