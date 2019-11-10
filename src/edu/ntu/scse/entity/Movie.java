@@ -43,7 +43,7 @@ public class Movie {
 	private Blockbuster isBlockbuster;
 
 	/**
-	 * overall reviewer rating (1 – 5 [best]) of Movie
+	 * overall reviewer rating (1 ï¿½ 5 [best]) of Movie
 	 */
 	private float overallRating;
 
@@ -252,13 +252,12 @@ public class Movie {
 	/**
 	 * Get overallRating of Movie<br>
 	 * Overall reviewer rating will only be displayed if there are more than ONE
-	 * individual rating, else “NA” is displayed
+	 * individual rating, else ï¿½NAï¿½ is displayed
 	 * 
 	 * @return overallRating of Movie<br>
 	 *         -1 if there are zero or one review
 	 */
 	public float getOverallRating() {
-		// TODO add getOverallRating logic
 		return overallRating;
 	}
 
@@ -269,8 +268,6 @@ public class Movie {
 	 * @param overallRating of Movie
 	 */
 	public void setOverallRating(float overallRating) {
-		// TODO add setOverallRating logic
-		// TODO overallRating = -1 when there are zero or one review
 		this.overallRating = overallRating;
 	}
 
