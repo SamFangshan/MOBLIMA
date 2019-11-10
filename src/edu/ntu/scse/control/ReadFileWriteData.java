@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import edu.ntu.scse.entity.*;
+import edu.ntu.scse.factor.AgeCategory;
 import edu.ntu.scse.factor.Blockbuster;
 import edu.ntu.scse.factor.CinemaClass;
 import edu.ntu.scse.factor.MovieType;
@@ -192,6 +193,60 @@ public class ReadFileWriteData {
 
 			for (int i = 0; i < showtimes.size(); i++) {
 				String line = showtimes.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Initialize MOBLIMA's Ticket(s) from a text file
+	 * @param filename
+	 * @return tickets
+	 */
+	public ArrayList<Ticket> readTickets(String filename) {
+		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
+
+		// read/load data from text file
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) { // check and read next line
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("Ticket")) {
+					tickets.add(new Ticket(Integer.parseInt(tokens[1]), Double.parseDouble(tokens[2]), stringListToSeats(tokens[3]).get(0), AgeCategory.valueOf(tokens[4])));
+				} else {
+					System.out.println("Error reading data.");
+				}
+
+			}
+			reader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load Ticket(s), file " + filename + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return tickets;
+	}
+
+	/**
+	 * Save all Ticket(s) into a text file
+	 * @param filename
+	 * @param tickets
+	 */
+	public void writeTickets(String filename, ArrayList<Ticket> tickets) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < tickets.size(); i++) {
+				String line = tickets.get(i).toString(); // generate line
 				out.println(line); // add a line to text file
 			}
 

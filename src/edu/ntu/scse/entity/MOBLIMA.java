@@ -49,6 +49,7 @@ public class MOBLIMA {
 		cineplexes = (ArrayList<Cineplex>) results[0];
 		cinemas = (ArrayList<Cinema>) results[1];
 		showtimes = readFileWriteData.readShowtimes("data/showtime.txt", movies, cinemas);
+		tickets = readFileWriteData.readTickets("data/tickets.txt");
 		System.out.println("Loading data done.");
 	};
 
@@ -59,6 +60,7 @@ public class MOBLIMA {
 		System.out.println("Saving data...");
 		readFileWriteData.writeMovies("data/movies.txt", movies);
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
+		readFileWriteData.writeTickets("data/tickets.txt", tickets);
 		System.out.println("Saving data done.");
 	}
 

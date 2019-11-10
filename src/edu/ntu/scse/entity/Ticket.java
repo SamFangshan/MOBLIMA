@@ -51,10 +51,11 @@ public class Ticket {
 
     @Override
     public String toString() {
-        String priceString = "Price: " + price;
-        String seatString = "Seat: " + seat.getRowId() + ": " + seat.getColId();
-        String ageCategoryString = "Age Category: " + ageCategory.toString();
-        return priceString + "\n" + seatString + "\n" + ageCategoryString + "\n";
+        return "Ticket" +
+                "|" + ticketId +
+                "|" + price +
+                "|" + seat +
+                "|" + ageCategory;
     }
 
     @Override
