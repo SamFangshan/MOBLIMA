@@ -112,7 +112,7 @@ public class ShowtimeManager {
         ArrayList<Seat> seats = new ArrayList<>();
         seats = copySeats(cinema);
 
-        int id = showtimes.size();
+        int id = showtimes.size()+1;
         Showtime showtime = new Showtime(id,time, cinema, movie, seats);
 
         showtimes.add(showtime);
