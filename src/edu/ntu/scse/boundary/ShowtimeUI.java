@@ -55,8 +55,10 @@ public class ShowtimeUI {
                     break;
                 case 3:
                     printDetailsOfMovie();
+                    break;
                 case 4:
                     addReviewRatingforMovie(movieGoer);
+                    break;
                 default:
                     System.out.println("No such option.");
                     break;
@@ -129,14 +131,14 @@ public class ShowtimeUI {
         Scanner input = new Scanner(System.in);
         String title = input.nextLine();
         for(Movie movie: movies){
-            if(movie.getTitle().toUpperCase().contains(title.toUpperCase())){
-                System.out.println("Rating:"+movie.getOverallRating());
-                System.out.println("Review:");
-                for(Review review: movie.getReviews()){
+            if(movie.getTitle().toUpperCase().contains(title.toUpperCase())) {
+                System.out.println("Rating: " + movie.getOverallRating());
+                System.out.println("Review: ");
+                for (Review review : movie.getReviews()) {
                     System.out.println(review.getReviewText());
                 }
+                return;
             }
-            return;
         }
         System.out.println("Movie Not Found");
     }
@@ -152,16 +154,18 @@ public class ShowtimeUI {
                 System.out.println("Your Rating for the movie (1-5):");
                 int rating = sc.nextInt();
 
-                int reviewId = reviews.size();
+                int reviewId = reviews.size()+1;
 
                 Review review = new Review(reviewId,reviewText,rating,movieGoer);
                 reviews.add(review);
+                movie.getReviews().add(review);
+                System.out.print(movie);
                 System.out.println("New review added!");
 
                 // Update the overall rating for this movie
                 float sum = 0;
                 int total = 0;
-                for(Review review1: reviews){
+                for(Review review1: movie.getReviews()){
                     sum += review1.getRating();
                     total ++;
                 }
