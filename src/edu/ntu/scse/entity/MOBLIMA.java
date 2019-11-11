@@ -57,7 +57,7 @@ public class MOBLIMA {
 		bookings = new ArrayList<>();
 
 		System.out.println("Loading data...");
-		movies = readFileWriteData.readMovies("data/movies.txt");
+		movies = readFileWriteData.readMovies("data/movies.txt",null);
 		holidays = holidayManager.readHolidays();
 		Object[] results = readFileWriteData.readCineplexesAndCinemas("data/cineplexes.txt",
 				"data/cinemas.txt");
@@ -281,6 +281,8 @@ public class MOBLIMA {
 					break;
 				case 1:
 					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays), movieGoerObject,reviews).start();
+					readFileWriteData.writeMovies("data/movies.txt",movies);
+					readFileWriteData.writeReviews("data/reviews.txt",reviews);
 					break;
 				case 2:
 					System.out.println("The following is the booking history of " + movieGoerObject.getFirstName() + " " + movieGoerObject.getLastName());

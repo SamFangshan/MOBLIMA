@@ -82,4 +82,9 @@ public class Review {
 				getReviewText().equals(review.getReviewText()) &&
 				getMovieGoer().equals(review.getMovieGoer());
 	}
+
+	@Override
+	public String toString() {
+		return "Review|" + reviewId + "|" + reviewText + "|" + rating + "|" + moviegoer.getMovieGoerId();
+	}
 }
