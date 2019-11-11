@@ -81,6 +81,7 @@ public class MOBLIMA {
 		readFileWriteData.writeMovies("data/movies.txt", movies);
 		holidayManager.writeHolidaysToFile(holidays);
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
+		readFileWriteData.writeTickets("data/tickets.txt", tickets);
 		System.out.println("Saving data done.");
 	}
 
