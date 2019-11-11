@@ -141,6 +141,7 @@ public class ShowtimeManager {
                 switch (option){
                     case 1:
                         System.out.println("New Screening Time: ");
+                        String foo = sc.nextLine();
                         String time = sc.nextLine();
                         Calendar date = StringToCalendar(time);
                         showtime.setScreeningTime(date);
