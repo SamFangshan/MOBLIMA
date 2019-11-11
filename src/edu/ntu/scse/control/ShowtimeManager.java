@@ -84,7 +84,7 @@ public class ShowtimeManager {
      */
     public void displaySeatsLayout(Showtime showtime) {
         System.out.println(showtime.getCinema().getCinemaClass().toString());
-        String seatsLayout = new SeatToStringConverter(showtime.getCinema().getSeats()).convert();
+        String seatsLayout = new SeatToStringConverter(showtime.getSeats()).convert();
         System.out.println(seatsLayout);
         System.out.println("O indicates that the seat is already booked.");
         System.out.println("X indicates that this seat does not exist.");

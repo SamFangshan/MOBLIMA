@@ -1,5 +1,6 @@
 package edu.ntu.scse.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -123,13 +124,15 @@ public class Booking {
     @Override
     public String toString() {
         String TIDString = "TID: " + TID;
-        String transactionTimeString = "Transaction Time: " + transactionTime.toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String strDate = dateFormat.format(transactionTime.getTime());
+        String transactionTimeString = "Transaction Time: " + strDate;
         String totalPriceString = "Total Price: $" + totalPrice;
-        String movieGoerString = "Movie Goer: " + movieGoer.getFirstName() + " " + movieGoer.getLastName();
-        String showTimeString = showTime.toString();
+        String movieGoerString = "Movie Goer: " + movieGoer.getEmail();
+        String showTimeString = showTime.toStringConsole();
         String ticketsString = "Tickets: \n";
         for (Ticket ticket : tickets) {
-            ticketsString += ticket.toString();
+            ticketsString += ticket.toStringConsole() + "\n";
         }
 
         return TIDString + "\n" + transactionTimeString + "\n" + totalPriceString + "\n"

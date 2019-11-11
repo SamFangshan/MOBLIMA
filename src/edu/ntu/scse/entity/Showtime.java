@@ -120,9 +120,13 @@ public class Showtime {
                 "|" + cinema.getCinemaId();
     }
 
-    public void print() {
+    public String toStringConsole() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String strDate = dateFormat.format(screeningTime.getTime());
-        System.out.println(strDate + " Cinema: " + cinema.getCinemaId());
+        return strDate + " Cinema: " + cinema.getCinemaId() + " (" + cinema.getCinemaClass() + ") " + " Movie: " + movie.getTitle();
+    }
+
+    public void print() {
+        System.out.println(toStringConsole());
     }
 }

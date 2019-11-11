@@ -81,6 +81,7 @@ public class MOBLIMA {
 		readFileWriteData.writeMovies("data/movies.txt", movies);
 		holidayManager.writeHolidaysToFile(holidays);
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
+		readFileWriteData.writeTickets("data/tickets.txt", tickets);
 		System.out.println("Saving data done.");
 	}
 
@@ -210,7 +211,7 @@ public class MOBLIMA {
 				case 1:
 					System.out.println("Enter holiday name:");
 					String name = sc.nextLine();
-					System.out.println("Enter holiday date in yyyy-mm-dd HH:mm format");
+					System.out.println("Enter holiday date in yyyy-MM-dd HH:mm format");
 					String date = sc.next();
 					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, StringToCalendar(date)));
 					break;
@@ -280,14 +281,14 @@ public class MOBLIMA {
 					System.out.println("Returning to MOBLIMA Login System...");
 					break;
 				case 1:
-					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays), movieGoerObject,reviews).start();
-					readFileWriteData.writeMovies("data/movies.txt",movies);
+					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays, bookings, tickets), movieGoerObject,reviews).start();
+          readFileWriteData.writeMovies("data/movies.txt",movies);
 					readFileWriteData.writeReviews("data/reviews.txt",reviews);
 					break;
 				case 2:
-					System.out.println("The following is the booking history of " + movieGoerObject.getFirstName() + " " + movieGoerObject.getLastName());
+					System.out.println("The following is the booking history of " + movieGoerObject.getEmail());
 					ArrayList<Booking> bookings = new BookingManager(holidays).getBookingHistory(movieGoerObject);
-					if(bookings!=null) {
+					if(bookings != null && bookings.size() != 0) {
 						for (Booking booking : bookings) {
 							System.out.println(booking);
 						}

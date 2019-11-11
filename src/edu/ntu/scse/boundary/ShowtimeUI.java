@@ -71,6 +71,7 @@ public class ShowtimeUI {
     }
 
     private void proceedToShowtime(Movie movie) {
+        Scanner input = new Scanner(System.in);
         System.out.println("The following are the showtimes of " + movie.getTitle());
         ArrayList<Showtime> showtimes = showtimeManager.getShowtime(movie);
         int i = 0;
@@ -83,6 +84,7 @@ public class ShowtimeUI {
         Showtime showtime = null;
         do {
             System.out.println("Please pick a showtime by entering its index: ");
+            option = input.nextInt();
             try {
                 showtime = showtimes.get(option);
             } catch (Exception e) {
