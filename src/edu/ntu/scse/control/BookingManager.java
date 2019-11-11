@@ -97,7 +97,7 @@ public class BookingManager {
             totalPrice += price;
             Seat seat = selectSeat(showtime);
             System.out.println("Current total is: $" + totalPrice);
-            tickets.add(new Ticket(price, seat, ageCategory));
+            tickets.add(new Ticket(tickets.size()+1, price, seat, ageCategory));
             System.out.println();
             System.out.print("Do you want to add another ticket? (Y for Yes, other character for No): ");
             String choice = input.next();

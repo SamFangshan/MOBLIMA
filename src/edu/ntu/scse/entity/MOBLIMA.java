@@ -1,6 +1,11 @@
 package edu.ntu.scse.entity;
 
+import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 import edu.ntu.scse.boundary.ShowtimeUI;
@@ -14,12 +19,12 @@ import edu.ntu.scse.control.ShowtimeManager;
 /**
  * MOvie Booking and LIsting Management Application (MOBLIMA) <br>
  * Act as a central class of MOBLIMA and has all the relevant data
- * 
+ *
  * @author Kailing
  *
  */
 public class MOBLIMA {
-	
+
 	private ReadFileWriteData readFileWriteData;
 	private HolidayManager holidayManager;
 	private ArrayList<Cinema> cinemas;
@@ -29,6 +34,8 @@ public class MOBLIMA {
 	private ArrayList<MovieGoer> movieGoers;
 	private ArrayList<Staff> staffs;
 	private ArrayList<Review> reviews;
+	private ArrayList<Booking> bookings;
+	private ArrayList<Ticket> tickets;
 	private ArrayList<Holiday> holidays;
 
 	/**
@@ -46,6 +53,9 @@ public class MOBLIMA {
 	 * Load MOBLIMA data from previous saved data
 	 */
 	private void loadData() {
+		reviews = new ArrayList<>();
+		bookings = new ArrayList<>();
+
 		System.out.println("Loading data...");
 		movies = readFileWriteData.readMovies("data/movies.txt");
 		holidays = holidayManager.readHolidays();
@@ -54,14 +64,19 @@ public class MOBLIMA {
 		cineplexes = (ArrayList<Cineplex>) results[0];
 		cinemas = (ArrayList<Cinema>) results[1];
 		showtimes = readFileWriteData.readShowtimes("data/showtime.txt", movies, cinemas);
-		staffs = readFileWriteData.readStaff("data/staffs.txt");
+		staffs = readFileWriteData.readStaffs("data/staffs.txt");
+		tickets = readFileWriteData.readTickets("data/tickets.txt");
+		movieGoers = readFileWriteData.readMovieGoer("data/moviegoer.txt",bookings,reviews);
+		reviews = readFileWriteData.readReviews("data/reviews.txt",movieGoers);
+		bookings = readFileWriteData.readBookings("data/bookings.txt",movieGoers,showtimes,tickets);
+
 		System.out.println("Loading data done.");
 	};
 
 	/**
 	 * Save MOBLIMA data
 	 */
-	public void saveData() {		
+	public void saveData() {
 		System.out.println("Saving data...");
 		readFileWriteData.writeMovies("data/movies.txt", movies);
 		holidayManager.writeHolidaysToFile(holidays);
@@ -90,34 +105,34 @@ public class MOBLIMA {
 			option = sc.nextInt();
 
 			switch (option) {
-			case 0:
-				System.out.println("Exiting MOBLIMA System...");
-				break;
-			case 1: // Login as Staff
-				// TODO add staff login
-				System.out.println("LOGIN AS STAFF");
-				System.out.println("Your Staff Id?");
-				int staffId = sc.nextInt();
-				System.out.println("Your Password?");
-				String staffPassoword = sc.next();
-				for(Staff staff: staffs){
-					System.out.println(staff.getCinemaStaffId() + " " + staff.getPassword());
-					if(staff.getCinemaStaffId() == staffId){
-						if(staff.getPassword().equals(staffPassoword)) {
-							System.out.println("Staff login successful!");
-							displayAdminModule(staff);
-							break;
+				case 0:
+					System.out.println("Exiting MOBLIMA System...");
+					break;
+				case 1: // Login as Staff
+					// TODO add staff login
+					System.out.println("LOGIN AS STAFF");
+					System.out.println("Your Staff Id?");
+					int staffId = sc.nextInt();
+					System.out.println("Your Password?");
+					String staffPassoword = sc.next();
+					for(Staff staff: staffs){
+						System.out.println(staff.getCinemaStaffId() + " " + staff.getPassword());
+						if(staff.getCinemaStaffId() == staffId){
+							if(staff.getPassword().equals(staffPassoword)) {
+								System.out.println("Staff login successful!");
+								displayAdminModule(staff);
+								break;
+							}
 						}
 					}
-				}
-				//System.out.println("");
-				break;
-			case 2: // Continue as Moviegoer
-				displayMoviegoerModule();
-				break;
-			default:
-				System.out.println("No such option.");
-				break;
+					//System.out.println("");
+					break;
+				case 2: // Continue as Moviegoer
+					displayMoviegoerModule();
+					break;
+				default:
+					System.out.println("No such option.");
+					break;
 			}
 
 		} while (option != 0);
@@ -142,24 +157,24 @@ public class MOBLIMA {
 			option = sc.nextInt();
 
 			switch (option) {
-			case 0:
-				System.out.println("Returning to MOBLIMA Login System...");
-				break;
-			case 1: // Movies
-				System.out.println("NOT DONE LUL REPLACE CODE THX");
-				for(Movie m : movies) {
-					m.print();
-				}
-				StaffUI staffUI = new StaffUI(movies,showtimes,cinemas,staff);
-				staffUI.start();
+				case 0:
+					System.out.println("Returning to MOBLIMA Login System...");
+					break;
+				case 1: // Movies
+					System.out.println("NOT DONE LUL REPLACE CODE THX");
+					for(Movie m : movies) {
+						m.print();
+					}
+					StaffUI staffUI = new StaffUI(movies,showtimes,cinemas,staff);
+					staffUI.start();
 
-				break;
-			case 2: // Holidays
-				holidayAdminModule();
-				break;
-			default:
-				System.out.println("No such option.");
-				break;
+					break;
+				case 2: // Holidays
+					holidayAdminModule();
+					break;
+				default:
+					System.out.println("No such option.");
+					break;
 			}
 
 		} while (option != 0);
@@ -190,7 +205,7 @@ public class MOBLIMA {
 					String name = sc.nextLine();
 					System.out.println("Enter holiday date in yyyy-mm-dd HH:mm format");
 					String date = sc.next();
-					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, readFileWriteData.StringToCalendar(date)));
+					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, StringToCalendar(date)));
 					break;
 				case 2:
 					System.out.println("Choose holiday to be removed by 1) id\n2) name");
@@ -254,22 +269,27 @@ public class MOBLIMA {
 			option = sc.nextInt();
 
 			switch (option) {
-			case 0:
-				System.out.println("Returning to MOBLIMA Login System...");
-				break;
-			case 1:
-				new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays), movieGoerObject).start();
-				break;
-			case 2:
-				System.out.println("The following is the booking history of " + movieGoerObject.getFirstName() + " " + movieGoerObject.getLastName());
-				ArrayList<Booking> bookings = new BookingManager(holidays).getBookingHistory(movieGoerObject);
-				for (Booking booking : bookings) {
-					System.out.println(booking);
-				}
-				break;
-			default:
-				System.out.println("No such option.");
-				break;
+				case 0:
+					System.out.println("Returning to MOBLIMA Login System...");
+					break;
+				case 1:
+					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays), movieGoerObject,reviews).start();
+					break;
+				case 2:
+					System.out.println("The following is the booking history of " + movieGoerObject.getFirstName() + " " + movieGoerObject.getLastName());
+					ArrayList<Booking> bookings = new BookingManager(holidays).getBookingHistory(movieGoerObject);
+					if(bookings!=null) {
+						for (Booking booking : bookings) {
+							System.out.println(booking);
+						}
+					}
+					else{
+						System.out.println("No booking history for this user yet");
+					}
+					break;
+				default:
+					System.out.println("No such option.");
+					break;
 			}
 
 		} while (option != 0);
@@ -283,4 +303,16 @@ public class MOBLIMA {
 		this.movies = movies;
 	}
 
+	private Calendar StringToCalendar(String s) {
+		Date date = null;
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);
+		} catch (ParseException e) {
+			System.out.println("Wrong date format!");
+			return null;
+		}
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar;
+	}
 }

@@ -11,7 +11,6 @@ public enum MovieStatus {
 
 	private final String desc;
 
-	MovieStatus(){this.desc = null;}
 	MovieStatus(String desc) {
 		this.desc = desc;
 	}
