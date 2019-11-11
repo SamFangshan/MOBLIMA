@@ -1,0 +1,5 @@
+Ticket|1|11.0|D5|ADULT
+Ticket|2|12.0|E5|ADULT
+Ticket|3|10.0|D4|STUDENT
+Ticket|4|9.0|B3|STUDENT
+Ticket|5|4.0|C2|SENIOR
