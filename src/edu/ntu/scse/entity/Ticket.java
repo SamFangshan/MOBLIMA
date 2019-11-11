@@ -67,4 +67,8 @@ public class Ticket {
                 getSeat().equals(ticket.getSeat()) &&
                 getAgeCategory() == ticket.getAgeCategory();
     }
+
+    public String toStringConsole() {
+        return "Ticket ID: " + ticketId + " Price: $" + price + " Age Cat: " + ageCategory;
+    }
 }

@@ -73,7 +73,7 @@ public class Holiday {
 
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String strDate = dateFormat.format(date.getTime());
 
         return "Holiday|" + holidayId + "|" + name + "|" + strDate;

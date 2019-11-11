@@ -401,7 +401,7 @@ public class ReadFileWriteData {
 					//use transaction id to find the Booking
 					//use review ids(a list of integers separated by comma) to find the Reviews
 					if(bookings.size() == 0 || reviews.size() == 0){
-						movieGoers.add(new MovieGoer(tokens[1],Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), null, null));
+						movieGoers.add(new MovieGoer(tokens[1],Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), new ArrayList<Booking>(), null));
 					}
 					else {
 						movieGoers.add(new MovieGoer(tokens[1], Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), StringToBooknigs(tokens[4], bookings), StringToReviews(tokens[5], reviews)));

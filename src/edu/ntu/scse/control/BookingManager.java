@@ -35,6 +35,15 @@ public class BookingManager {
 
     private ArrayList<Booking> bookings;
     private ArrayList<Holiday> holidays;
+    private ArrayList<Booking> pastBookingsInSystem;
+    private ArrayList<Ticket> pastTicketsInSystem;
+
+    public BookingManager(ArrayList<Holiday> holidays, ArrayList<Booking> pastBookingsInSystem, ArrayList<Ticket> pastTicketsInSystem) {
+        this.holidays = holidays;
+        this.bookings = new ArrayList<Booking>();
+        this.pastBookingsInSystem = pastBookingsInSystem;
+        this.pastTicketsInSystem = pastTicketsInSystem;
+    }
 
     public BookingManager(ArrayList<Holiday> holidays) {
         this.holidays = holidays;
@@ -97,7 +106,9 @@ public class BookingManager {
             totalPrice += price;
             Seat seat = selectSeat(showtime);
             System.out.println("Current total is: $" + totalPrice);
-            tickets.add(new Ticket(tickets.size()+1, price, seat, ageCategory));
+            Ticket ticket = new Ticket(pastTicketsInSystem.size()+1, price, seat, ageCategory);
+            pastTicketsInSystem.add(ticket);
+            tickets.add(ticket);
             System.out.println();
             System.out.print("Do you want to add another ticket? (Y for Yes, other character for No): ");
             String choice = input.next();
@@ -112,6 +123,7 @@ public class BookingManager {
         if (choice.equalsIgnoreCase("Y")) {
             System.out.println("Payment successful.");
         } else {
+            cleanUp(tickets);
             System.out.println("Booking Canceled...");
             return;
         }
@@ -119,8 +131,16 @@ public class BookingManager {
         String TID = generateTID(currentTime, showtime.getCinema());
         Booking booking = new Booking(TID, currentTime, movieGoer, showtime, tickets, totalPrice);
         movieGoer.getBookings().add(booking);
+        pastBookingsInSystem.add(booking);
         System.out.println("The following booking is successfully created: ");
         System.out.println(booking.toString());
+    }
+
+    private void cleanUp(ArrayList<Ticket> tickets) {
+        for (Ticket ticket : tickets) {
+            ticket.getSeat().setBooked(false);
+            pastTicketsInSystem.remove(pastTicketsInSystem.size() - 1);
+        }
     }
 
     /**
@@ -129,7 +149,7 @@ public class BookingManager {
      */
     private String generateTID(Calendar currentTime, Cinema cinema) {
         String TID = "00" + String.valueOf(cinema.getCinemaId());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd HH:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
         String strDate = dateFormat.format(currentTime.getTime());
         TID += strDate;
         return TID;
@@ -160,27 +180,26 @@ public class BookingManager {
         Scanner input = new Scanner(System.in);
         Seat seat = null;
         while (true) {
-            while (seat == null) {
-                System.out.println("Please choose a seat by entering a seat ID: ");
-                System.out.println("(For example, seat at row A column 1 should be A1)");
-                String seatID = input.next();
+            System.out.println("Please choose a seat by entering a seat ID: ");
+            System.out.println("(For example, seat at row A column 1 should be A1)");
+            String seatID = input.next();
 
-                char row = seatID.charAt(0);
-                if (!(('a' <= row && row <= 'z') || ('A' <= row && row <= 'Z'))) {
-                    System.out.println("Invalid seat ID! Please try again.");
-                    continue;
-                }
-                String colString = seatID.substring(1);
-                int col;
-                try {
-                    col = Integer.parseInt(colString);
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid seat ID! Please try again.");
-                    continue;
-                }
-                seat = new Seat(Character.toUpperCase(row), col, false);
+            char row = seatID.charAt(0);
+            if (!(('a' <= row && row <= 'z') || ('A' <= row && row <= 'Z'))) {
+                System.out.println("Invalid seat ID! Please try again.");
+                continue;
             }
+            String colString = seatID.substring(1);
+            int col;
+            try {
+                col = Integer.parseInt(colString);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid seat ID! Please try again.");
+                continue;
+            }
+            seat = new Seat(Character.toUpperCase(row), col, false);
 
+            boolean cont = false;
             ArrayList<Seat> seats = showtime.getSeats();
             for (Seat seat1 : seats) {
                 if (seat.equals(seat1)) {
@@ -189,8 +208,12 @@ public class BookingManager {
                         seat.getRowId() == seat1.getRowId() &&
                         seat.isBooked() != seat1.isBooked()) {
                     System.out.println("Sorry, this seat is already occupied! Please try again.");
-                    continue;
+                    cont = true;
+                    break;
                 }
+            }
+            if (cont) {
+                continue;
             }
             System.out.println("Sorry, this seat ID does not match any valid seats! Please try again.");
         }
