@@ -82,6 +82,7 @@ public class MOBLIMA {
 		holidayManager.writeHolidaysToFile(holidays);
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
 		readFileWriteData.writeTickets("data/tickets.txt", tickets);
+		readFileWriteData.writeBookings("data/bookings.txt", bookings);
 		System.out.println("Saving data done.");
 	}
 
@@ -282,7 +283,7 @@ public class MOBLIMA {
 					break;
 				case 1:
 					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays, bookings, tickets), movieGoerObject,reviews).start();
-          readFileWriteData.writeMovies("data/movies.txt",movies);
+                    readFileWriteData.writeMovies("data/movies.txt",movies);
 					readFileWriteData.writeReviews("data/reviews.txt",reviews);
 					break;
 				case 2:
@@ -290,7 +291,7 @@ public class MOBLIMA {
 					ArrayList<Booking> bookings = new BookingManager(holidays).getBookingHistory(movieGoerObject);
 					if(bookings != null && bookings.size() != 0) {
 						for (Booking booking : bookings) {
-							System.out.println(booking);
+							System.out.println(booking.toStringConsole());
 						}
 					}
 					else{

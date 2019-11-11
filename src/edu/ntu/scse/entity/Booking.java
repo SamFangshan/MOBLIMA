@@ -121,8 +121,30 @@ public class Booking {
                 getTickets().equals(booking.getTickets());
     }
 
-    @Override
     public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String strDate = dateFormat.format(showTime.getScreeningTime().getTime());
+        return "Booking" +
+                "|" + TID +
+                "|" + strDate +
+                "|" + movieGoer.getMovieGoerId() +
+                "|" + showTime.getShowtimeId() +
+                "|" + ticketsToString(tickets) +
+                "|" + totalPrice;
+    }
+
+    private String ticketsToString(ArrayList<Ticket> tickets) {
+        String s = "";
+        for (int i = 0; i < tickets.size(); i++) {
+            s += tickets.get(i).getTicketId();
+            if (i < tickets.size() - 1) {
+                s += ",";
+            }
+        }
+        return s;
+    }
+
+    public String toStringConsole() {
         String TIDString = "TID: " + TID;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String strDate = dateFormat.format(transactionTime.getTime());

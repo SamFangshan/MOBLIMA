@@ -1,5 +1,5 @@
-Ticket|1|11.0|D5|ADULT
-Ticket|2|12.0|E5|ADULT
-Ticket|3|10.0|D4|STUDENT
-Ticket|4|9.0|B3|STUDENT
-Ticket|5|4.0|C2|SENIOR
+Ticket|1|11.0|Seat|D5|true|ADULT
+Ticket|2|12.0|Seat|E5|true|ADULT
+Ticket|3|10.0|Seat|D4|true|STUDENT
+Ticket|4|9.0|Seat|B3|false|STUDENT
+Ticket|5|4.0|Seat|C2|true|SENIOR

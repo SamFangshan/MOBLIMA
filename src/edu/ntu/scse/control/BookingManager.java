@@ -133,7 +133,7 @@ public class BookingManager {
         movieGoer.getBookings().add(booking);
         pastBookingsInSystem.add(booking);
         System.out.println("The following booking is successfully created: ");
-        System.out.println(booking.toString());
+        System.out.println(booking.toStringConsole());
     }
 
     private void cleanUp(ArrayList<Ticket> tickets) {
