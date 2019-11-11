@@ -289,7 +289,24 @@ public class ReadFileWriteData {
 			e.printStackTrace();
 		}
 
+		initialiseBookedSeats(bookings);
+
 		return bookings;
+	}
+
+	private void initialiseBookedSeats(ArrayList<Booking> bookings) {
+		for (Booking booking : bookings) {
+			ArrayList<Seat> seatArrayList = new ArrayList<Seat>();
+			for (Ticket ticket : booking.getTickets()) {
+				Seat seat = ticket.getSeat();
+				for (Seat showtimeSeat : booking.getShowTime().getSeats()) {
+					if (seat.equals(showtimeSeat)) {
+						seat.setBooked(true);
+						showtimeSeat.setBooked(true);
+					}
+				}
+			}
+		}
 	}
 
 	public ArrayList<Staff> readStaffs(String filename) {
