@@ -174,7 +174,7 @@ public class MOBLIMA {
 					}
 					StaffUI staffUI2 = new StaffUI(movies,showtimes,cinemas,staff);
 					staffUI2.start();
-					readFileWriteData.writeShowtimes("data/showtimes.txt",showtimes);
+					readFileWriteData.writeShowtimes("data/showtime.txt",showtimes);
 					break;
 				case 3: // Holidays
 					holidayAdminModule();

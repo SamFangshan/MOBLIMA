@@ -111,7 +111,7 @@ public class Showtime {
 
     @Override
     public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String strDate = dateFormat.format(screeningTime.getTime());
         return "Showtime" +
                 "|" + showtimeId +
@@ -121,7 +121,7 @@ public class Showtime {
     }
 
     public void print() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyymmddhhmm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String strDate = dateFormat.format(screeningTime.getTime());
         System.out.println(strDate + " Cinema: " + cinema.getCinemaId());
     }
