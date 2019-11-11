@@ -5,6 +5,7 @@ import edu.ntu.scse.entity.MovieStatus;
 import edu.ntu.scse.entity.MovieRating;
 import edu.ntu.scse.factor.MovieType;
 import edu.ntu.scse.factor.Blockbuster;
+//import edu.ntu.scse.control.ReadFileWriteData;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -31,6 +32,7 @@ public class MovieManager {
         Scanner sc = new Scanner(System.in);
         System.out.println("ID of the movie?");
         int id = sc.nextInt();
+        String dummy = sc.nextLine();
         System.out.println("Title of the movie?");
         String title = sc.nextLine();
         System.out.println("Synopsis of the movie?");
@@ -124,7 +126,8 @@ public class MovieManager {
     public void updateMovie(String s){
         Scanner sc = new Scanner(System.in);
         for(Movie movie: movies){
-            if(movie.getTitle().toUpperCase().contains(s.toUpperCase())){
+            if(movie.getTitle().toUpperCase().equals(s.toUpperCase())){
+                String dummy = sc.nextLine();
                 System.out.println("Which attribute of the movie do you want to change?");
                 System.out.println("1: Title");
                 System.out.println("2: Synopsis");
@@ -138,21 +141,26 @@ public class MovieManager {
                 switch (option){
                     case 1:
                         System.out.println("New Title: ");
+                        String dum = sc.nextLine();
                         String newTitle = sc.nextLine();
                         movie.setTitle(newTitle);
                         break;
                     case 2:
                         System.out.println("New Synopsis: ");
+                        String dum2 = sc.nextLine();
                         String newSynopsis = sc.nextLine();
                         movie.setSynopsis(newSynopsis);
+                        System.out.print(movie);
                         break;
                     case 3:
                         System.out.println("New Director: ");
+                        String dum3 = sc.nextLine();
                         String newDirector = sc.nextLine();
                         movie.setDirector(newDirector);
                         break;
                     case 4:
                         System.out.println("New Cast: ");
+                        String dum4 = sc.nextLine();
                         String newCast = sc.nextLine();
                         movie.setCast(newCast);
                         break;
@@ -240,6 +248,7 @@ public class MovieManager {
                         System.out.println("No such option");
                         break;
                 }
+                break;
             }
         }
     }
