@@ -115,7 +115,7 @@ public class MovieManager {
             default:
                 System.out.println("No such rating");
         }
-        Movie movie = new Movie(id,title,synopsis,director,cast,blockbuster,0,mvRating,mvStatus,mvType);
+        Movie movie = new Movie(id,title,synopsis,director,cast,blockbuster,0,mvRating,mvStatus,mvType,null);
         movies.add(movie);
     }
 
