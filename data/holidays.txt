@@ -1,7 +1,7 @@
-Holiday|1|New years|2020-01-01 00:00
-Holiday|2|Chinese New Year|2020-01-25 00:00
-Holiday|3|Good Luck Friday|2020-04-10 00:00
-Holiday|4|Labour Day|2020-05-01 00:00
-Holiday|5|National Day of Singapore|2020-08-10 00:00
-Holiday|6|Diwali|2020-11-14 00:00
-Holiday|7|Christmas Day|2019-12-25 00:00
+Holiday|1|New years|2020-00-01 00:00
+Holiday|2|Chinese New Year|2020-00-25 00:00
+Holiday|3|Good Luck Friday|2020-00-10 00:00
+Holiday|4|Labour Day|2020-00-01 00:00
+Holiday|5|National Day of Singapore|2020-00-10 00:00
+Holiday|6|Diwali|2020-00-14 00:00
+Holiday|7|Christmas Day|2019-00-25 00:00

@@ -64,7 +64,6 @@ public class Movie {
 	 */
 	private MovieType movieType;
 
-	//TODO add private ArrayList<Review> reviews
 	private ArrayList<Review> reviews;
 
 	/**
@@ -89,7 +88,7 @@ public class Movie {
 	 * @param movieType
 	 */
 	public Movie(int movieId, String title, String synopsis, String director, String cast, Blockbuster isBlockbuster,
-				 float overallRating, MovieRating movieRating, MovieStatus movieStatus, MovieType movieType) {
+				 float overallRating, MovieRating movieRating, MovieStatus movieStatus, MovieType movieType,ArrayList<Review> reviews) {
 		this.movieId = movieId;
 		this.title = title;
 		this.synopsis = synopsis;
@@ -100,6 +99,7 @@ public class Movie {
 		this.movieRating = movieRating;
 		this.movieStatus = movieStatus;
 		this.movieType = movieType;
+		this.reviews = new ArrayList<>();
 	}
 
 	/**
@@ -123,9 +123,20 @@ public class Movie {
 	@Override
 	public String toString() {
 		return "Movie|" + movieId + "|" + title + "|" + synopsis + "|" + director + "|" + cast + "|" + isBlockbuster
-				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name();
+				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name()+"|"+reviewsToString(reviews);
 	}
 
+	private String reviewsToString(ArrayList<Review> reviews){
+		String r = "";
+		if(reviews.size() != 0){
+			r += reviews.get(0).getReviewId();
+			for(int i=1;i<reviews.size();i++){
+				r += ", ";
+				r += reviews.get(i).getReviewId();
+			}
+		}
+		return r;
+	}
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

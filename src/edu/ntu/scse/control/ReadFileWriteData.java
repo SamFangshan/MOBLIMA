@@ -28,7 +28,7 @@ public class ReadFileWriteData {
 	/**
 	 * Initialize MOBLIMA's Movie(s) from a text file
 	 */
-	public ArrayList<Movie> readMovies(String filename) {
+	public ArrayList<Movie> readMovies(String filename,ArrayList<Review> reviews) {
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 
 		// read/load data from text file
@@ -40,11 +40,16 @@ public class ReadFileWriteData {
 				String[] tokens = line.split("\\|");
 
 				if (tokens[0].equals("Movie")) { // Movie
-					// TODO add reviews Id
+					if(reviews == null){
 					movies.add(new Movie(Integer.parseInt(tokens[1]), tokens[2], tokens[3], tokens[4], tokens[5],
 							Blockbuster.valueOf(tokens[6].toUpperCase()), Float.parseFloat(tokens[7]),
 							MovieRating.valueOf(tokens[8]), MovieStatus.valueOf(tokens[9]),
-							MovieType.valueOf(tokens[10])));
+							MovieType.valueOf(tokens[10]),null));}
+					else{
+					movies.add(new Movie(Integer.parseInt(tokens[1]), tokens[2], tokens[3], tokens[4], tokens[5],
+							Blockbuster.valueOf(tokens[6].toUpperCase()), Float.parseFloat(tokens[7]),
+							MovieRating.valueOf(tokens[8]), MovieStatus.valueOf(tokens[9]),
+							MovieType.valueOf(tokens[10]),StringToReviews(tokens[11],reviews)));}
 				} else {
 					System.out.println("Error reading data.");
 				}
@@ -481,6 +486,22 @@ public class ReadFileWriteData {
 		}
 
 		return reviews;
+	}
+
+	public void writeReviews(String filename, ArrayList<Review> reviews) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < reviews.size(); i++) {
+				String line = reviews.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Parse a string of review IDs and return the reviews selected

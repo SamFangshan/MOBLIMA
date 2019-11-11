@@ -112,7 +112,7 @@ public class ShowtimeManager {
         ArrayList<Seat> seats = new ArrayList<>();
         seats = copySeats(cinema);
 
-        int id = showtimes.size();
+        int id = showtimes.size()+1;
         Showtime showtime = new Showtime(id,time, cinema, movie, seats);
 
         showtimes.add(showtime);
@@ -141,6 +141,7 @@ public class ShowtimeManager {
                 switch (option){
                     case 1:
                         System.out.println("New Screening Time: ");
+                        String foo = sc.nextLine();
                         String time = sc.nextLine();
                         Calendar date = StringToCalendar(time);
                         showtime.setScreeningTime(date);

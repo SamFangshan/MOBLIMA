@@ -54,22 +54,28 @@ public class StaffUI {
                     break;
                 case 2:
                     System.out.println("What is the title of the movie you want to update?");
+                    String foo = sc.nextLine();
                     String update = sc.nextLine();
                     movieManager.updateMovie(update);
                     break;
                 case 3:
                     System.out.println("What is the title of the movie you want to remove?");
+                    String foo2 = sc.nextLine();
                     String remove = sc.nextLine();
                     movieManager.removeMovie(remove);
+                    break;
                 case 4:
                     System.out.println("Creating a new showtime...");
                     showtimeManager.createShowtime(cinemas,movies);
+                    break;
                 case 5:
                     System.out.println("Updating a showtime...");
                     showtimeManager.updateShowtime(cinemas,movies);
+                    break;
                 case 6:
                     System.out.println("Removing a showtime...");
                     showtimeManager.removeShowtime();
+                    break;
                 default:
                     System.out.println("No such option.");
                     break;
