@@ -69,6 +69,6 @@ public class Ticket {
     }
 
     public String toStringConsole() {
-        return "Ticket ID: " + ticketId + " Price: $" + price + " Age Cat: " + ageCategory;
+        return "Ticket ID: " + ticketId + " Price: $" + price + " Seat: " + seat.getRowId() + seat.getColId() + " Age Cat: " + ageCategory;
     }
 }
