@@ -5,6 +5,7 @@ import edu.ntu.scse.control.ShowtimeManager;
 import edu.ntu.scse.entity.Booking;
 import edu.ntu.scse.entity.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,12 +17,13 @@ public class ShowtimeUI {
     MovieGoer movieGoer;
     ArrayList<Review> reviews;
 
-    public ShowtimeUI(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ShowtimeManager showtimeManager, BookingManager bookingManager, MovieGoer movieGoer) {
+    public ShowtimeUI(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ShowtimeManager showtimeManager, BookingManager bookingManager, MovieGoer movieGoer, ArrayList<Review> reviews) {
         this.movies = movies;
         this.showtimes = showtimes;
         this.showtimeManager = showtimeManager;
         this.bookingManager = bookingManager;
         this.movieGoer = movieGoer;
+        this.reviews = reviews;
     }
 
     public void start() {
@@ -53,8 +55,10 @@ public class ShowtimeUI {
                     break;
                 case 3:
                     printDetailsOfMovie();
+                    break;
                 case 4:
-                    addReviewRatingforMovie();
+                    addReviewRatingforMovie(movieGoer);
+                    break;
                 default:
                     System.out.println("No such option.");
                     break;
@@ -67,6 +71,7 @@ public class ShowtimeUI {
     }
 
     private void proceedToShowtime(Movie movie) {
+        Scanner input = new Scanner(System.in);
         System.out.println("The following are the showtimes of " + movie.getTitle());
         ArrayList<Showtime> showtimes = showtimeManager.getShowtime(movie);
         int i = 0;
@@ -79,6 +84,7 @@ public class ShowtimeUI {
         Showtime showtime = null;
         do {
             System.out.println("Please pick a showtime by entering its index: ");
+            option = input.nextInt();
             try {
                 showtime = showtimes.get(option);
             } catch (Exception e) {
@@ -127,14 +133,11 @@ public class ShowtimeUI {
         Scanner input = new Scanner(System.in);
         String title = input.nextLine();
         for(Movie movie: movies){
-            if(movie.getTitle().toUpperCase().contains(title.toUpperCase())){
-                int movieId = movie.getMovieId();
-                for(Review review: reviews){
-                    if(review.getMovieId() == movieId){
-                        System.out.println("Review:");
-                        System.out.println(review.getReviewText());
-                        System.out.println("Rating:"+review.getRating());
-                    }
+            if(movie.getTitle().toUpperCase().contains(title.toUpperCase())) {
+                System.out.println("Rating: " + movie.getOverallRating());
+                System.out.println("Review: ");
+                for (Review review : movie.getReviews()) {
+                    System.out.println(review.getReviewText());
                 }
                 return;
             }
@@ -142,28 +145,45 @@ public class ShowtimeUI {
         System.out.println("Movie Not Found");
     }
 
-    private void addReviewRatingforMovie(){
+    private void addReviewRatingforMovie(MovieGoer movieGoer){
         System.out.println("Enter the name of the movie that you want to write Review/Rating for: ");
         Scanner sc = new Scanner(System.in);
         String title = sc.nextLine();
         for(Movie movie:movies){
             if(movie.getTitle().toUpperCase().contains(title.toUpperCase())){
-                System.out.println("Your Review Text:");
-                String reviewText = sc.nextLine();
-                System.out.println("Your Rating for the movie (1-5):");
-                int rating = sc.nextInt();
+                System.out.println("Do you want to write Review? Y: Yes N: No");
+                String reviewOrNot = sc.nextLine();
+                String reviewText;
+                if(reviewOrNot.equals("Y")){
+                    System.out.println("Your Review Text:");
+                    reviewText = sc.nextLine();
+                }else{
+                    reviewText = "";
+                }
+                System.out.println("Do you want to enter a Rating? Y: Yes N: No");
+                String ratingOrNot = sc.nextLine();
+                int rating;
+                if(ratingOrNot.equalsIgnoreCase("Y")){
+                    System.out.println("Your Rating for the movie (1-5):");
+                    rating = sc.nextInt();
+                }else{
+                    rating = -1;
+                }
 
-                int reviewId = reviews.size();
+                int reviewId = reviews.size()+1;
 
-                Review review = new Review(reviewId,reviewText,rating,movie.getMovieId(),movieGoer);
+                Review review = new Review(reviewId,reviewText,rating,movieGoer);
                 reviews.add(review);
-                System.out.println("New review added!");
+                movie.getReviews().add(review);
+
+                System.out.println("New review/rating added!");
+                System.out.println("Note that you need to quit Showtime Menu for the new rating/review to be added to the system.");
 
                 // Update the overall rating for this movie
                 float sum = 0;
                 int total = 0;
-                for(Review review1: reviews){
-                    if(review1.getMovieId() == movie.getMovieId()){
+                for(Review review1: movie.getReviews()){
+                    if(review1.getRating() != -1){
                         sum += review1.getRating();
                         total ++;
                     }
@@ -174,7 +194,6 @@ public class ShowtimeUI {
                 }else{
                     movie.setOverallRating(-1);
                 }
-
                 return;
             }
         }

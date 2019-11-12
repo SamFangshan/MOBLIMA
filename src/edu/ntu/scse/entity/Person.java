@@ -18,7 +18,7 @@ public class Person {
 	/**
 	 * email of a person
 	 */
-	private String email;
+    protected String email;
 	/**
 	 * phone number of a person
 	 */
