@@ -56,7 +56,7 @@ public class MOBLIMA {
 	/**
 	 * Load MOBLIMA data from previous saved data
 	 */
-	private void loadData() {
+	public void loadData() {
 		reviews = new ArrayList<>();
 		bookings = new ArrayList<>();
 
@@ -500,6 +500,14 @@ public class MOBLIMA {
 
 	public ArrayList<Movie> getMovies() {
 		return movies;
+	}
+
+	public ArrayList<Booking> getBookings() {
+		return bookings;
+	}
+
+	public ArrayList<Showtime> getShowtimes() {
+		return showtimes;
 	}
 
 	public void setMovies(ArrayList<Movie> movies) {
