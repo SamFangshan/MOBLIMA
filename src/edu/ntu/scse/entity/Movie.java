@@ -3,9 +3,11 @@ package edu.ntu.scse.entity;
 import edu.ntu.scse.factor.Blockbuster;
 import edu.ntu.scse.factor.MovieType;
 
+import java.util.ArrayList;
+
 /**
  * Represents individual Movie
- * 
+ *
  * @author Kailing
  *
  */
@@ -43,7 +45,7 @@ public class Movie {
 	private Blockbuster isBlockbuster;
 
 	/**
-	 * overall reviewer rating (1 – 5 [best]) of Movie
+	 * overall reviewer rating (1 ï¿½ 5 [best]) of Movie
 	 */
 	private float overallRating;
 
@@ -61,8 +63,8 @@ public class Movie {
 	 * type of Movie
 	 */
 	private MovieType movieType;
-	
-	//TODO add private ArrayList<Review> reviews
+
+	private ArrayList<Review> reviews;
 
 	/**
 	 * Default constructor of Movie
@@ -73,7 +75,7 @@ public class Movie {
 
 	/**
 	 * Constructor with all attributes of Movie
-	 * 
+	 *
 	 * @param movieId
 	 * @param title
 	 * @param synopsis
@@ -86,7 +88,7 @@ public class Movie {
 	 * @param movieType
 	 */
 	public Movie(int movieId, String title, String synopsis, String director, String cast, Blockbuster isBlockbuster,
-			float overallRating, MovieRating movieRating, MovieStatus movieStatus, MovieType movieType) {
+				 float overallRating, MovieRating movieRating, MovieStatus movieStatus, MovieType movieType,ArrayList<Review> reviews) {
 		this.movieId = movieId;
 		this.title = title;
 		this.synopsis = synopsis;
@@ -97,6 +99,7 @@ public class Movie {
 		this.movieRating = movieRating;
 		this.movieStatus = movieStatus;
 		this.movieType = movieType;
+		this.reviews = new ArrayList<>();
 	}
 
 	/**
@@ -120,9 +123,20 @@ public class Movie {
 	@Override
 	public String toString() {
 		return "Movie|" + movieId + "|" + title + "|" + synopsis + "|" + director + "|" + cast + "|" + isBlockbuster
-				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name();
+				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name()+"|"+reviewsToString(reviews);
 	}
 
+	private String reviewsToString(ArrayList<Review> reviews){
+		String r = "";
+		if(reviews.size() != 0){
+			r += reviews.get(0).getReviewId();
+			for(int i=1;i<reviews.size();i++){
+				r += ", ";
+				r += reviews.get(i).getReviewId();
+			}
+		}
+		return r;
+	}
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -142,7 +156,7 @@ public class Movie {
 
 	/**
 	 * Get movieId of Movie
-	 * 
+	 *
 	 * @return movieId of Movie
 	 */
 	public int getMovieId() {
@@ -151,7 +165,7 @@ public class Movie {
 
 	/**
 	 * Change movieId of Movie
-	 * 
+	 *
 	 * @param movieId of Movie
 	 */
 	public void setMovieId(int movieId) {
@@ -160,7 +174,7 @@ public class Movie {
 
 	/**
 	 * Get title of Movie
-	 * 
+	 *
 	 * @return title of Movie
 	 */
 	public String getTitle() {
@@ -169,7 +183,7 @@ public class Movie {
 
 	/**
 	 * Change title of Movie
-	 * 
+	 *
 	 * @param title of Movie
 	 */
 	public void setTitle(String title) {
@@ -178,7 +192,7 @@ public class Movie {
 
 	/**
 	 * Get synopsis of Movie
-	 * 
+	 *
 	 * @return synopsis of Movie
 	 */
 	public String getSynopsis() {
@@ -187,7 +201,7 @@ public class Movie {
 
 	/**
 	 * Change synopsis of Movie
-	 * 
+	 *
 	 * @param synopsis of Movie
 	 */
 	public void setSynopsis(String synopsis) {
@@ -196,7 +210,7 @@ public class Movie {
 
 	/**
 	 * Get director of Movie
-	 * 
+	 *
 	 * @return director of Movie
 	 */
 	public String getDirector() {
@@ -205,7 +219,7 @@ public class Movie {
 
 	/**
 	 * Change director of Movie
-	 * 
+	 *
 	 * @param director of Movie
 	 */
 	public void setDirector(String director) {
@@ -214,7 +228,7 @@ public class Movie {
 
 	/**
 	 * Get cast of Movie
-	 * 
+	 *
 	 * @return cast of Movie
 	 */
 	public String getCast() {
@@ -223,26 +237,26 @@ public class Movie {
 
 	/**
 	 * Change cast of Movie
-	 * 
+	 *
 	 * @param cast of Movie
 	 */
 	public void setCast(String cast) {
 		this.cast = cast;
 	}
 
-    /**
+	/**
 	 * Get isBlockbuster of Movie
-	 * 
+	 *
 	 * @return true if it is a blockbuster<br>
 	 *         false if it is not a blockbuster movie
 	 */
 	public Blockbuster isBlockbuster() {
 		return isBlockbuster;
 	}
-	
-    /**
+
+	/**
 	 * Change isBlockbuster of Movie
-	 * 
+	 *
 	 * @param isBlockbuster of Movie
 	 */
 	public void setBlockbuster(Blockbuster isBlockbuster) {
@@ -252,8 +266,8 @@ public class Movie {
 	/**
 	 * Get overallRating of Movie<br>
 	 * Overall reviewer rating will only be displayed if there are more than ONE
-	 * individual rating, else “NA” is displayed
-	 * 
+	 * individual rating, else ï¿½NAï¿½ is displayed
+	 *
 	 * @return overallRating of Movie<br>
 	 *         -1 if there are zero or one review
 	 */
@@ -265,7 +279,7 @@ public class Movie {
 	/**
 	 * Change overallRating of Movie<br>
 	 * *
-	 * 
+	 *
 	 * @param overallRating of Movie
 	 */
 	public void setOverallRating(float overallRating) {
@@ -276,7 +290,7 @@ public class Movie {
 
 	/**
 	 * Get movieRating of movie
-	 * 
+	 *
 	 * @return movieRating of movie
 	 */
 	public MovieRating getMovieRating() {
@@ -285,7 +299,7 @@ public class Movie {
 
 	/**
 	 * Change movieRating of Movie
-	 * 
+	 *
 	 * @param movieRating of Movie
 	 */
 	public void setMovieRating(MovieRating movieRating) {
@@ -294,7 +308,7 @@ public class Movie {
 
 	/**
 	 * Get movieStatus of Movie
-	 * 
+	 *
 	 * @return movieStatus of Movie
 	 */
 	public MovieStatus getMovieStatus() {
@@ -303,7 +317,7 @@ public class Movie {
 
 	/**
 	 * Change movieStatus of Movie
-	 * 
+	 *
 	 * @param movieStatus of Movie
 	 */
 	public void setMovieStatus(MovieStatus movieStatus) {
@@ -312,7 +326,7 @@ public class Movie {
 
 	/**
 	 * Get movieType of Movie
-	 * 
+	 *
 	 * @return movieType of Movie
 	 */
 	public MovieType getMovieType() {
@@ -321,11 +335,14 @@ public class Movie {
 
 	/**
 	 * Change movieType of Movie
-	 * 
+	 *
 	 * @param movieType of Movie
 	 */
 	public void setMovieType(MovieType movieType) {
 		this.movieType = movieType;
 	}
 
+	public ArrayList<Review> getReviews() {
+		return reviews;
+	}
 }

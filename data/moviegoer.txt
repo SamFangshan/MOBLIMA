@@ -1,4 +1,4 @@
-MovieGoer|1|19||
-MovieGoer|2|21||
-MovieGoer|3|30||
-MovieGoer|4|46||
+MovieGoer|hsu008@e.ntu.edu.sg|1|19|1,2|1
+MovieGoer|suhither@gmail.com|2|21|3|2
+MovieGoer|zqshen@ntu.edu.sg|3|30|4|3,4
+MovieGoer|noreply@ntu.edu.sg|4|46|5|5

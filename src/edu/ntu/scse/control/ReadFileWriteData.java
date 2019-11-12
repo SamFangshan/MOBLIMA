@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import edu.ntu.scse.entity.*;
+import edu.ntu.scse.factor.AgeCategory;
 import edu.ntu.scse.factor.Blockbuster;
 import edu.ntu.scse.factor.CinemaClass;
 import edu.ntu.scse.factor.MovieType;
@@ -27,7 +28,7 @@ public class ReadFileWriteData {
 	/**
 	 * Initialize MOBLIMA's Movie(s) from a text file
 	 */
-	public ArrayList<Movie> readMovies(String filename) {
+	public ArrayList<Movie> readMovies(String filename,ArrayList<Review> reviews) {
 		ArrayList<Movie> movies = new ArrayList<Movie>();
 
 		// read/load data from text file
@@ -39,11 +40,16 @@ public class ReadFileWriteData {
 				String[] tokens = line.split("\\|");
 
 				if (tokens[0].equals("Movie")) { // Movie
-					// TODO add reviews Id
+					if(reviews == null){
 					movies.add(new Movie(Integer.parseInt(tokens[1]), tokens[2], tokens[3], tokens[4], tokens[5],
 							Blockbuster.valueOf(tokens[6].toUpperCase()), Float.parseFloat(tokens[7]),
 							MovieRating.valueOf(tokens[8]), MovieStatus.valueOf(tokens[9]),
-							MovieType.valueOf(tokens[10])));
+							MovieType.valueOf(tokens[10]),null));}
+					else{
+					movies.add(new Movie(Integer.parseInt(tokens[1]), tokens[2], tokens[3], tokens[4], tokens[5],
+							Blockbuster.valueOf(tokens[6].toUpperCase()), Float.parseFloat(tokens[7]),
+							MovieRating.valueOf(tokens[8]), MovieStatus.valueOf(tokens[9]),
+							MovieType.valueOf(tokens[10]),StringToReviews(tokens[11],reviews)));}
 				} else {
 					System.out.println("Error reading data.");
 				}
@@ -163,8 +169,8 @@ public class ReadFileWriteData {
 				String[] tokens = line.split("\\|");
 
 				if (tokens[0].equals("Showtime")) {
-					showtimes.add(new Showtime(StringToCalendar(tokens[1]), cinemas.get(Integer.parseInt(tokens[3]) - 1),
-							movies.get(Integer.parseInt(tokens[2]) - 1), copySeats(cinemas.get(Integer.parseInt(tokens[3]) - 1))));
+					showtimes.add(new Showtime(Integer.parseInt(tokens[1]), StringToCalendar(tokens[2]), cinemas.get(Integer.parseInt(tokens[4]) - 1),
+							movies.get(Integer.parseInt(tokens[3]) - 1), copySeats(cinemas.get(Integer.parseInt(tokens[4]) - 1))));
 				} else {
 					System.out.println("Error reading data.");
 				}
@@ -201,7 +207,182 @@ public class ReadFileWriteData {
 		}
 	}
 
+	/**
+	 * Initialize MOBLIMA's Ticket(s) from a text file
+	 * @param filename
+	 * @return tickets
+	 */
+	public ArrayList<Ticket> readTickets(String filename) {
+		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 
+		// read/load data from text file
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) { // check and read next line
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("Ticket")) {
+					tickets.add(new Ticket(Integer.parseInt(tokens[1]), Double.parseDouble(tokens[2]), stringListToSeats(tokens[3]).get(0), AgeCategory.valueOf(tokens[4])));
+				} else {
+					System.out.println("Error reading data.");
+				}
+
+			}
+			reader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load Ticket(s), file " + filename + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return tickets;
+	}
+
+	/**
+	 * Save all Ticket(s) into a text file
+	 * @param filename
+	 * @param tickets
+	 */
+	public void writeTickets(String filename, ArrayList<Ticket> tickets) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < tickets.size(); i++) {
+				String line = tickets.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Initialize MOBLIMA's Booking(s) from a text file
+	 * @param filename
+	 * @return bookings
+	 */
+	public ArrayList<Booking> readBookings(String filename, ArrayList<MovieGoer> movieGoers, ArrayList<Showtime> showtimes, ArrayList<Ticket> tickets) {
+		ArrayList<Booking> bookings = new ArrayList<Booking>();
+
+		// read/load data from text file
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) { // check and read next line
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("Booking")) {
+					// id
+					// transaction time
+					// movie goer(Id)
+					// showtime(Id)
+					// tickets
+					// total price
+
+					bookings.add(new Booking(tokens[1], StringToCalendar(tokens[2]), movieGoers.get(Integer.parseInt(tokens[3])-1), showtimes.get(Integer.parseInt(tokens[4])-1), StringToTickets(tokens[5],tickets), Double.parseDouble(tokens[6])));
+				} else {
+					System.out.println("Error reading data.");
+				}
+
+			}
+			reader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load Booking(s), file " + filename + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		initialiseBookedSeats(bookings);
+
+		return bookings;
+	}
+
+	/**
+	 * Save all Booking(s) into a text file
+	 * @param filename
+	 * @param bookings
+	 */
+	public void writeBookings(String filename, ArrayList<Booking> bookings) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < bookings.size(); i++) {
+				String line = bookings.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void initialiseBookedSeats(ArrayList<Booking> bookings) {
+		for (Booking booking : bookings) {
+			ArrayList<Seat> seatArrayList = new ArrayList<Seat>();
+			for (Ticket ticket : booking.getTickets()) {
+				Seat seat = ticket.getSeat();
+				for (Seat showtimeSeat : booking.getShowTime().getSeats()) {
+					if (seat.equals(showtimeSeat)) {
+						seat.setBooked(true);
+						showtimeSeat.setBooked(true);
+					}
+				}
+			}
+		}
+	}
+
+	public ArrayList<Staff> readStaffs(String filename) {
+		ArrayList<Staff> staffs = new ArrayList<Staff>();
+
+		// read/load data from text file
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) { // check and read next line
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("Staff")) {
+					// Staff ID
+					// Password
+					staffs.add(new Staff(Integer.parseInt(tokens[1]), tokens[2]));
+				} else {
+					System.out.println("Error reading data.");
+				}
+
+			}
+			reader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load Staff(s), file " + filename + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return staffs;
+	}
+	public void writeStaffs(String filename, ArrayList<Ticket> staffs) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < staffs.size(); i++) {
+				String line = staffs.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private ArrayList<Seat> stringListToSeats(String seatsString) {
 		ArrayList<Seat> seats = new ArrayList<Seat>();
 		String[] tokens = seatsString.split(",");
@@ -223,7 +404,7 @@ public class ReadFileWriteData {
 		return cinemaArrayList;
 	}
 
-	public Calendar StringToCalendar(String s) {
+	private Calendar StringToCalendar(String s) {
 		Date date = null;
 		try {
 			date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);
@@ -266,7 +447,12 @@ public class ReadFileWriteData {
 					//age
 					//use transaction id to find the Booking
 					//use review ids(a list of integers separated by comma) to find the Reviews
-					movieGoers.add(new MovieGoer(tokens[1],Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), StringToBooknigs(tokens[4], bookings), StringToReviews(tokens[5], reviews)));
+					if(bookings.size() == 0 || reviews.size() == 0){
+						movieGoers.add(new MovieGoer(tokens[1],Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), new ArrayList<Booking>(), null));
+					}
+					else {
+						movieGoers.add(new MovieGoer(tokens[1], Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), StringToBooknigs(tokens[4], bookings), StringToReviews(tokens[5], reviews)));
+					}
 				} else {
 					System.out.println("Error reading data.");
 				}
@@ -280,7 +466,68 @@ public class ReadFileWriteData {
 		return movieGoers;
 	}
 
+	public void writeMovieGoers(String filename, ArrayList<MovieGoer> movieGoers) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
 
+			for (int i = 0; i < movieGoers.size(); i++) {
+				String line = movieGoers.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public ArrayList<Review> readReviews(String filename, ArrayList<MovieGoer> movieGoers){
+		ArrayList<Review> reviews = new ArrayList<Review>();
+
+		// read/load data from text file
+		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+			String line = "";
+			while ((line = reader.readLine()) != null) { // check and read next line
+				// used '|' as char to separate values, as ',' is used in description
+				// NOTE: used "\\|" as "|" is interpret as logical operator OR
+				String[] tokens = line.split("\\|");
+
+				if (tokens[0].equals("Review")) {
+					// Staff ID
+					// Password
+					reviews.add(new Review(Integer.parseInt(tokens[1]), tokens[2],Integer.parseInt(tokens[3]),movieGoers.get(Integer.parseInt(tokens[4])-1)));
+				} else {
+					System.out.println("Error reading data.");
+				}
+
+			}
+			reader.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("Error: Unable to load Review(s), file " + filename + " not found.");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return reviews;
+	}
+
+	public void writeReviews(String filename, ArrayList<Review> reviews) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < reviews.size(); i++) {
+				String line = reviews.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Parse a string of review IDs and return the reviews selected
 	 *
@@ -310,7 +557,7 @@ public class ReadFileWriteData {
 		String[] tokens = s.split(",");
 
 		ArrayList<Booking> bookingsSelected = new ArrayList<>();
-		int id;
+
 		for (String token : tokens) {
 			bookingsSelected.add(bookings.get(Integer.parseInt(token) - 1));
 		}
@@ -318,88 +565,20 @@ public class ReadFileWriteData {
 	}
 
 	/**
-	 * Read reviews from a text file
-	 * @param filename: file containing reviews
-	 * @param movieGoers: needed since Review 'has a' MovieGoer
+	 * Parse a string of Ticket IDs and return the Tickets selected
+	 * @param s
+	 * @param tickets
 	 * @return
 	 */
-	public ArrayList<Review> readReview(String filename, ArrayList<MovieGoer> movieGoers){
-		ArrayList<Review> reviews = new ArrayList<>();
+	private ArrayList<Ticket> StringToTickets(String s, ArrayList<Ticket> tickets){
+		String[] tokens = s.split(",");
 
-		//read data from text file
-		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-			String line = "";
-			while ((line = reader.readLine()) != null) {
+		ArrayList<Ticket> ticketsSelected = new ArrayList<>();
 
-				String[] tokens = line.split("\\|");
-				if (tokens[0].equals("Review")) {
-					//review id
-					//review text
-					//rating given to the movie
-					//find movieGoer by ID
-					reviews.add(new Review(Integer.parseInt(tokens[1]),tokens[2], Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]),movieGoers.get(Integer.parseInt(tokens[5])-1)));
-				} else {
-					System.out.println("Error reading data.");
-				}
-			}
-		} catch (FileNotFoundException ex) {
-			System.out.println("Error: Unable to load Review(s) " + filename + " not found.");
-		} catch (IOException e) {
-			e.printStackTrace();
+		for (String token : tokens) {
+			ticketsSelected.add(tickets.get(Integer.parseInt(token) - 1));
 		}
-
-		return reviews;
+		return ticketsSelected;
 	}
 
-	/**
-	 * Write reviews to a txt file
-	 * @param filename
-	 * @param reviews
-	 */
-	public void writeReviews(String filename, ArrayList<Review> reviews) {
-		// output to text
-		try {
-			PrintWriter out = new PrintWriter(filename);
-
-			for (int i = 0; i < reviews.size(); i++) {
-				String line = reviews.get(i).toString(); // generate line
-				out.println(line); // add a line to text file
-			}
-
-			out.close(); // close before exit
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	/**
-	 * Read staffs from txt file
-	 * @param filename
-	 * @return a list of staffs
-	 */
-	public ArrayList<Staff> readStaff(String filename){
-		ArrayList<Staff> staffs = new ArrayList<>();
-
-		//read data from text file
-		try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-
-				String[] tokens = line.split("\\|");
-				if (tokens[0].equals("Staff")) {
-					//Staff id
-					//Staff password
-					//rating given to the movie
-					staffs.add(new Staff(Integer.parseInt(tokens[1]),tokens[2]));
-				} else {
-					System.out.println("Error reading data.");
-				}
-			}
-		} catch (FileNotFoundException ex) {
-			System.out.println("Error: Unable to load Staff(s) " + filename + " not found.");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return staffs;
-	}
 }

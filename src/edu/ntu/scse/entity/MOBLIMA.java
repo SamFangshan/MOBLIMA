@@ -61,7 +61,7 @@ public class MOBLIMA {
 		bookings = new ArrayList<>();
 
 		System.out.println("Loading data...");
-		movies = readFileWriteData.readMovies("data/movies.txt");
+		movies = readFileWriteData.readMovies("data/movies.txt",null);
 		holidays = holidayManager.readHolidays();
 		Object[] results = readFileWriteData.readCineplexesAndCinemas("data/cineplexes.txt",
 				"data/cinemas.txt");
@@ -85,6 +85,8 @@ public class MOBLIMA {
 		readFileWriteData.writeMovies("data/movies.txt", movies);
 		holidayManager.writeHolidaysToFile(holidays);
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
+		readFileWriteData.writeTickets("data/tickets.txt", tickets);
+		readFileWriteData.writeBookings("data/bookings.txt", bookings);
 		System.out.println("Saving data done.");
 	}
 
@@ -113,7 +115,6 @@ public class MOBLIMA {
 					System.out.println("Exiting MOBLIMA System...");
 					break;
 				case 1: // Login as Staff
-					// TODO add staff login
 					System.out.println("LOGIN AS STAFF");
 					System.out.println("Your Staff Id?");
 					int staffId = sc.nextInt();
@@ -154,8 +155,9 @@ public class MOBLIMA {
 			System.out.println("=== [MOBLIMA Admin Main Menu] ===");
 			System.out.println("Choose an option:");
 			System.out.println("[1] Movies");
-			System.out.println("[2] Holidays");
-			System.out.println("[3] Price Manager");
+			System.out.println("[2] Showtimes");
+			System.out.println("[3] Holidays");
+			System.out.println("[4] Price Manager");
 			System.out.println("[0] Logout");
 			System.out.println("================================");
 
@@ -166,17 +168,25 @@ public class MOBLIMA {
 					System.out.println("Returning to MOBLIMA Login System...");
 					break;
 				case 1: // Movies
-					System.out.println("NOT DONE LUL REPLACE CODE THX");
 					for(Movie m : movies) {
 						m.print();
 					}
 					StaffUI staffUI = new StaffUI(movies,showtimes,cinemas,staff);
 					staffUI.start();
+					readFileWriteData.writeMovies("data/movies.txt",movies);
 					break;
-				case 2: // Holidays
+				case 2:
+					for(Showtime s: showtimes){
+						s.print();
+					}
+					StaffUI staffUI2 = new StaffUI(movies,showtimes,cinemas,staff);
+					staffUI2.start();
+					readFileWriteData.writeShowtimes("data/showtime.txt",showtimes);
+					break;
+				case 3: // Holidays
 					holidayAdminModule();
 					break;
-				case 3:
+				case 4:
 					priceAdminModule();
 					break;
 				default:
@@ -394,7 +404,7 @@ public class MOBLIMA {
 				case 1:
 					System.out.println("Enter holiday name:");
 					String name = sc.nextLine();
-					System.out.println("Enter holiday date in yyyy-mm-dd HH:mm format");
+					System.out.println("Enter holiday date in yyyy-MM-dd HH:mm format");
 					String date = sc.next();
 					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, StringToCalendar(date)));
 					break;
@@ -464,14 +474,16 @@ public class MOBLIMA {
 					System.out.println("Returning to MOBLIMA Login System...");
 					break;
 				case 1:
-					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays), movieGoerObject,reviews).start();
+					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays, bookings, tickets), movieGoerObject,reviews).start();
+                    readFileWriteData.writeMovies("data/movies.txt",movies);
+					readFileWriteData.writeReviews("data/reviews.txt",reviews);
 					break;
 				case 2:
-					System.out.println("The following is the booking history of " + movieGoerObject.getFirstName() + " " + movieGoerObject.getLastName());
+					System.out.println("The following is the booking history of " + movieGoerObject.getEmail());
 					ArrayList<Booking> bookings = new BookingManager(holidays).getBookingHistory(movieGoerObject);
-					if(bookings!=null) {
+					if(bookings != null && bookings.size() != 0) {
 						for (Booking booking : bookings) {
-							System.out.println(booking);
+							System.out.println(booking.toStringConsole());
 						}
 					}
 					else{

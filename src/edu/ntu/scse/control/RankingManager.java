@@ -16,7 +16,7 @@ public class RankingManager {
 
     public RankingManager() {
         rfwd = new ReadFileWriteData();
-        movies = rfwd.readMovies("data/movies.txt");
+        movies = rfwd.readMovies("data/movies.txt",null);
     }
 
     /**
