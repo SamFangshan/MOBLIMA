@@ -11,10 +11,7 @@ import java.util.Scanner;
 import edu.ntu.scse.boundary.ShowtimeUI;
 import edu.ntu.scse.boundary.StaffUI;
 import edu.ntu.scse.config.PriceConfig;
-import edu.ntu.scse.control.HolidayManager;
-import edu.ntu.scse.control.BookingManager;
-import edu.ntu.scse.control.ReadFileWriteData;
-import edu.ntu.scse.control.ShowtimeManager;
+import edu.ntu.scse.control.*;
 import edu.ntu.scse.factor.AgeCategory;
 import edu.ntu.scse.factor.Blockbuster;
 import edu.ntu.scse.factor.CinemaClass;
@@ -31,6 +28,7 @@ public class MOBLIMA {
 
 	private ReadFileWriteData readFileWriteData;
 	private HolidayManager holidayManager;
+	private RankingManager rankingManager;
 	private ArrayList<Cinema> cinemas;
 	private ArrayList<Cineplex> cineplexes;
 	private ArrayList<Showtime> showtimes;
@@ -50,13 +48,14 @@ public class MOBLIMA {
 		readFileWriteData = new ReadFileWriteData();
 		holidayManager = new HolidayManager("data/holidays.txt");
 		loadData();
+		rankingManager = new RankingManager(movies, showtimes, bookings);
 		PriceConfig.init();
 	}
 
 	/**
 	 * Load MOBLIMA data from previous saved data
 	 */
-	public void loadData() {
+	private void loadData() {
 		reviews = new ArrayList<>();
 		bookings = new ArrayList<>();
 
@@ -197,6 +196,9 @@ public class MOBLIMA {
 		} while (option != 0);
 	}
 
+	/**
+	 * Control module for price manager
+	 */
 	private void priceAdminModule() {
 		Scanner sc = new Scanner(System.in);
 		int opt = 0;
@@ -464,6 +466,8 @@ public class MOBLIMA {
 			System.out.println("Choose an option:");
 			System.out.println("[1] Search/List Movie");
 			System.out.println("[2] View Booking History");
+			System.out.println("[3] List Top 5 Movies by Ranking");
+			System.out.println("[4] List Top 5 Movies by Ticket Sales");
 			System.out.println("[0] Logout");
 			System.out.println("================================");
 
@@ -488,6 +492,22 @@ public class MOBLIMA {
 					}
 					else{
 						System.out.println("No booking history for this user yet");
+					}
+					break;
+				case 3:
+					System.out.println("================================");
+					System.out.println("Displaying Top 5 Movies by Ranking");
+					System.out.println("================================");
+					for(Movie movie : rankingManager.getTopRankedMovies()) {
+						System.out.println(movie.getTitle());
+					}
+					break;
+				case 4:
+					System.out.println("================================");
+					System.out.println("Displaying Top 5 Movies by Ticket Sales");
+					System.out.println("================================");
+					for(Movie movie : rankingManager.getTopBySelling()) {
+						System.out.println(movie.getTitle());
 					}
 					break;
 				default:

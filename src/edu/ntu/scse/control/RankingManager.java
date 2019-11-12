@@ -14,14 +14,11 @@ public class RankingManager {
     private ArrayList<Movie> movies;
     private ArrayList<Booking> bookings;
     private ArrayList<Showtime> showtimes;
-    private MOBLIMA moblima;
 
-    public RankingManager() {
-        moblima = new MOBLIMA();
-        moblima.loadData();
-        movies = moblima.getMovies();
-        bookings = moblima.getBookings();
-        showtimes = moblima.getShowtimes();
+    public RankingManager(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ArrayList<Booking> bookings) {
+        this.movies = movies;
+        this.bookings = bookings;
+        this.showtimes = showtimes;
     }
 
     /**
