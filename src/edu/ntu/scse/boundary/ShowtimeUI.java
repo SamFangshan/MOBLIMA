@@ -151,25 +151,42 @@ public class ShowtimeUI {
         String title = sc.nextLine();
         for(Movie movie:movies){
             if(movie.getTitle().toUpperCase().contains(title.toUpperCase())){
-                System.out.println("Your Review Text:");
-                String reviewText = sc.nextLine();
-                System.out.println("Your Rating for the movie (1-5):");
-                int rating = sc.nextInt();
+                System.out.println("Do you want to write Review? Y: Yes N: No");
+                String reviewOrNot = sc.nextLine();
+                String reviewText;
+                if(reviewOrNot.equals("Y")){
+                    System.out.println("Your Review Text:");
+                    reviewText = sc.nextLine();
+                }else{
+                    reviewText = "";
+                }
+                System.out.println("Do you want to enter a Rating? Y: Yes N: No");
+                String ratingOrNot = sc.nextLine();
+                int rating;
+                if(ratingOrNot.equalsIgnoreCase("Y")){
+                    System.out.println("Your Rating for the movie (1-5):");
+                    rating = sc.nextInt();
+                }else{
+                    rating = -1;
+                }
 
                 int reviewId = reviews.size()+1;
 
                 Review review = new Review(reviewId,reviewText,rating,movieGoer);
                 reviews.add(review);
                 movie.getReviews().add(review);
-                System.out.print(movie);
-                System.out.println("New review added!");
+
+                System.out.println("New review/rating added!");
+                System.out.println("Note that you need to quit Showtime Menu for the new rating/review to be added to the system.");
 
                 // Update the overall rating for this movie
                 float sum = 0;
                 int total = 0;
                 for(Review review1: movie.getReviews()){
-                    sum += review1.getRating();
-                    total ++;
+                    if(review1.getRating() != -1){
+                        sum += review1.getRating();
+                        total ++;
+                    }
                 }
                 if(total != 0){
                     sum /= total;
@@ -177,7 +194,6 @@ public class ShowtimeUI {
                 }else{
                     movie.setOverallRating(-1);
                 }
-
                 return;
             }
         }
