@@ -2,9 +2,7 @@ package edu.ntu.scse.control;
 
 import edu.ntu.scse.entity.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * @author Zilvinas
@@ -76,6 +74,41 @@ public class RankingManager {
             }
         }
 
-        return mostPopular;
+        return top5BestSoldMovies;
+    }
+
+    public LinkedHashMap<String, Integer> ticketSales() {
+        ArrayList<Movie> mostPopular = new ArrayList<>(movies);
+        LinkedHashMap<String, Integer> sales = new LinkedHashMap<>();
+
+        int[] popularMovies = new int[movies.size()];
+
+        for(Booking booking : bookings) {
+            int ticketsBought = booking.getTickets().size();
+            Showtime show = booking.getShowTime();
+            popularMovies[show.getMovie().getMovieId()-1] += ticketsBought;
+        }
+
+        Collections.sort(mostPopular, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                return Integer.compare(popularMovies[o2.getMovieId()-1], popularMovies[o1.getMovieId()-1]);
+            }
+        });
+
+        ArrayList<Movie> top5BestSoldMovies = new ArrayList<>();
+        for(Movie mov : mostPopular) {
+            top5BestSoldMovies.add(mov);
+            if(top5BestSoldMovies.size() == 5) {
+                break;
+            }
+        }
+
+        for(Movie movies : top5BestSoldMovies) {
+            sales.put(movies.getTitle(), popularMovies[movies.getMovieId()-1]);
+//            System.out.println(movies.getTitle() + " " + popularMovies[movies.getMovieId()-1]);
+        }
+
+        return sales;
     }
 }

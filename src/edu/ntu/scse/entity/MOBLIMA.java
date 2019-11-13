@@ -3,10 +3,7 @@ package edu.ntu.scse.entity;
 import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 import edu.ntu.scse.boundary.ShowtimeUI;
 import edu.ntu.scse.boundary.StaffUI;
@@ -157,6 +154,7 @@ public class MOBLIMA {
 			System.out.println("[2] Showtimes");
 			System.out.println("[3] Holidays");
 			System.out.println("[4] Price Manager");
+			System.out.println("[5] List Top 5 Movies by Ticket Sales");
 			System.out.println("[0] Logout");
 			System.out.println("================================");
 
@@ -187,6 +185,13 @@ public class MOBLIMA {
 					break;
 				case 4:
 					priceAdminModule();
+					break;
+				case 5:
+					System.out.println("Listing Top 5 Movies By ticket sales\n====================================");
+					LinkedHashMap<String, Integer> ticketsSold = rankingManager.ticketSales();
+					for (String i : ticketsSold.keySet()) {
+						System.out.println("Movie: " + i + " Tickets sold: " + ticketsSold.get(i));
+					}
 					break;
 				default:
 					System.out.println("No such option.");
@@ -506,7 +511,7 @@ public class MOBLIMA {
 					System.out.println("================================");
 					System.out.println("Displaying Top 5 Movies by Ticket Sales");
 					System.out.println("================================");
-					for(Movie movie : rankingManager.getTopBySelling()) {
+					for(Movie movie : rankingManager.getTopRankedBySelling()) {
 						System.out.println(movie.getTitle());
 					}
 					break;
