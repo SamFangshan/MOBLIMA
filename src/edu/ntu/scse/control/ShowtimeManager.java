@@ -112,11 +112,12 @@ public class ShowtimeManager {
         ArrayList<Seat> seats = new ArrayList<>();
         seats = copySeats(cinema);
 
-        int id = showtimes.size()+1;
+        int id = showtimes.get(showtimes.size()-1).getShowtimeId()+1;
         Showtime showtime = new Showtime(id,time, cinema, movie, seats);
 
         showtimes.add(showtime);
         System.out.println("Showtime Created!");
+        System.out.println("Please quit this menu first for the change to be recorded!");
     }
 
     /**
@@ -125,14 +126,11 @@ public class ShowtimeManager {
     public void updateShowtime(ArrayList<Cinema>cinemas,ArrayList<Movie> movies){
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Which cinema(ID)?");
-        int cinemaId = sc.nextInt();
-
-        System.out.println("Which moive(ID)?");
-        int movieId = sc.nextInt();
+        System.out.println("Which showtime(ID)?");
+        int showtimeId = sc.nextInt();
 
         for(Showtime showtime: showtimes){
-            if(showtime.getCinema().getCinemaId() == cinemaId && showtime.getMovie().getMovieId() == movieId){
+            if(showtime.getShowtimeId() == showtimeId){
                 System.out.println("Which attribute of the showtime do you want to change?");
                 System.out.println("1: Screening Time");
                 System.out.println("2: Cinema");
@@ -161,6 +159,7 @@ public class ShowtimeManager {
                         break;
                 }
                 System.out.println("Showtime updated!");
+                System.out.println("Please quit this menu first for the change to be recorded!");
                 return;
             }
         }
@@ -173,16 +172,14 @@ public class ShowtimeManager {
     public void removeShowtime(){
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Which cinema(ID)?");
-        int cinemaId = sc.nextInt();
-
-        System.out.println("Which moive(ID)?");
-        int movieId = sc.nextInt();
+        System.out.println("Which showtime(ID)?");
+        int showtimeId = sc.nextInt();
 
         for(Showtime showtime: showtimes){
-            if(showtime.getCinema().getCinemaId() == cinemaId && showtime.getMovie().getMovieId() == movieId){
+            if(showtime.getShowtimeId() == showtimeId){
                 showtimes.remove(showtime);
                 System.out.println("Showtime removed!");
+                System.out.println("Please quit this menu first for the change to be recorded!");
                 return;
             }
         }

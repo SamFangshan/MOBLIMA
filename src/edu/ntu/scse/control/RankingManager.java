@@ -2,21 +2,21 @@ package edu.ntu.scse.control;
 
 import edu.ntu.scse.entity.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 /**
  * @author Zilvinas
  */
 public class RankingManager {
 
-    private ReadFileWriteData rfwd;
     private ArrayList<Movie> movies;
+    private ArrayList<Booking> bookings;
+    private ArrayList<Showtime> showtimes;
 
-    public RankingManager() {
-        rfwd = new ReadFileWriteData();
-        movies = rfwd.readMovies("data/movies.txt",null);
+    public RankingManager(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ArrayList<Booking> bookings) {
+        this.movies = movies;
+        this.bookings = bookings;
+        this.showtimes = showtimes;
     }
 
     /**
@@ -25,15 +25,16 @@ public class RankingManager {
      */
     public ArrayList<Movie> getTopRankedMovies() {
         ArrayList<Movie> topRanked = new ArrayList<>();
+        ArrayList<Movie> tempMovies = new ArrayList<>(movies);
 
-        Collections.sort(movies, new Comparator<Movie>() {
+        Collections.sort(tempMovies, new Comparator<Movie>() {
             @Override
             public int compare(Movie o1, Movie o2) {
                 return Float.compare(o2.getOverallRating(), o1.getOverallRating());
             }
         });
 
-        for(Movie mov : movies) {
+        for(Movie mov : tempMovies) {
             topRanked.add(mov);
             if(topRanked.size() == 5) {
                 break;
@@ -48,10 +49,66 @@ public class RankingManager {
      * @return mostPopular
      */
     public ArrayList<Movie> getTopRankedBySelling() {
-        ArrayList<Movie> mostPopular = new ArrayList<>();
+        ArrayList<Movie> mostPopular = new ArrayList<>(movies);
 
-        int[] ticketsSold = new int[movies.size()];
+        int[] popularMovies = new int[movies.size()];
 
-        return mostPopular;
+        for(Booking booking : bookings) {
+            int ticketsBought = booking.getTickets().size();
+            Showtime show = booking.getShowTime();
+            popularMovies[show.getMovie().getMovieId()-1] += ticketsBought;
+        }
+
+        Collections.sort(mostPopular, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                return Integer.compare(popularMovies[o2.getMovieId()-1], popularMovies[o1.getMovieId()-1]);
+            }
+        });
+
+        ArrayList<Movie> top5BestSoldMovies = new ArrayList<>();
+        for(Movie mov : mostPopular) {
+            top5BestSoldMovies.add(mov);
+            if(top5BestSoldMovies.size() == 5) {
+                break;
+            }
+        }
+
+        return top5BestSoldMovies;
+    }
+
+    public LinkedHashMap<String, Integer> ticketSales() {
+        ArrayList<Movie> mostPopular = new ArrayList<>(movies);
+        LinkedHashMap<String, Integer> sales = new LinkedHashMap<>();
+
+        int[] popularMovies = new int[movies.size()];
+
+        for(Booking booking : bookings) {
+            int ticketsBought = booking.getTickets().size();
+            Showtime show = booking.getShowTime();
+            popularMovies[show.getMovie().getMovieId()-1] += ticketsBought;
+        }
+
+        Collections.sort(mostPopular, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                return Integer.compare(popularMovies[o2.getMovieId()-1], popularMovies[o1.getMovieId()-1]);
+            }
+        });
+
+        ArrayList<Movie> top5BestSoldMovies = new ArrayList<>();
+        for(Movie mov : mostPopular) {
+            top5BestSoldMovies.add(mov);
+            if(top5BestSoldMovies.size() == 5) {
+                break;
+            }
+        }
+
+        for(Movie movies : top5BestSoldMovies) {
+            sales.put(movies.getTitle(), popularMovies[movies.getMovieId()-1]);
+//            System.out.println(movies.getTitle() + " " + popularMovies[movies.getMovieId()-1]);
+        }
+
+        return sales;
     }
 }

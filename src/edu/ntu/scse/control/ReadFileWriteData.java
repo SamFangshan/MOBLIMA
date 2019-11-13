@@ -261,7 +261,11 @@ public class ReadFileWriteData {
 		}
 	}
 
-
+	/**
+	 * Initialize MOBLIMA's Booking(s) from a text file
+	 * @param filename
+	 * @return bookings
+	 */
 	public ArrayList<Booking> readBookings(String filename, ArrayList<MovieGoer> movieGoers, ArrayList<Showtime> showtimes, ArrayList<Ticket> tickets) {
 		ArrayList<Booking> bookings = new ArrayList<Booking>();
 
@@ -297,6 +301,27 @@ public class ReadFileWriteData {
 		initialiseBookedSeats(bookings);
 
 		return bookings;
+	}
+
+	/**
+	 * Save all Booking(s) into a text file
+	 * @param filename
+	 * @param bookings
+	 */
+	public void writeBookings(String filename, ArrayList<Booking> bookings) {
+		// output to text
+		try {
+			PrintWriter out = new PrintWriter(filename);
+
+			for (int i = 0; i < bookings.size(); i++) {
+				String line = bookings.get(i).toString(); // generate line
+				out.println(line); // add a line to text file
+			}
+
+			out.close(); // close before exit
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void initialiseBookedSeats(ArrayList<Booking> bookings) {
