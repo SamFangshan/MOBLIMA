@@ -1,20 +1,18 @@
 package edu.ntu.scse.entity;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 import edu.ntu.scse.boundary.ShowtimeUI;
-import edu.ntu.scse.boundary.StaffUI;
+import edu.ntu.scse.boundary.StaffUIMovie;
+import edu.ntu.scse.boundary.StaffUIShowtime;
 import edu.ntu.scse.config.PriceConfig;
-import edu.ntu.scse.control.HolidayManager;
-import edu.ntu.scse.control.BookingManager;
-import edu.ntu.scse.control.ReadFileWriteData;
-import edu.ntu.scse.control.ShowtimeManager;
+import edu.ntu.scse.control.*;
+import edu.ntu.scse.factor.AgeCategory;
+import edu.ntu.scse.factor.Blockbuster;
+import edu.ntu.scse.factor.CinemaClass;
+import edu.ntu.scse.factor.MovieType;
 
 /**
  * MOvie Booking and LIsting Management Application (MOBLIMA) <br>
@@ -27,6 +25,7 @@ public class MOBLIMA {
 
 	private ReadFileWriteData readFileWriteData;
 	private HolidayManager holidayManager;
+	private RankingManager rankingManager;
 	private ArrayList<Cinema> cinemas;
 	private ArrayList<Cineplex> cineplexes;
 	private ArrayList<Showtime> showtimes;
@@ -46,6 +45,7 @@ public class MOBLIMA {
 		readFileWriteData = new ReadFileWriteData();
 		holidayManager = new HolidayManager("data/holidays.txt");
 		loadData();
+		rankingManager = new RankingManager(movies, showtimes, bookings);
 		PriceConfig.init();
 	}
 
@@ -82,6 +82,7 @@ public class MOBLIMA {
 		holidayManager.writeHolidaysToFile(holidays);
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
 		readFileWriteData.writeTickets("data/tickets.txt", tickets);
+		readFileWriteData.writeBookings("data/bookings.txt", bookings);
 		System.out.println("Saving data done.");
 	}
 
@@ -116,11 +117,15 @@ public class MOBLIMA {
 					System.out.println("Your Password?");
 					String staffPassoword = sc.next();
 					for(Staff staff: staffs){
-						System.out.println(staff.getCinemaStaffId() + " " + staff.getPassword());
 						if(staff.getCinemaStaffId() == staffId){
 							if(staff.getPassword().equals(staffPassoword)) {
 								System.out.println("Staff login successful!");
 								displayAdminModule(staff);
+								break;
+							}
+							else{
+								System.out.println("Wrong Password!");
+								System.out.println("Returning to Login menu...");
 								break;
 							}
 						}
@@ -152,6 +157,8 @@ public class MOBLIMA {
 			System.out.println("[1] Movies");
 			System.out.println("[2] Showtimes");
 			System.out.println("[3] Holidays");
+			System.out.println("[4] Price Manager");
+			System.out.println("[5] List Top 5 Movies by Ticket Sales");
 			System.out.println("[0] Logout");
 			System.out.println("================================");
 
@@ -165,20 +172,30 @@ public class MOBLIMA {
 					for(Movie m : movies) {
 						m.print();
 					}
-					StaffUI staffUI = new StaffUI(movies,showtimes,cinemas,staff);
-					staffUI.start();
+					StaffUIMovie staffUImovie = new StaffUIMovie(movies,showtimes,cinemas,staff);
+					staffUImovie.start();
 					readFileWriteData.writeMovies("data/movies.txt",movies);
 					break;
 				case 2:
 					for(Showtime s: showtimes){
 						s.print();
 					}
-					StaffUI staffUI2 = new StaffUI(movies,showtimes,cinemas,staff);
-					staffUI2.start();
+					StaffUIShowtime staffUIshowtime = new StaffUIShowtime(movies,showtimes,cinemas,staff);
+					staffUIshowtime.start();
 					readFileWriteData.writeShowtimes("data/showtime.txt",showtimes);
 					break;
 				case 3: // Holidays
 					holidayAdminModule();
+					break;
+				case 4:
+					priceAdminModule();
+					break;
+				case 5:
+					System.out.println("Listing Top 5 Movies By ticket sales\n====================================");
+					LinkedHashMap<String, Integer> ticketsSold = rankingManager.ticketSales();
+					for (String i : ticketsSold.keySet()) {
+						System.out.println("Movie: " + i + " Tickets sold: " + ticketsSold.get(i));
+					}
 					break;
 				default:
 					System.out.println("No such option.");
@@ -186,6 +203,193 @@ public class MOBLIMA {
 			}
 
 		} while (option != 0);
+	}
+
+	/**
+	 * Control module for price manager
+	 */
+	private void priceAdminModule() {
+		Scanner sc = new Scanner(System.in);
+		int opt = 0;
+		do {
+			System.out.println("=============================");
+			System.out.println("=== [Price manager menu] ===");
+			System.out.println("Choose category of price type to be updated: ");
+			System.out.println("[1] Age category");
+			System.out.println("[2] Type of cinema");
+			System.out.println("[3] Blockbuster");
+			System.out.println("[4] Movie type");
+			System.out.println("[0] Return");
+
+			opt = sc.nextInt();
+			switch(opt) {
+				case 0:
+					break;
+				case 1:
+					setPriceByAgeCategory();
+					break;
+				case 2:
+					//type menu
+					setPriceByCinemaType();
+					break;
+				case 3:
+					setPriceForBlockbuster();
+					break;
+				case 4:
+					setPriceByMovieType();
+					break;
+				default:
+					System.out.println("No such option");
+					break;
+			}
+		} while(opt != 0);
+	}
+
+	/**
+	 * Price controler UI for different movie types
+	 */
+	private void setPriceByMovieType() {
+		Scanner sc = new Scanner(System.in);
+		int opt = 0;
+
+		do {
+			System.out.println("============================");
+			System.out.println("Select movie type to set the price for: ");
+			System.out.println("[1] Regular");
+			System.out.println("[2] 3D");
+			System.out.println("[0] Return");
+
+			opt = sc.nextInt();
+			double dif;
+			Scanner pricer = new Scanner(System.in);
+			switch(opt) {
+				case 0:
+					break;
+				case 1:
+					System.out.println("Current price setting is: " + PriceConfig.getPrice(MovieType.MovieType_REGULAR));
+					System.out.println("Enter new price setting: ");
+					dif = pricer.nextDouble();
+					PriceConfig.setPrice(MovieType.MovieType_REGULAR, dif);
+					break;
+				case 2:
+					System.out.println("Current price setting is: " + PriceConfig.getPrice(MovieType.MovieType_3D));
+					System.out.println("Enter new price setting: ");
+					dif = pricer.nextDouble();
+					PriceConfig.setPrice(MovieType.MovieType_3D, dif);
+					break;
+				default:
+					System.out.println("No such option");
+					break;
+			}
+		} while(opt != 0);
+	}
+
+	/**
+	 * UI control for setting price by Age category
+	 */
+	private void setPriceByAgeCategory() {
+		Scanner sc = new Scanner(System.in);
+		int opt = 0;
+
+		do {
+			System.out.println("============================");
+			System.out.println("Choose age category for which you want to change the price");
+			System.out.println("[1] Child");
+			System.out.println("[2] Student");
+			System.out.println("[3] Adult");
+			System.out.println("[4] Senior");
+			System.out.println("[0] Return");
+
+			opt = sc.nextInt();
+			double dif;
+			Scanner pricer = new Scanner(System.in);
+			switch(opt) {
+				case 0:
+					break;
+				case 1:
+					System.out.println("Current price setting is: " + PriceConfig.getPrice(AgeCategory.CHILD));
+					System.out.println("Enter new price setting: ");
+					dif = pricer.nextDouble();
+					PriceConfig.setPrice(AgeCategory.CHILD, dif);
+					break;
+				case 2:
+					System.out.println("Current price setting is: " + PriceConfig.getPrice(AgeCategory.STUDENT));
+					System.out.println("Enter new price setting: ");
+					dif = pricer.nextDouble();
+					PriceConfig.setPrice(AgeCategory.STUDENT, dif);
+					break;
+				case 3:
+					System.out.println("Current price setting is: " + PriceConfig.getPrice(AgeCategory.ADULT));
+					System.out.println("Enter new price setting: ");
+					dif = pricer.nextDouble();
+					PriceConfig.setPrice(AgeCategory.ADULT, dif);
+					break;
+				case 4:
+					System.out.println("Current price setting is: " + PriceConfig.getPrice(AgeCategory.SENIOR));
+					System.out.println("Enter new price setting: ");
+					dif = pricer.nextDouble();
+					PriceConfig.setPrice(AgeCategory.SENIOR, dif);
+					break;
+				default:
+					System.out.println("No such option");
+					break;
+			}
+		} while(opt != 0);
+	}
+
+	/**
+	 * price controler UI for cinema type
+	 */
+	private void setPriceByCinemaType() {
+		Scanner sc = new Scanner(System.in);
+		int opt = 0;
+
+		do {
+			System.out.println("============================");
+			System.out.println("Choose cinema type category for which you want to change the price");
+			System.out.println("[1] Standard");
+			System.out.println("[2] Platinum");
+			System.out.println("[0] Return");
+
+			opt = sc.nextInt();
+			double dif;
+			Scanner pricer = new Scanner(System.in);
+			switch(opt) {
+				case 0:
+					break;
+				case 1:
+					System.out.println("Current price setting is: " + PriceConfig.getPrice(CinemaClass.STANDARD));
+					System.out.println("Enter new price setting: ");
+					dif = pricer.nextDouble();
+					PriceConfig.setPrice(CinemaClass.STANDARD, dif);
+					break;
+				case 2:
+					System.out.println("Current price setting is: " + PriceConfig.getPrice(CinemaClass.PLATINUM));
+					System.out.println("Enter new price setting: ");
+					dif = pricer.nextDouble();
+					PriceConfig.setPrice(CinemaClass.PLATINUM, dif);
+					break;
+				default:
+					System.out.println("No such option");
+					break;
+			}
+		} while(opt != 0);
+	}
+
+	/**
+	 * price controler UI for blockbuster movies
+	 */
+	private void setPriceForBlockbuster() {
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("============================");
+		System.out.println("Set price for blockbuster movies");
+		double dif = sc.nextDouble();
+
+		System.out.println("Current price setting is: " + PriceConfig.getPrice(Blockbuster.TRUE));
+		System.out.println("Enter new price setting: ");
+		PriceConfig.setPrice(Blockbuster.TRUE, dif);
+		System.out.println("Price setting for blockbuster set to " + dif);
 	}
 
 	/**
@@ -271,6 +475,8 @@ public class MOBLIMA {
 			System.out.println("Choose an option:");
 			System.out.println("[1] Search/List Movie");
 			System.out.println("[2] View Booking History");
+			System.out.println("[3] List Top 5 Movies by Ranking");
+			System.out.println("[4] List Top 5 Movies by Ticket Sales");
 			System.out.println("[0] Logout");
 			System.out.println("================================");
 
@@ -282,7 +488,7 @@ public class MOBLIMA {
 					break;
 				case 1:
 					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays, bookings, tickets), movieGoerObject,reviews).start();
-          readFileWriteData.writeMovies("data/movies.txt",movies);
+                    readFileWriteData.writeMovies("data/movies.txt",movies);
 					readFileWriteData.writeReviews("data/reviews.txt",reviews);
 					break;
 				case 2:
@@ -290,11 +496,27 @@ public class MOBLIMA {
 					ArrayList<Booking> bookings = new BookingManager(holidays).getBookingHistory(movieGoerObject);
 					if(bookings != null && bookings.size() != 0) {
 						for (Booking booking : bookings) {
-							System.out.println(booking);
+							System.out.println(booking.toStringConsole());
 						}
 					}
 					else{
 						System.out.println("No booking history for this user yet");
+					}
+					break;
+				case 3:
+					System.out.println("================================");
+					System.out.println("Displaying Top 5 Movies by Ranking");
+					System.out.println("================================");
+					for(Movie movie : rankingManager.getTopRankedMovies()) {
+						System.out.println(movie.getTitle());
+					}
+					break;
+				case 4:
+					System.out.println("================================");
+					System.out.println("Displaying Top 5 Movies by Ticket Sales");
+					System.out.println("================================");
+					for(Movie movie : rankingManager.getTopRankedBySelling()) {
+						System.out.println(movie.getTitle());
 					}
 					break;
 				default:
@@ -307,6 +529,14 @@ public class MOBLIMA {
 
 	public ArrayList<Movie> getMovies() {
 		return movies;
+	}
+
+	public ArrayList<Booking> getBookings() {
+		return bookings;
+	}
+
+	public ArrayList<Showtime> getShowtimes() {
+		return showtimes;
 	}
 
 	public void setMovies(ArrayList<Movie> movies) {

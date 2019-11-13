@@ -25,6 +25,10 @@ public class Ticket {
         this.ageCategory = ageCategory;
     }
 
+    public int getTicketId() {
+        return ticketId;
+    }
+
     public double getPrice() {
         return price;
     }
@@ -35,6 +39,10 @@ public class Ticket {
 
     public AgeCategory getAgeCategory() {
         return ageCategory;
+    }
+
+    public void setTicketId(int ticketId) {
+        this.ticketId = ticketId;
     }
 
     public void setPrice(double price) {
@@ -54,7 +62,7 @@ public class Ticket {
         return "Ticket" +
                 "|" + ticketId +
                 "|" + price +
-                "|" + seat +
+                "|" + seat.getRowId() + seat.getColId() +
                 "|" + ageCategory;
     }
 
