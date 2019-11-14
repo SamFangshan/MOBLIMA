@@ -1,12 +1,12 @@
 package edu.ntu.scse.entity;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import edu.ntu.scse.boundary.ShowtimeUI;
-import edu.ntu.scse.boundary.StaffUI;
+import edu.ntu.scse.boundary.StaffUIMovie;
+import edu.ntu.scse.boundary.StaffUIShowtime;
 import edu.ntu.scse.config.PriceConfig;
 import edu.ntu.scse.control.*;
 import edu.ntu.scse.factor.AgeCategory;
@@ -117,11 +117,15 @@ public class MOBLIMA {
 					System.out.println("Your Password?");
 					String staffPassoword = sc.next();
 					for(Staff staff: staffs){
-						System.out.println(staff.getCinemaStaffId() + " " + staff.getPassword());
 						if(staff.getCinemaStaffId() == staffId){
 							if(staff.getPassword().equals(staffPassoword)) {
 								System.out.println("Staff login successful!");
 								displayAdminModule(staff);
+								break;
+							}
+							else{
+								System.out.println("Wrong Password!");
+								System.out.println("Returning to Login menu...");
 								break;
 							}
 						}
@@ -168,16 +172,16 @@ public class MOBLIMA {
 					for(Movie m : movies) {
 						m.print();
 					}
-					StaffUI staffUI = new StaffUI(movies,showtimes,cinemas,staff);
-					staffUI.start();
+					StaffUIMovie staffUImovie = new StaffUIMovie(movies,showtimes,cinemas,staff);
+					staffUImovie.start();
 					readFileWriteData.writeMovies("data/movies.txt",movies);
 					break;
 				case 2:
 					for(Showtime s: showtimes){
 						s.print();
 					}
-					StaffUI staffUI2 = new StaffUI(movies,showtimes,cinemas,staff);
-					staffUI2.start();
+					StaffUIShowtime staffUIshowtime = new StaffUIShowtime(movies,showtimes,cinemas,staff);
+					staffUIshowtime.start();
 					readFileWriteData.writeShowtimes("data/showtime.txt",showtimes);
 					break;
 				case 3: // Holidays

@@ -10,14 +10,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Calendar;
-
-public class StaffUI {
+public class StaffUIMovie {
     ArrayList<Movie> movies;
     ArrayList<Showtime> showtimes;
     ArrayList<Cinema> cinemas;
     Staff staff;
 
-    public StaffUI(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ArrayList<Cinema> cinemas, Staff staff){
+    public StaffUIMovie(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ArrayList<Cinema> cinemas, Staff staff){
         this.showtimes = showtimes;
         this.movies = movies;
         this.cinemas = cinemas;
@@ -38,9 +37,6 @@ public class StaffUI {
             System.out.println("[1] Create Movie");
             System.out.println("[2] Update Movie");
             System.out.println("[3] Remove Movie");
-            System.out.println("[4] Create Showtime");
-            System.out.println("[5] Update Showtime");
-            System.out.println("[6] Remove Showtime");
             System.out.println("================================");
 
             option = sc.nextInt();
@@ -53,8 +49,8 @@ public class StaffUI {
                     movieManager.createMovie();
                     break;
                 case 2:
-                    System.out.println("What is the title of the movie you want to update?");
                     String foo = sc.nextLine();
+                    System.out.println("What is the title of the movie you want to update?");
                     String update = sc.nextLine();
                     movieManager.updateMovie(update);
                     break;
@@ -63,18 +59,6 @@ public class StaffUI {
                     String foo2 = sc.nextLine();
                     String remove = sc.nextLine();
                     movieManager.removeMovie(remove);
-                    break;
-                case 4:
-                    System.out.println("Creating a new showtime...");
-                    showtimeManager.createShowtime(cinemas,movies);
-                    break;
-                case 5:
-                    System.out.println("Updating a showtime...");
-                    showtimeManager.updateShowtime(cinemas,movies);
-                    break;
-                case 6:
-                    System.out.println("Removing a showtime...");
-                    showtimeManager.removeShowtime();
                     break;
                 default:
                     System.out.println("No such option.");
@@ -86,6 +70,4 @@ public class StaffUI {
             }
         } while (option != 0);
     }
-
-
 }

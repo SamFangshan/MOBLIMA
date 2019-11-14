@@ -117,6 +117,7 @@ public class MovieManager {
         }
         Movie movie = new Movie(id,title,synopsis,director,cast,blockbuster,0,mvRating,mvStatus,mvType,null);
         movies.add(movie);
+        System.out.println("Movie created!");
     }
 
     /**
@@ -248,9 +249,11 @@ public class MovieManager {
                         System.out.println("No such option");
                         break;
                 }
-                break;
+                System.out.println("Movie updated!");
+                return;
             }
         }
+        System.out.println("Movie not found");
     }
 
     /**
