@@ -111,6 +111,7 @@ public class MOBLIMA {
 					System.out.println("Exiting MOBLIMA System...");
 					break;
 				case 1: // Login as Staff
+					Staff loginStaff = null;
 					System.out.println("LOGIN AS STAFF");
 					System.out.println("Your Staff Id?");
 					int staffId = sc.nextInt();
@@ -118,6 +119,7 @@ public class MOBLIMA {
 					String staffPassoword = sc.next();
 					for(Staff staff: staffs){
 						if(staff.getCinemaStaffId() == staffId){
+							loginStaff = staff;
 							if(staff.getPassword().equals(staffPassoword)) {
 								System.out.println("Staff login successful!");
 								displayAdminModule(staff);
@@ -129,6 +131,10 @@ public class MOBLIMA {
 								break;
 							}
 						}
+					}
+					if(loginStaff == null) {
+						System.out.println("Invalid Staff Id!");
+						System.out.println("Returning to Login menu...");
 					}
 					//System.out.println("");
 					break;
