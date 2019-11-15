@@ -104,7 +104,7 @@ public class ShowtimeManager {
         int cinemaId = sc.nextInt();
         Cinema cinema = cinemas.get(cinemaId-1);
 
-        System.out.println("Which Movie?");
+        System.out.println("Which Movie? (Enter Movie ID)");
         int movieId = sc.nextInt();
         Movie movie = movies.get(movieId-1);
 
