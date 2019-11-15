@@ -397,10 +397,12 @@ public class MOBLIMA {
 
 		System.out.println("============================");
 		System.out.println("Set price for blockbuster movies");
+		System.out.println("============================");
+		System.out.println("Current price setting is: " + PriceConfig.getPrice(Blockbuster.TRUE));
+
+		System.out.println("Enter new price setting: ");
 		double dif = sc.nextDouble();
 
-		System.out.println("Current price setting is: " + PriceConfig.getPrice(Blockbuster.TRUE));
-		System.out.println("Enter new price setting: ");
 		PriceConfig.setPrice(Blockbuster.TRUE, dif);
 		System.out.println("Price setting for blockbuster set to " + dif);
 	}
