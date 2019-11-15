@@ -5,7 +5,7 @@ package edu.ntu.scse.entity;
  * @author suhuangyuan
  *
  */
-public class Person {
+public abstract class Person {
 
 	/**
 	 * first name for a person
