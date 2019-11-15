@@ -205,9 +205,10 @@ public class MOBLIMA {
 					}
 					break;
 				case 6:
+					LinkedHashMap<String, Float> bestRankedMovies = rankingManager.bestRanked();
 					System.out.println("Listing Top 5 Movies By Overall Rating\n====================================");
-					for(Movie movie : rankingManager.getTopRankedMovies()) {
-						System.out.println(movie.getTitle());
+					for (String i : bestRankedMovies.keySet()) {
+						System.out.println("Movie: " + i + " Ranking: " + bestRankedMovies.get(i));
 					}
 					break;
 				default:
@@ -421,6 +422,7 @@ public class MOBLIMA {
 			System.out.println("[2] Remove holiday");
 			System.out.println("[3] List holidays");
 			System.out.println("[4] Save holidays");
+			System.out.println("[5] Update holiday");
 			System.out.println("[0] Return back to admin menu");
 			opt = sc.nextInt();
 			Scanner holsc = new Scanner(System.in);
@@ -463,6 +465,15 @@ public class MOBLIMA {
 					System.out.println("Saving holidays to file");
 					holidayManager.writeHolidaysToFile(holidays);
 					break;
+				case 5:
+					Scanner holInp = new Scanner(System.in);
+					System.out.println("Enter ID of the holiday to be updated: ");
+					int id = holInp.nextInt();
+					System.out.println("Enter new name for the holiday: ");
+					String newName = holInp.nextLine();
+					System.out.println("Enter new date for the holiday: ");
+					String newDate = holInp.nextLine();
+					holidayManager.updateHolidays(holidays, new Holiday(id, newName, StringToCalendar(newDate)));
 				default:
 					System.out.println("Please select valid option");
 			}
