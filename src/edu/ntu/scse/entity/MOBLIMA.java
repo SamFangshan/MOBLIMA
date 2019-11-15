@@ -165,6 +165,7 @@ public class MOBLIMA {
 			System.out.println("[3] Holidays");
 			System.out.println("[4] Price Manager");
 			System.out.println("[5] List Top 5 Movies by Ticket Sales");
+			System.out.println("[6] List Top 5 Movies by Overall Rating");
 			System.out.println("[0] Logout");
 			System.out.println("================================");
 
@@ -201,6 +202,13 @@ public class MOBLIMA {
 					LinkedHashMap<String, Integer> ticketsSold = rankingManager.ticketSales();
 					for (String i : ticketsSold.keySet()) {
 						System.out.println("Movie: " + i + " Tickets sold: " + ticketsSold.get(i));
+					}
+					break;
+				case 6:
+					LinkedHashMap<String, Float> bestRankedMovies = rankingManager.bestRanked();
+					System.out.println("Listing Top 5 Movies By Overall Rating\n====================================");
+					for (String i : bestRankedMovies.keySet()) {
+						System.out.println("Movie: " + i + " Ranking: " + bestRankedMovies.get(i));
 					}
 					break;
 				default:
@@ -390,10 +398,12 @@ public class MOBLIMA {
 
 		System.out.println("============================");
 		System.out.println("Set price for blockbuster movies");
+		System.out.println("============================");
+		System.out.println("Current price setting is: " + PriceConfig.getPrice(Blockbuster.TRUE));
+
+		System.out.println("Enter new price setting: ");
 		double dif = sc.nextDouble();
 
-		System.out.println("Current price setting is: " + PriceConfig.getPrice(Blockbuster.TRUE));
-		System.out.println("Enter new price setting: ");
 		PriceConfig.setPrice(Blockbuster.TRUE, dif);
 		System.out.println("Price setting for blockbuster set to " + dif);
 	}
@@ -412,31 +422,33 @@ public class MOBLIMA {
 			System.out.println("[2] Remove holiday");
 			System.out.println("[3] List holidays");
 			System.out.println("[4] Save holidays");
+			System.out.println("[5] Update holiday");
 			System.out.println("[0] Return back to admin menu");
 			opt = sc.nextInt();
+			Scanner holsc = new Scanner(System.in);
 			switch(opt) {
 				case 0:
 					System.out.println("returning to admin menu");
 					break;
 				case 1:
 					System.out.println("Enter holiday name:");
-					String name = sc.nextLine();
+					String name = holsc.nextLine();
 					System.out.println("Enter holiday date in yyyy-MM-dd HH:mm format");
-					String date = sc.next();
+					String date = holsc.nextLine();
 					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, StringToCalendar(date)));
 					break;
 				case 2:
-					System.out.println("Choose holiday to be removed by 1) id\n2) name");
+					System.out.println("Choose holiday to be removed by: \n1) id\n2) name");
 					int choice = sc.nextInt();
 					switch(choice) {
 						case 1:
 							System.out.println("Enter holiday id to be removed");
-							int id = sc.nextInt();
+							int id = holsc.nextInt();
 							holidayManager.removeHoliday(holidays, id);
 							break;
 						case 2:
 							System.out.println("Enter exact holiday name to be removed");
-							String holidayName = sc.nextLine();
+							String holidayName = holsc.nextLine();
 							holidayManager.removeHoliday(holidays, holidayName);
 							break;
 					}
@@ -444,13 +456,24 @@ public class MOBLIMA {
 				case 3:
 					System.out.println("Listing all holidays\n=============================");
 					for(Holiday hol : holidays) {
-						System.out.println(hol.toString());
+						if(hol != null) {
+							System.out.println(hol.toString());
+						}
 					}
 					break;
 				case 4:
 					System.out.println("Saving holidays to file");
 					holidayManager.writeHolidaysToFile(holidays);
 					break;
+				case 5:
+					Scanner holInp = new Scanner(System.in);
+					System.out.println("Enter ID of the holiday to be updated: ");
+					int id = holInp.nextInt();
+					System.out.println("Enter new name for the holiday: ");
+					String newName = holInp.nextLine();
+					System.out.println("Enter new date for the holiday: ");
+					String newDate = holInp.nextLine();
+					holidayManager.updateHolidays(holidays, new Holiday(id, newName, StringToCalendar(newDate)));
 				default:
 					System.out.println("Please select valid option");
 			}

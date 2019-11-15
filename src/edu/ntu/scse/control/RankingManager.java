@@ -108,7 +108,34 @@ public class RankingManager {
             sales.put(movies.getTitle(), popularMovies[movies.getMovieId()-1]);
 //            System.out.println(movies.getTitle() + " " + popularMovies[movies.getMovieId()-1]);
         }
-
         return sales;
+    }
+
+    public LinkedHashMap<String, Float> bestRanked() {
+        ArrayList<Movie> topRanked = new ArrayList<>();
+        ArrayList<Movie> tempMovies = new ArrayList<>(movies);
+        LinkedHashMap<String, Float> best = new LinkedHashMap<String, Float>();
+
+
+        Collections.sort(tempMovies, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie o1, Movie o2) {
+                return Float.compare(o2.getOverallRating(), o1.getOverallRating());
+            }
+        });
+
+        for(Movie mov : tempMovies) {
+            topRanked.add(mov);
+            if(topRanked.size() == 5) {
+                break;
+            }
+        }
+
+        for(Movie movies : topRanked) {
+            best.put(movies.getTitle(), movies.getOverallRating());
+//            System.out.println(movies.getTitle() + " " + popularMovies[movies.getMovieId()-1]);
+        }
+
+        return best;
     }
 }
