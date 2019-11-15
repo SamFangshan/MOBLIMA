@@ -104,7 +104,7 @@ public class ShowtimeManager {
         int cinemaId = sc.nextInt();
         Cinema cinema = cinemas.get(cinemaId-1);
 
-        System.out.println("Which Movie?");
+        System.out.println("Which Movie? (Enter Movie ID)");
         int movieId = sc.nextInt();
         Movie movie = movies.get(movieId-1);
 
@@ -148,6 +148,7 @@ public class ShowtimeManager {
                         System.out.println("New Cinema ID: ");
                         int newCinemaId = sc.nextInt();
                         showtime.setCinema(cinemas.get(newCinemaId - 1));
+                        showtime.setSeats(copySeats(cinemas.get(newCinemaId - 1)));
                         break;
                     case 3:
                         System.out.println("No Movie ID: ");

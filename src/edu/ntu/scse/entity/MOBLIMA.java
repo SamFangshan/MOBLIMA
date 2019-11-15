@@ -494,7 +494,7 @@ public class MOBLIMA {
 					break;
 				case 1:
 					new ShowtimeUI(movies, showtimes, new ShowtimeManager(showtimes), new BookingManager(holidays, bookings, tickets), movieGoerObject,reviews).start();
-                    readFileWriteData.writeMovies("data/movies.txt",movies);
+					readFileWriteData.writeMovies("data/movies.txt",movies);
 					readFileWriteData.writeReviews("data/reviews.txt",reviews);
 					break;
 				case 2:
