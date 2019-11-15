@@ -165,6 +165,7 @@ public class MOBLIMA {
 			System.out.println("[3] Holidays");
 			System.out.println("[4] Price Manager");
 			System.out.println("[5] List Top 5 Movies by Ticket Sales");
+			System.out.println("[6] List Top 5 Movies by Overall Rating");
 			System.out.println("[0] Logout");
 			System.out.println("================================");
 
@@ -201,6 +202,12 @@ public class MOBLIMA {
 					LinkedHashMap<String, Integer> ticketsSold = rankingManager.ticketSales();
 					for (String i : ticketsSold.keySet()) {
 						System.out.println("Movie: " + i + " Tickets sold: " + ticketsSold.get(i));
+					}
+					break;
+				case 6:
+					System.out.println("Listing Top 5 Movies By Overall Rating\n====================================");
+					for(Movie movie : rankingManager.getTopRankedMovies()) {
+						System.out.println(movie.getTitle());
 					}
 					break;
 				default:
@@ -414,29 +421,30 @@ public class MOBLIMA {
 			System.out.println("[4] Save holidays");
 			System.out.println("[0] Return back to admin menu");
 			opt = sc.nextInt();
+			Scanner holsc = new Scanner(System.in);
 			switch(opt) {
 				case 0:
 					System.out.println("returning to admin menu");
 					break;
 				case 1:
 					System.out.println("Enter holiday name:");
-					String name = sc.nextLine();
+					String name = holsc.nextLine();
 					System.out.println("Enter holiday date in yyyy-MM-dd HH:mm format");
-					String date = sc.next();
+					String date = holsc.nextLine();
 					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, StringToCalendar(date)));
 					break;
 				case 2:
-					System.out.println("Choose holiday to be removed by 1) id\n2) name");
+					System.out.println("Choose holiday to be removed by: \n1) id\n2) name");
 					int choice = sc.nextInt();
 					switch(choice) {
 						case 1:
 							System.out.println("Enter holiday id to be removed");
-							int id = sc.nextInt();
+							int id = holsc.nextInt();
 							holidayManager.removeHoliday(holidays, id);
 							break;
 						case 2:
 							System.out.println("Enter exact holiday name to be removed");
-							String holidayName = sc.nextLine();
+							String holidayName = holsc.nextLine();
 							holidayManager.removeHoliday(holidays, holidayName);
 							break;
 					}
@@ -444,7 +452,9 @@ public class MOBLIMA {
 				case 3:
 					System.out.println("Listing all holidays\n=============================");
 					for(Holiday hol : holidays) {
-						System.out.println(hol.toString());
+						if(hol != null) {
+							System.out.println(hol.toString());
+						}
 					}
 					break;
 				case 4:
