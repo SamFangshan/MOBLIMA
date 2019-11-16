@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 /**
  * UI for displaying movies and their showtimes
+ * @author Fangshan
  */
 public class ShowtimeUI {
     /**
@@ -137,7 +138,9 @@ public class ShowtimeUI {
      */
     private int printMovies() {
         for (Movie movie : movies) {
-            movie.print();
+            if (movie.getMovieStatus() != MovieStatus.END_OF_SHOWING) { // will not print movies not showing anymore
+                movie.print();
+            }
         }
         System.out.print("Select a movie (enter movie ID) or -1 to return: ");
         Scanner input = new Scanner(System.in);

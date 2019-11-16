@@ -9,7 +9,7 @@ import edu.ntu.scse.entity.Holiday;
 /**
  * Holiday UI to add, update, and delete holiday
  * 
- * @author Kailing & Zilvinas
+ * @author Kailing and Zilvinas
  *
  */
 public class HolidayUI {
