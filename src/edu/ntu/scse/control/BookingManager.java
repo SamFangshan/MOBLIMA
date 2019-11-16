@@ -31,23 +31,38 @@ public class BookingManager {
     private static final int SENIOR_MIN_AGE = 55;
 
     private static final int SIX_PM = 18;
-    private static final int TID_LENGTH = 12;
 
-    private ArrayList<Booking> bookings;
+    /**
+     * List of holidays that the application maintains
+     */
     private ArrayList<Holiday> holidays;
+    /**
+     * List of bookings that the application maintains
+     */
     private ArrayList<Booking> pastBookingsInSystem;
+    /**
+     * List of tickets that the application maintains
+     */
     private ArrayList<Ticket> pastTicketsInSystem;
 
+    /**
+     * Constructor
+     * @param holidays
+     * @param pastBookingsInSystem
+     * @param pastTicketsInSystem
+     */
     public BookingManager(ArrayList<Holiday> holidays, ArrayList<Booking> pastBookingsInSystem, ArrayList<Ticket> pastTicketsInSystem) {
         this.holidays = holidays;
-        this.bookings = new ArrayList<Booking>();
         this.pastBookingsInSystem = pastBookingsInSystem;
         this.pastTicketsInSystem = pastTicketsInSystem;
     }
 
+    /**
+     * Constructor
+     * @param holidays
+     */
     public BookingManager(ArrayList<Holiday> holidays) {
         this.holidays = holidays;
-        this.bookings = new ArrayList<Booking>();
     }
 
     /**
@@ -136,6 +151,10 @@ public class BookingManager {
         System.out.println(booking.toStringConsole());
     }
 
+    /**
+     * Clean up seats if the movie goer gives up on purchasing a ticket
+     * @param tickets
+     */
     private void cleanUp(ArrayList<Ticket> tickets) {
         for (Ticket ticket : tickets) {
             ticket.getSeat().setBooked(false);
@@ -145,7 +164,7 @@ public class BookingManager {
 
     /**
      * Generate transaction ID for a booking
-     * @return
+     * @return TID
      */
     private String generateTID(Calendar currentTime, Cinema cinema) {
         String TID = "00" + String.valueOf(cinema.getCinemaId());

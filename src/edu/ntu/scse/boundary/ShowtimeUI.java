@@ -9,14 +9,44 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * UI for displaying movies and their showtimes
+ */
 public class ShowtimeUI {
+    /**
+     * The list of movies the application maintains
+     */
     ArrayList<Movie> movies;
+    /**
+     * The list of showtimes the application maintains
+     */
     ArrayList<Showtime> showtimes;
+    /**
+     * ShowtimeManager to perform control logic related to showtimes
+     */
     ShowtimeManager showtimeManager;
+    /**
+     * BookingManager to perform control logic related to booking a ticket for a specific showtime
+     */
     BookingManager bookingManager;
+    /**
+     * The movieGoer that uses the application
+     */
     MovieGoer movieGoer;
+    /**
+     * The list of reviews the application maintains
+     */
     ArrayList<Review> reviews;
 
+    /**
+     * Constructor
+     * @param movies
+     * @param showtimes
+     * @param showtimeManager
+     * @param bookingManager
+     * @param movieGoer
+     * @param reviews
+     */
     public ShowtimeUI(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ShowtimeManager showtimeManager, BookingManager bookingManager, MovieGoer movieGoer, ArrayList<Review> reviews) {
         this.movies = movies;
         this.showtimes = showtimes;
@@ -26,6 +56,9 @@ public class ShowtimeUI {
         this.reviews = reviews;
     }
 
+    /**
+     * Start of this UI
+     */
     public void start() {
         Scanner sc = new Scanner(System.in);
         int option = 0;
@@ -70,6 +103,10 @@ public class ShowtimeUI {
         } while (option != 0);
     }
 
+    /**
+     * Display showtimes after user has selected a movie
+     * @param movie
+     */
     private void proceedToShowtime(Movie movie) {
         Scanner input = new Scanner(System.in);
         System.out.println("The following are the showtimes of " + movie.getTitle());
@@ -94,6 +131,10 @@ public class ShowtimeUI {
         bookingManager.createBooking(movieGoer, showtime);
     }
 
+    /**
+     * List all movies
+     * @return choice
+     */
     private int printMovies() {
         for (Movie movie : movies) {
             movie.print();
@@ -115,6 +156,10 @@ public class ShowtimeUI {
         }
     }
 
+    /**
+     * Search movies
+     * @return choice
+     */
     private int searchMovie() {
         System.out.print("Enter the name of the movie to search: ");
         Scanner input = new Scanner(System.in);
@@ -128,6 +173,9 @@ public class ShowtimeUI {
         return -1;
     }
 
+    /**
+     * Print reviews and ratings of movies
+     */
     private void printDetailsOfMovie(){
         System.out.println("Enter the name of the movie that you want more details about: ");
         Scanner input = new Scanner(System.in);
@@ -145,6 +193,10 @@ public class ShowtimeUI {
         System.out.println("Movie Not Found");
     }
 
+    /**
+     * Add a review and a rating to a movie by a movie goer
+     * @param movieGoer
+     */
     private void addReviewRatingforMovie(MovieGoer movieGoer){
         System.out.println("Enter the name of the movie that you want to write Review/Rating for: ");
         Scanner sc = new Scanner(System.in);

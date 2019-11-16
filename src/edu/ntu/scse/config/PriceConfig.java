@@ -10,8 +10,14 @@ import java.util.HashMap;
  * @author fangshan
  */
 public class PriceConfig {
+    /**
+     * Hash Map to store configuration of ticket prices
+     */
     private static HashMap<TicketFactor, Double> factorToPrice;
 
+    /**
+     * Initialise pricing configuration
+     */
     public static void init() {
         factorToPrice = new HashMap<TicketFactor, Double>();
 
@@ -30,6 +36,11 @@ public class PriceConfig {
         factorToPrice.put(MovieType.MovieType_3D, 15.0);
     }
 
+    /**
+     * Get the price change based on a specific TicketFatcor
+     * @param ticketFactor
+     * @return price
+     */
     public static double getPrice(TicketFactor ticketFactor) {
         if (factorToPrice == null) {
             System.out.println("Configuration not initialised!");
@@ -39,6 +50,11 @@ public class PriceConfig {
         return factorToPrice.get(ticketFactor);
     }
 
+    /**
+     * Modify the pricing config of a specific TicketFactor
+     * @param ticketFactor
+     * @param price
+     */
     public static void setPrice(TicketFactor ticketFactor, double price) {
         if (factorToPrice == null) {
             System.out.println("Configuration not initialised!");

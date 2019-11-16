@@ -10,12 +10,35 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.Calendar;
+
+/**
+ * Staff UI to add & update & delete movies
+ */
 public class StaffUIMovie {
+    /**
+     * List of movies the application maintains
+     */
     ArrayList<Movie> movies;
+    /**
+     * List of showtimes the application maintains
+     */
     ArrayList<Showtime> showtimes;
+    /**
+     * List of cinemas the application maintains
+     */
     ArrayList<Cinema> cinemas;
+    /**
+     * The staff to update system configs
+     */
     Staff staff;
 
+    /**
+     * Constructor
+     * @param movies
+     * @param showtimes
+     * @param cinemas
+     * @param staff
+     */
     public StaffUIMovie(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ArrayList<Cinema> cinemas, Staff staff){
         this.showtimes = showtimes;
         this.movies = movies;
@@ -23,6 +46,9 @@ public class StaffUIMovie {
         this.staff = staff;
     }
 
+    /**
+     * Start of this UI
+     */
     public void start() {
         MovieManager movieManager = new MovieManager(movies);
         ShowtimeManager showtimeManager = new ShowtimeManager(showtimes);

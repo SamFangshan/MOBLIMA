@@ -324,6 +324,10 @@ public class ReadFileWriteData {
 		}
 	}
 
+	/**
+	 * Initialisation for booked seats
+	 * @param bookings
+	 */
 	private void initialiseBookedSeats(ArrayList<Booking> bookings) {
 		for (Booking booking : bookings) {
 			ArrayList<Seat> seatArrayList = new ArrayList<Seat>();
@@ -339,6 +343,11 @@ public class ReadFileWriteData {
 		}
 	}
 
+	/**
+	 * Initialize MOBLIMA's Staff(s) from a text file
+	 * @param filename
+	 * @return staffs
+	 */
 	public ArrayList<Staff> readStaffs(String filename) {
 		ArrayList<Staff> staffs = new ArrayList<Staff>();
 
@@ -368,6 +377,12 @@ public class ReadFileWriteData {
 
 		return staffs;
 	}
+
+	/**
+	 * Save all Staff(s) into a text file
+	 * @param filename
+	 * @param staffs
+	 */
 	public void writeStaffs(String filename, ArrayList<Ticket> staffs) {
 		// output to text
 		try {
