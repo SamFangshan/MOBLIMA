@@ -222,6 +222,7 @@ public class MovieManager {
                         break;
                     case 7:
                         System.out.println("New Movie Status: (Default to 'Coming Soon')");
+                        System.out.println("1: Coming Soon | 2: Preview | 3: Now Showing | 4: End of Showing");
                         int newStatus = sc.nextInt();
                         MovieStatus mvStatus = MovieStatus.COMING_SOON;
                         switch (newStatus){
@@ -245,6 +246,7 @@ public class MovieManager {
                         break;
                     case 8:
                         System.out.println("New Movie Type: ");
+                        System.out.println("1: Regular | 2: 3D");
                         int newType = sc.nextInt();
                         MovieType mvType = MovieType.MovieType_REGULAR;
                         switch(newType){
