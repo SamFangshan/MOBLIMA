@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import edu.ntu.scse.boundary.HolidayUI;
 import edu.ntu.scse.boundary.ShowtimeUI;
 import edu.ntu.scse.boundary.StaffUIMovie;
 import edu.ntu.scse.boundary.StaffUIShowtime;
@@ -43,7 +44,7 @@ public class MOBLIMA {
 	 */
 	public MOBLIMA() {
 		readFileWriteData = new ReadFileWriteData();
-		holidayManager = new HolidayManager("data/holidays.txt");
+//		holidayManager = new HolidayManager("data/holidays.txt"); //TODO remove
 		loadData();
 		rankingManager = new RankingManager(movies, showtimes, bookings);
 		PriceConfig.init();
@@ -58,7 +59,7 @@ public class MOBLIMA {
 
 		System.out.println("Loading data...");
 		movies = readFileWriteData.readMovies("data/movies.txt",null);
-		holidays = holidayManager.readHolidays();
+//		holidays = holidayManager.readHolidays(); //TODO remove
 		Object[] results = readFileWriteData.readCineplexesAndCinemas("data/cineplexes.txt",
 				"data/cinemas.txt");
 		cineplexes = (ArrayList<Cineplex>) results[0];
@@ -69,6 +70,7 @@ public class MOBLIMA {
 		movieGoers = readFileWriteData.readMovieGoer("data/moviegoer.txt",bookings,reviews);
 		reviews = readFileWriteData.readReviews("data/reviews.txt",movieGoers);
 		bookings = readFileWriteData.readBookings("data/bookings.txt",movieGoers,showtimes,tickets);
+		holidays = readFileWriteData.readHolidays("data/holidays.txt");
 
 		System.out.println("Loading data done.");
 	};
@@ -79,10 +81,11 @@ public class MOBLIMA {
 	public void saveData() {
 		System.out.println("Saving data...");
 		readFileWriteData.writeMovies("data/movies.txt", movies);
-		holidayManager.writeHolidaysToFile(holidays);
+//		holidayManager.writeHolidaysToFile(holidays); //TODO remove
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
 		readFileWriteData.writeTickets("data/tickets.txt", tickets);
 		readFileWriteData.writeBookings("data/bookings.txt", bookings);
+		readFileWriteData.writeHolidaysToFile("data/holidays.txt", holidays);
 		System.out.println("Saving data done.");
 	}
 
@@ -192,7 +195,9 @@ public class MOBLIMA {
 					readFileWriteData.writeShowtimes("data/showtime.txt",showtimes);
 					break;
 				case 3: // Holidays
-					holidayAdminModule();
+//					holidayAdminModule(); //TODO remove
+					HolidayUI holidayUI = new HolidayUI(holidays);
+					holidayUI.start();
 					break;
 				case 4:
 					priceAdminModule();
@@ -408,77 +413,77 @@ public class MOBLIMA {
 		System.out.println("Price setting for blockbuster set to " + dif);
 	}
 
-	/**
-	 * UI interface for handling holiday manager module
-	 */
-	private void holidayAdminModule() {
-		Scanner sc = new Scanner(System.in);
-		int opt = 0;
-
-		do {
-			System.out.println("\n===============================");
-			System.out.println("=== [Holiday manager menu] ===");
-			System.out.println("[1] Add new holiday");
-			System.out.println("[2] Remove holiday");
-			System.out.println("[3] List holidays");
-			System.out.println("[4] Save holidays");
-			System.out.println("[5] Update holiday");
-			System.out.println("[0] Return back to admin menu");
-			opt = sc.nextInt();
-			Scanner holsc = new Scanner(System.in);
-			switch(opt) {
-				case 0:
-					System.out.println("returning to admin menu");
-					break;
-				case 1:
-					System.out.println("Enter holiday name:");
-					String name = holsc.nextLine();
-					System.out.println("Enter holiday date in yyyy-MM-dd HH:mm format");
-					String date = holsc.nextLine();
-					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, StringToCalendar(date)));
-					break;
-				case 2:
-					System.out.println("Choose holiday to be removed by: \n1) id\n2) name");
-					int choice = sc.nextInt();
-					switch(choice) {
-						case 1:
-							System.out.println("Enter holiday id to be removed");
-							int id = holsc.nextInt();
-							holidayManager.removeHoliday(holidays, id);
-							break;
-						case 2:
-							System.out.println("Enter exact holiday name to be removed");
-							String holidayName = holsc.nextLine();
-							holidayManager.removeHoliday(holidays, holidayName);
-							break;
-					}
-					break;
-				case 3:
-					System.out.println("Listing all holidays\n=============================");
-					for(Holiday hol : holidays) {
-						if(hol != null) {
-							System.out.println(hol.toString());
-						}
-					}
-					break;
-				case 4:
-					System.out.println("Saving holidays to file");
-					holidayManager.writeHolidaysToFile(holidays);
-					break;
-				case 5:
-					Scanner holInp = new Scanner(System.in);
-					System.out.println("Enter ID of the holiday to be updated: ");
-					int id = holInp.nextInt();
-					System.out.println("Enter new name for the holiday: ");
-					String newName = holInp.nextLine();
-					System.out.println("Enter new date for the holiday: ");
-					String newDate = holInp.nextLine();
-					holidayManager.updateHolidays(holidays, new Holiday(id, newName, StringToCalendar(newDate)));
-				default:
-					System.out.println("Please select valid option");
-			}
-		} while(opt != 0);
-	}
+//	/**
+//	 * UI interface for handling holiday manager module
+//	 */
+//	private void holidayAdminModule() {
+//		Scanner sc = new Scanner(System.in);
+//		int opt = 0;
+//
+//		do {
+//			System.out.println("\n===============================");
+//			System.out.println("=== [Holiday manager menu] ===");
+//			System.out.println("[1] Add new holiday");
+//			System.out.println("[2] Remove holiday");
+//			System.out.println("[3] List holidays");
+//			System.out.println("[4] Save holidays");
+//			System.out.println("[5] Update holiday");
+//			System.out.println("[0] Return back to admin menu");
+//			opt = sc.nextInt();
+//			Scanner holsc = new Scanner(System.in);
+//			switch(opt) {
+//				case 0:
+//					System.out.println("returning to admin menu");
+//					break;
+//				case 1:
+//					System.out.println("Enter holiday name:");
+//					String name = holsc.nextLine();
+//					System.out.println("Enter holiday date in yyyy-MM-dd HH:mm format");
+//					String date = holsc.nextLine();
+//					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, StringToCalendar(date)));
+//					break;
+//				case 2:
+//					System.out.println("Choose holiday to be removed by: \n1) id\n2) name");
+//					int choice = sc.nextInt();
+//					switch(choice) {
+//						case 1:
+//							System.out.println("Enter holiday id to be removed");
+//							int id = holsc.nextInt();
+//							holidayManager.removeHoliday(holidays, id);
+//							break;
+//						case 2:
+//							System.out.println("Enter exact holiday name to be removed");
+//							String holidayName = holsc.nextLine();
+//							holidayManager.removeHoliday(holidays, holidayName);
+//							break;
+//					}
+//					break;
+//				case 3:
+//					System.out.println("Listing all holidays\n=============================");
+//					for(Holiday hol : holidays) {
+//						if(hol != null) {
+//							System.out.println(hol.toString());
+//						}
+//					}
+//					break;
+//				case 4:
+//					System.out.println("Saving holidays to file");
+//					holidayManager.writeHolidaysToFile(holidays);
+//					break;
+//				case 5:
+//					Scanner holInp = new Scanner(System.in);
+//					System.out.println("Enter ID of the holiday to be updated: ");
+//					int id = holInp.nextInt();
+//					System.out.println("Enter new name for the holiday: ");
+//					String newName = holInp.nextLine();
+//					System.out.println("Enter new date for the holiday: ");
+//					String newDate = holInp.nextLine();
+//					holidayManager.updateHolidays(holidays, new Holiday(id, newName, StringToCalendar(newDate)));
+//				default:
+//					System.out.println("Please select valid option");
+//			}
+//		} while(opt != 0);
+//	}
 
 	/**
 	 * User is using MOBLIMA as Moviegoer and has access to moviegoer module
@@ -570,18 +575,5 @@ public class MOBLIMA {
 
 	public void setMovies(ArrayList<Movie> movies) {
 		this.movies = movies;
-	}
-
-	private Calendar StringToCalendar(String s) {
-		Date date = null;
-		try {
-			date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);
-		} catch (ParseException e) {
-			System.out.println("Wrong date format!");
-			return null;
-		}
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		return calendar;
-	}
+	}	
 }
