@@ -85,7 +85,6 @@ public class Movie {
 
 	/**
 	 * Constructor with all attributes of Movie
-	 *
 	 * @param movieId
 	 * @param title
 	 * @param synopsis
@@ -96,6 +95,8 @@ public class Movie {
 	 * @param movieRating
 	 * @param movieStatus
 	 * @param movieType
+	 * @param reviews
+	 * @param endOfShowDate
 	 */
 	public Movie(int movieId, String title, String synopsis, String director, String cast, Blockbuster isBlockbuster,
 				 float overallRating, MovieRating movieRating, MovieStatus movieStatus, MovieType movieType,ArrayList<Review> reviews,
