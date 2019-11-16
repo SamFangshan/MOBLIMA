@@ -124,9 +124,15 @@ public class Movie {
 		System.out.println("Synopsis: " + synopsis);
 		System.out.println("Director: " + director);
 		System.out.println("Cast: " + cast);
-		System.out.println("Blockbuster: " + isBlockbuster);
-		System.out.println("Overall Rating: " + getOverallRating());
-		System.out.println("End of showing Date" + endOfShowDate);
+		System.out.println("Blockbuster: " + isBlockbuster);		
+		String s = "";
+		if(overallRating < 0) {
+			s = "NA";
+		}else {
+			s = Float.toString(overallRating);
+		}
+		System.out.println("Overall Rating: " + s);
+		System.out.println("End of showing Date" + endOfShowDate.getTime());
 	}
 
 	/**
