@@ -96,15 +96,15 @@ public class ShowtimeManager {
     public void createShowtime(ArrayList<Cinema> cinemas, ArrayList<Movie> movies){
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Screening Time?");
+        System.out.println("Screening Date & Time? (Please enter yyyy-mm-dd HH:mm format)");
         String date = sc.nextLine();
         Calendar time = StringToCalendar(date);
 
-        System.out.println("Which Cinema?");
+        System.out.println("Which Cinema Id?");
         int cinemaId = sc.nextInt();
         Cinema cinema = cinemas.get(cinemaId-1);
 
-        System.out.println("Which Movie? (Enter Movie ID)");
+        System.out.println("Which Movie Id?");
         int movieId = sc.nextInt();
         Movie movie = movies.get(movieId-1);
 
@@ -126,7 +126,7 @@ public class ShowtimeManager {
     public void updateShowtime(ArrayList<Cinema>cinemas,ArrayList<Movie> movies){
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Which showtime(ID)?");
+        System.out.println("Which Showtime Id?");
         int showtimeId = sc.nextInt();
 
         for(Showtime showtime: showtimes){
@@ -138,7 +138,7 @@ public class ShowtimeManager {
                 int option = sc.nextInt();
                 switch (option){
                     case 1:
-                        System.out.println("New Screening Time: ");
+                        System.out.println("New Screening Time: (Please enter yyyy-mm-dd HH:mm format)");
                         String foo = sc.nextLine();
                         String time = sc.nextLine();
                         Calendar date = StringToCalendar(time);
@@ -148,10 +148,9 @@ public class ShowtimeManager {
                         System.out.println("New Cinema ID: ");
                         int newCinemaId = sc.nextInt();
                         showtime.setCinema(cinemas.get(newCinemaId - 1));
-                        showtime.setSeats(copySeats(cinemas.get(newCinemaId - 1)));
                         break;
                     case 3:
-                        System.out.println("No Movie ID: ");
+                        System.out.println("New Movie ID: ");
                         int newMovieId = sc.nextInt();
                         showtime.setMovie(movies.get(newMovieId - 1));
                         break;
@@ -173,7 +172,7 @@ public class ShowtimeManager {
     public void removeShowtime(){
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("Which showtime(ID)?");
+        System.out.println("Which Showtime Id?");
         int showtimeId = sc.nextInt();
 
         for(Showtime showtime: showtimes){
