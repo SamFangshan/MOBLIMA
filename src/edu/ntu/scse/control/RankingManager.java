@@ -9,10 +9,25 @@ import java.util.*;
  */
 public class RankingManager {
 
+    /**
+     * List of movies that the application maintains
+     */
     private ArrayList<Movie> movies;
+    /**
+     * List of bookings that the application maintains
+     */
     private ArrayList<Booking> bookings;
+    /**
+     * List of showtimes that the application maintains
+     */
     private ArrayList<Showtime> showtimes;
 
+    /**
+     * Constructor
+     * @param movies
+     * @param showtimes
+     * @param bookings
+     */
     public RankingManager(ArrayList<Movie> movies, ArrayList<Showtime> showtimes, ArrayList<Booking> bookings) {
         this.movies = movies;
         this.bookings = bookings;
@@ -77,6 +92,10 @@ public class RankingManager {
         return top5BestSoldMovies;
     }
 
+    /**
+     * Get pair of movie name and tickets sold
+     * @return sales
+     */
     public LinkedHashMap<String, Integer> ticketSales() {
         ArrayList<Movie> mostPopular = new ArrayList<>(movies);
         LinkedHashMap<String, Integer> sales = new LinkedHashMap<>();
@@ -111,6 +130,10 @@ public class RankingManager {
         return sales;
     }
 
+    /**
+     * Get pair of movie name and overall rating of the movie
+     * @return bestMovie
+     */
     public LinkedHashMap<String, Float> bestRanked() {
         ArrayList<Movie> topRanked = new ArrayList<>();
         ArrayList<Movie> tempMovies = new ArrayList<>(movies);
