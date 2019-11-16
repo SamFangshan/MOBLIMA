@@ -129,6 +129,10 @@ public class ShowtimeUI {
                 System.out.println("Invalid index, try again.");
             }
         } while (option < 0 || option >= showtimes.size());
+        if (movie.getMovieStatus().equals(MovieStatus.COMING_SOON)) {
+            System.out.println("Not available for booking yet.");
+            return;
+        }
         bookingManager.createBooking(movieGoer, showtime);
     }
 
@@ -138,7 +142,7 @@ public class ShowtimeUI {
      */
     private int printMovies() {
         for (Movie movie : movies) {
-            if (movie.getMovieStatus() != MovieStatus.END_OF_SHOWING) { // will not print movies not showing anymore
+            if (!movie.getMovieStatus().equals(MovieStatus.END_OF_SHOWING)) { // will not print movies not showing anymore
                 movie.print();
             }
         }
