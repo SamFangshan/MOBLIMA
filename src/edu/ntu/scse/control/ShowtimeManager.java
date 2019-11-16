@@ -71,7 +71,7 @@ public class ShowtimeManager {
     public ArrayList<Showtime> getShowtime(Movie movie) {
         ArrayList<Showtime> showtimesResult = new ArrayList<Showtime>();
         for (Showtime showtime: showtimes) {
-            if (showtime.getMovie().equals(movie)) {
+            if (showtime.getMovie().getTitle().equals(movie.getTitle())) {
                 showtimesResult.add(showtime);
             }
         }

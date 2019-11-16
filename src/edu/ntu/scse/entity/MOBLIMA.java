@@ -51,16 +51,18 @@ public class MOBLIMA {
 		bookings = new ArrayList<>();
 
 		System.out.println("Loading data...");
-		movies = readFileWriteData.readMovies("data/movies.txt",null);
 		Object[] results = readFileWriteData.readCineplexesAndCinemas("data/cineplexes.txt",
 				"data/cinemas.txt");
 		cineplexes = (ArrayList<Cineplex>) results[0];
 		cinemas = (ArrayList<Cinema>) results[1];
-		showtimes = readFileWriteData.readShowtimes("data/showtime.txt", movies, cinemas);
 		staffs = readFileWriteData.readStaffs("data/staffs.txt");
 		tickets = readFileWriteData.readTickets("data/tickets.txt");
 		movieGoers = readFileWriteData.readMovieGoer("data/moviegoer.txt",bookings,reviews);
 		reviews = readFileWriteData.readReviews("data/reviews.txt",movieGoers);
+
+		movies = readFileWriteData.readMovies("data/movies.txt",reviews);
+		showtimes = readFileWriteData.readShowtimes("data/showtime.txt", movies, cinemas);
+
 		bookings = readFileWriteData.readBookings("data/bookings.txt",movieGoers,showtimes,tickets);
 		holidays = readFileWriteData.readHolidays("data/holidays.txt");
 

@@ -75,8 +75,8 @@ public class StaffUIMovie {
                     movieManager.createMovie();
                     break;
                 case 2:
-                    String foo = sc.nextLine();
                     System.out.println("What is the title of the movie you want to update?");
+                    String foo = sc.nextLine();
                     String update = sc.nextLine();
                     movieManager.updateMovie(update);
                     break;

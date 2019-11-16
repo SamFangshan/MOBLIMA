@@ -153,6 +153,10 @@ public class ShowtimeUI {
         try {
             choice = input.nextInt();
             movie = movies.get(choice - 1);
+            if (movie.getMovieStatus().equals(MovieStatus.END_OF_SHOWING)) {
+                System.out.println("End show movie");
+                return -1;
+            }
             return choice - 1;
         } catch (Exception e) {
             if (choice == -1) {
@@ -173,7 +177,11 @@ public class ShowtimeUI {
         String keyword = input.nextLine();
         for (Movie movie : movies) {
             if (movie.getTitle().toUpperCase().contains(keyword.toUpperCase())) {
-                return movie.getMovieId() - 1;
+                if (!movie.getMovieStatus().equals(MovieStatus.END_OF_SHOWING)) {
+                    return movie.getMovieId() - 1;
+                } else {
+                    break;
+                }
             }
         }
         System.out.println("Non existent movie.");

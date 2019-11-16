@@ -3,7 +3,9 @@ package edu.ntu.scse.entity;
 import edu.ntu.scse.factor.Blockbuster;
 import edu.ntu.scse.factor.MovieType;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Represents individual Movie
@@ -64,7 +66,15 @@ public class Movie {
 	 */
 	private MovieType movieType;
 
+	/**
+	 * Reviews of movie
+	 */
 	private ArrayList<Review> reviews;
+
+	/**
+	 * Date of end show
+	 */
+	private Calendar endOfShowDate;
 
 	/**
 	 * Default constructor of Movie
@@ -88,7 +98,8 @@ public class Movie {
 	 * @param movieType
 	 */
 	public Movie(int movieId, String title, String synopsis, String director, String cast, Blockbuster isBlockbuster,
-				 float overallRating, MovieRating movieRating, MovieStatus movieStatus, MovieType movieType,ArrayList<Review> reviews) {
+				 float overallRating, MovieRating movieRating, MovieStatus movieStatus, MovieType movieType,ArrayList<Review> reviews,
+				 Calendar endOfShowDate) {
 		this.movieId = movieId;
 		this.title = title;
 		this.synopsis = synopsis;
@@ -99,7 +110,8 @@ public class Movie {
 		this.movieRating = movieRating;
 		this.movieStatus = movieStatus;
 		this.movieType = movieType;
-		this.reviews = new ArrayList<>();
+		this.reviews = reviews;
+		this.endOfShowDate = endOfShowDate;
 	}
 
 	/**
@@ -114,6 +126,7 @@ public class Movie {
 		System.out.println("Cast: " + cast);
 		System.out.println("Blockbuster: " + isBlockbuster);
 		System.out.println("Overall Rating: " + getOverallRating());
+		System.out.println("End of showing Date" + endOfShowDate);
 	}
 
 	/**
@@ -122,8 +135,10 @@ public class Movie {
 	 */
 	@Override
 	public String toString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String strDate = dateFormat.format(endOfShowDate.getTime());
 		return "Movie|" + movieId + "|" + title + "|" + synopsis + "|" + director + "|" + cast + "|" + isBlockbuster
-				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name()+"|"+reviewsToString(reviews);
+				+ "|" + overallRating + "|" + movieRating.name() + "|" + movieStatus.name() + "|" + movieType.name()+"|"+reviewsToString(reviews)+"|"+strDate;
 	}
 
 	private String reviewsToString(ArrayList<Review> reviews){
@@ -131,27 +146,30 @@ public class Movie {
 		if(reviews.size() != 0){
 			r += reviews.get(0).getReviewId();
 			for(int i=1;i<reviews.size();i++){
-				r += ", ";
+				r += ",";
 				r += reviews.get(i).getReviewId();
 			}
 		}
 		return r;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Movie movie = (Movie) o;
 		return getMovieId() == movie.getMovieId() &&
-				isBlockbuster() == movie.isBlockbuster() &&
 				Float.compare(movie.getOverallRating(), getOverallRating()) == 0 &&
 				getTitle().equals(movie.getTitle()) &&
 				getSynopsis().equals(movie.getSynopsis()) &&
 				getDirector().equals(movie.getDirector()) &&
 				getCast().equals(movie.getCast()) &&
+				getIsBlockbuster() == movie.getIsBlockbuster() &&
 				getMovieRating() == movie.getMovieRating() &&
 				getMovieStatus() == movie.getMovieStatus() &&
-				getMovieType() == movie.getMovieType();
+				getMovieType() == movie.getMovieType() &&
+				getReviews().equals(movie.getReviews()) &&
+				getEndOfShowDate().equals(movie.getEndOfShowDate());
 	}
 
 	/**
@@ -339,6 +357,53 @@ public class Movie {
 		this.movieType = movieType;
 	}
 
+	/**
+	 * Get BlockBuster of Movie
+	 *
+	 * @return BlockBuster of Movie
+	 */
+	public Blockbuster getIsBlockbuster() {
+		return isBlockbuster;
+	}
+
+	/**
+	 * Get endOfShowDate of Movie
+	 *
+	 * @return endOfShowDate of Movie
+	 */
+	public Calendar getEndOfShowDate() {
+		return endOfShowDate;
+	}
+
+	/**
+	 * Change BlockBuster of Movie
+	 * @param isBlockbuster
+	 */
+	public void setIsBlockbuster(Blockbuster isBlockbuster) {
+		this.isBlockbuster = isBlockbuster;
+	}
+
+	/**
+	 * Change reviews of Movie
+	 * @param reviews
+	 */
+	public void setReviews(ArrayList<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	/**
+	 * Change endOfShowDate of Movie
+	 * @param endOfShowDate
+	 */
+	public void setEndOfShowDate(Calendar endOfShowDate) {
+		this.endOfShowDate = endOfShowDate;
+	}
+
+	/**
+	 * Get reviews of Movie
+	 *
+	 * @return reviews of Movie
+	 */
 	public ArrayList<Review> getReviews() {
 		return reviews;
 	}

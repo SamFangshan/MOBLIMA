@@ -40,16 +40,19 @@ public class ReadFileWriteData {
 				String[] tokens = line.split("\\|");
 
 				if (tokens[0].equals("Movie")) { // Movie
-					if(reviews == null){
+					if(reviews == null || tokens[11].equals("")){
 					movies.add(new Movie(Integer.parseInt(tokens[1]), tokens[2], tokens[3], tokens[4], tokens[5],
 							Blockbuster.valueOf(tokens[6].toUpperCase()), Float.parseFloat(tokens[7]),
 							MovieRating.valueOf(tokens[8]), MovieStatus.valueOf(tokens[9]),
-							MovieType.valueOf(tokens[10]),null));}
+							MovieType.valueOf(tokens[10]),new ArrayList<Review>(),StringToCalendar(tokens[12])));}
 					else{
 					movies.add(new Movie(Integer.parseInt(tokens[1]), tokens[2], tokens[3], tokens[4], tokens[5],
 							Blockbuster.valueOf(tokens[6].toUpperCase()), Float.parseFloat(tokens[7]),
 							MovieRating.valueOf(tokens[8]), MovieStatus.valueOf(tokens[9]),
-							MovieType.valueOf(tokens[10]),StringToReviews(tokens[11],reviews)));}
+							MovieType.valueOf(tokens[10]),StringToReviews(tokens[11],reviews),StringToCalendar(tokens[12])));}
+					if (movies.get(movies.size()-1).getEndOfShowDate().getTimeInMillis() <= Calendar.getInstance().getTimeInMillis()) {
+						movies.get(movies.size()-1).setMovieStatus(MovieStatus.END_OF_SHOWING);
+					}
 				} else {
 					System.out.println("Error reading data.");
 				}
@@ -286,6 +289,7 @@ public class ReadFileWriteData {
 					// total price
 
 					bookings.add(new Booking(tokens[1], StringToCalendar(tokens[2]), movieGoers.get(Integer.parseInt(tokens[3])-1), showtimes.get(Integer.parseInt(tokens[4])-1), StringToTickets(tokens[5],tickets), Double.parseDouble(tokens[6])));
+					movieGoers.get(Integer.parseInt(tokens[3])-1).getBookings().add(bookings.get(bookings.size()-1));
 				} else {
 					System.out.println("Error reading data.");
 				}

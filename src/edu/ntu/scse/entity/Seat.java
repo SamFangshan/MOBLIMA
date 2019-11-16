@@ -1,7 +1,5 @@
 package edu.ntu.scse.entity;
 
-import java.util.Objects;
-
 /**
  * Represents a seat in a cinema
  *
