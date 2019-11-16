@@ -10,18 +10,11 @@ import java.util.Date;
 import java.io.*;
 
 /**
- * HolidayManager
+ * Performs control logic operations related to holiday
  * @author Zilvinas
  */
 
 public class HolidayManager {
-
-    private String filename;
-
-    public HolidayManager(String filename) {
-        this.filename = filename;
-    }
-
     /**
      * update find and replace current entry of a holiday
      * @param holidays
@@ -42,37 +35,6 @@ public class HolidayManager {
         else {
             System.out.println("Data for holiday " + holiday.getName() + " has been updated");
         }
-    }
-
-    /**
-     * read holidays from file
-     * @return holidays
-     */
-    public ArrayList<Holiday> readHolidays() {
-        ArrayList<Holiday> holidays = new ArrayList<Holiday>();
-
-        try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line = "";
-            while((line = reader.readLine()) != null) {
-                String[] tokens = line.split("\\|");
-                if(tokens[0].equals("Holiday")) { //unsure about calendar date construction
-//                    Calendar date = Calendar.getInstance();
-//                    date.set(Calendar.DATE, Integer.parseInt(tokens[3]));
-                    holidays.add(new Holiday(Integer.parseInt(tokens[1]), tokens[2],
-                            StringToCalendar(tokens[3])));
-                }
-                else {
-                    System.out.println("Error reading data.");
-                }
-            }
-            reader.close();
-        }
-        catch (FileNotFoundException ex) {
-            System.out.println("Error: Unable to load Movie(s), file " + filename + " not found.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return holidays;
     }
 
     /**
@@ -123,27 +85,7 @@ public class HolidayManager {
         }
     }
 
-    /**
-     * write holidays to file
-     * @param holidays
-     */
-    public void writeHolidaysToFile(ArrayList<Holiday> holidays) {
-        try {
-            PrintWriter out = new PrintWriter(filename);
-
-            // save all Movie
-            for (int i = 0; i < holidays.size(); i++) {
-                String line = holidays.get(i).toString(); // generate line
-                out.println(line); // add a line to text file
-            }
-
-            out.close(); // close before exit
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private Calendar StringToCalendar(String s) {
+    public Calendar StringToCalendar(String s) {
         Date date = null;
         try {
             date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);

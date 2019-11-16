@@ -342,6 +342,57 @@ public class ReadFileWriteData {
 			}
 		}
 	}
+	
+	/**
+     * read holidays from file
+     * @return holidays
+     */
+    public ArrayList<Holiday> readHolidays(String filename) { 
+        ArrayList<Holiday> holidays = new ArrayList<Holiday>();
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line = "";
+            while((line = reader.readLine()) != null) {
+                String[] tokens = line.split("\\|");
+                if(tokens[0].equals("Holiday")) { //unsure about calendar date construction
+//                    Calendar date = Calendar.getInstance();
+//                    date.set(Calendar.DATE, Integer.parseInt(tokens[3]));
+                    holidays.add(new Holiday(Integer.parseInt(tokens[1]), tokens[2],
+                            StringToCalendar(tokens[3])));
+                }
+                else {
+                    System.out.println("Error reading data.");
+                }
+            }
+            reader.close();
+        }
+        catch (FileNotFoundException ex) {
+            System.out.println("Error: Unable to load Movie(s), file " + filename + " not found.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return holidays;
+    }
+    
+    /**
+     * write holidays to file
+     * @param holidays
+     */
+    public void writeHolidaysToFile(String filename, ArrayList<Holiday> holidays) {
+        try {
+            PrintWriter out = new PrintWriter(filename);
+
+            // save all Movie
+            for (int i = 0; i < holidays.size(); i++) {
+                String line = holidays.get(i).toString(); // generate line
+                out.println(line); // add a line to text file
+            }
+
+            out.close(); // close before exit
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 	/**
 	 * Initialize MOBLIMA's Staff(s) from a text file
