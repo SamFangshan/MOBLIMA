@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Staff UI to add & update & delete showtimes
+ * Staff UI to add, update, and delete showtimes
  */
 public class StaffUIShowtime {
     /**

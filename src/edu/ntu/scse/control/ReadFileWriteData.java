@@ -91,7 +91,7 @@ public class ReadFileWriteData {
 	 * Initialize MOBLIMA's Cineplex(es) and Cinema(s) from a text file
 	 * @param cineplexFile
 	 * @param cinemaFile
-	 * @return Cineplexes & Cinemas
+	 * @return Cineplexes and Cinemas
 	 */
 	public Object[] readCineplexesAndCinemas(String cineplexFile, String cinemaFile) {
 		Object[] result = new Object[2];

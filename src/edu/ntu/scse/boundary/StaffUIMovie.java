@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.Calendar;
 
 /**
- * Staff UI to add & update & delete movies
+ * Staff UI to add, update, and delete movies
  */
 public class StaffUIMovie {
     /**
