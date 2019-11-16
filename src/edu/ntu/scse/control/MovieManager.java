@@ -3,11 +3,16 @@ package edu.ntu.scse.control;
 import edu.ntu.scse.entity.Movie;
 import edu.ntu.scse.entity.MovieStatus;
 import edu.ntu.scse.entity.MovieRating;
+import edu.ntu.scse.entity.Review;
 import edu.ntu.scse.factor.MovieType;
 import edu.ntu.scse.factor.Blockbuster;
 //import edu.ntu.scse.control.ReadFileWriteData;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class MovieManager {
@@ -115,7 +120,16 @@ public class MovieManager {
             default:
                 System.out.println("No such rating");
         }
-        Movie movie = new Movie(id,title,synopsis,director,cast,blockbuster,0,mvRating,mvStatus,mvType,null);
+        System.out.println("What is the end of showing date of this movie?");
+        System.out.println("(YYYY-MM-DD HH:mm)");
+        Calendar end = Calendar.getInstance();
+        sc.nextLine();
+        String endStr = sc.nextLine();
+        end = StringToCalendar(endStr);
+        Movie movie = new Movie(id,title,synopsis,director,cast,blockbuster,0,mvRating,mvStatus,mvType,new ArrayList<Review>(),end);
+        if (movie.getEndOfShowDate().getTimeInMillis() <= Calendar.getInstance().getTimeInMillis()) {
+            movie.setMovieStatus(MovieStatus.END_OF_SHOWING);
+        }
         movies.add(movie);
         System.out.println("Movie created!");
     }
@@ -128,7 +142,7 @@ public class MovieManager {
         Scanner sc = new Scanner(System.in);
         for(Movie movie: movies){
             if(movie.getTitle().toUpperCase().equals(s.toUpperCase())){
-                String dummy = sc.nextLine();
+                //String dummy = sc.nextLine();
                 System.out.println("Which attribute of the movie do you want to change?");
                 System.out.println("1: Title");
                 System.out.println("2: Synopsis");
@@ -138,6 +152,7 @@ public class MovieManager {
                 System.out.println("6: Movie Rating");
                 System.out.println("7: Movie Status");
                 System.out.println("8: Movie Type");
+                System.out.println("9: End of Showing Date");
                 int option = sc.nextInt();
                 switch (option){
                     case 1:
@@ -245,6 +260,17 @@ public class MovieManager {
                         }
                         movie.setMovieType(mvType);
                         break;
+                    case 9:
+                        System.out.println("What is the end of showing date of this movie?");
+                        System.out.println("(YYYY-MM-DD HH:mm)");
+                        Calendar end = Calendar.getInstance();
+                        sc.nextLine();
+                        String endStr = sc.nextLine();
+                        end = StringToCalendar(endStr);
+                        movie.setEndOfShowDate(end);
+                        if (movie.getEndOfShowDate().getTimeInMillis() <= Calendar.getInstance().getTimeInMillis()) {
+                            movie.setMovieStatus(MovieStatus.END_OF_SHOWING);
+                        }
                     default:
                         System.out.println("No such option");
                         break;
@@ -272,5 +298,16 @@ public class MovieManager {
         System.out.println("Movie not found");
     }
 
-
+    private Calendar StringToCalendar(String s) {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(s);
+        } catch (ParseException e) {
+            System.out.println("Wrong date format!");
+            return null;
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+    }
 }
