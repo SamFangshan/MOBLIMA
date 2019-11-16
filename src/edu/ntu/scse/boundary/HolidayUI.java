@@ -41,7 +41,6 @@ public class HolidayUI {
 			System.out.println("[1] Add new holiday");
 			System.out.println("[2] Remove holiday");
 			System.out.println("[3] List holidays");
-//			System.out.println("[4] Save holidays"); //TODO remove
 			System.out.println("[4] Update holiday");
 			System.out.println("[0] Return back to admin menu");
 			opt = sc.nextInt();
@@ -82,10 +81,6 @@ public class HolidayUI {
 					}
 				}
 				break;
-//			case 4: //TODO remove
-//				System.out.println("Saving holidays to file");
-//				holidayManager.writeHolidaysToFile(holidays);
-//				break;
 			case 4:
 				Scanner holInp = new Scanner(System.in);
 				System.out.println("Enter ID of the holiday to be updated: ");

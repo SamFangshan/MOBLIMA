@@ -343,7 +343,6 @@ public class ReadFileWriteData {
 		}
 	}
 	
-	//TODO holiday
 	/**
      * read holidays from file
      * @return holidays

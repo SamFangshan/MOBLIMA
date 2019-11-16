@@ -20,7 +20,6 @@ import edu.ntu.scse.control.*;
 public class MOBLIMA {
 
 	private ReadFileWriteData readFileWriteData;
-	private HolidayManager holidayManager;
 	private RankingManager rankingManager;
 	private ArrayList<Cinema> cinemas;
 	private ArrayList<Cineplex> cineplexes;
@@ -39,7 +38,6 @@ public class MOBLIMA {
 	 */
 	public MOBLIMA() {
 		readFileWriteData = new ReadFileWriteData();
-//		holidayManager = new HolidayManager("data/holidays.txt"); //TODO remove
 		loadData();
 		rankingManager = new RankingManager(movies, showtimes, bookings);
 		PriceConfig.init();
@@ -54,7 +52,6 @@ public class MOBLIMA {
 
 		System.out.println("Loading data...");
 		movies = readFileWriteData.readMovies("data/movies.txt",null);
-//		holidays = holidayManager.readHolidays(); //TODO remove
 		Object[] results = readFileWriteData.readCineplexesAndCinemas("data/cineplexes.txt",
 				"data/cinemas.txt");
 		cineplexes = (ArrayList<Cineplex>) results[0];
@@ -76,7 +73,6 @@ public class MOBLIMA {
 	public void saveData() {
 		System.out.println("Saving data...");
 		readFileWriteData.writeMovies("data/movies.txt", movies);
-//		holidayManager.writeHolidaysToFile(holidays); //TODO remove
 		readFileWriteData.writeShowtimes("data/showtime.txt", showtimes);
 		readFileWriteData.writeTickets("data/tickets.txt", tickets);
 		readFileWriteData.writeBookings("data/bookings.txt", bookings);
@@ -219,267 +215,6 @@ public class MOBLIMA {
 		} while (option != 0);
 	}
 
-//	/**
-//	 * Control module for price manager
-//	 */
-//	private void priceAdminModule() {
-//		Scanner sc = new Scanner(System.in);
-//		int opt = 0;
-//		do {
-//			System.out.println("=============================");
-//			System.out.println("=== [Price manager menu] ===");
-//			System.out.println("Choose category of price type to be updated: ");
-//			System.out.println("[1] Age category");
-//			System.out.println("[2] Type of cinema");
-//			System.out.println("[3] Blockbuster");
-//			System.out.println("[4] Movie type");
-//			System.out.println("[0] Return");
-//
-//			opt = sc.nextInt();
-//			switch(opt) {
-//				case 0:
-//					break;
-//				case 1:
-//					setPriceByAgeCategory();
-//					break;
-//				case 2:
-//					//type menu
-//					setPriceByCinemaType();
-//					break;
-//				case 3:
-//					setPriceForBlockbuster();
-//					break;
-//				case 4:
-//					setPriceByMovieType();
-//					break;
-//				default:
-//					System.out.println("No such option");
-//					break;
-//			}
-//		} while(opt != 0);
-//	}
-//
-//	/**
-//	 * Price controler UI for different movie types
-//	 */
-//	private void setPriceByMovieType() {
-//		Scanner sc = new Scanner(System.in);
-//		int opt = 0;
-//
-//		do {
-//			System.out.println("============================");
-//			System.out.println("Select movie type to set the price for: ");
-//			System.out.println("[1] Regular");
-//			System.out.println("[2] 3D");
-//			System.out.println("[0] Return");
-//
-//			opt = sc.nextInt();
-//			double dif;
-//			Scanner pricer = new Scanner(System.in);
-//			switch(opt) {
-//				case 0:
-//					break;
-//				case 1:
-//					System.out.println("Current price setting is: " + PriceConfig.getPrice(MovieType.MovieType_REGULAR));
-//					System.out.println("Enter new price setting: ");
-//					dif = pricer.nextDouble();
-//					PriceConfig.setPrice(MovieType.MovieType_REGULAR, dif);
-//					break;
-//				case 2:
-//					System.out.println("Current price setting is: " + PriceConfig.getPrice(MovieType.MovieType_3D));
-//					System.out.println("Enter new price setting: ");
-//					dif = pricer.nextDouble();
-//					PriceConfig.setPrice(MovieType.MovieType_3D, dif);
-//					break;
-//				default:
-//					System.out.println("No such option");
-//					break;
-//			}
-//		} while(opt != 0);
-//	}
-//
-//	/**
-//	 * UI control for setting price by Age category
-//	 */
-//	private void setPriceByAgeCategory() {
-//		Scanner sc = new Scanner(System.in);
-//		int opt = 0;
-//
-//		do {
-//			System.out.println("============================");
-//			System.out.println("Choose age category for which you want to change the price");
-//			System.out.println("[1] Child");
-//			System.out.println("[2] Student");
-//			System.out.println("[3] Adult");
-//			System.out.println("[4] Senior");
-//			System.out.println("[0] Return");
-//
-//			opt = sc.nextInt();
-//			double dif;
-//			Scanner pricer = new Scanner(System.in);
-//			switch(opt) {
-//				case 0:
-//					break;
-//				case 1:
-//					System.out.println("Current price setting is: " + PriceConfig.getPrice(AgeCategory.CHILD));
-//					System.out.println("Enter new price setting: ");
-//					dif = pricer.nextDouble();
-//					PriceConfig.setPrice(AgeCategory.CHILD, dif);
-//					break;
-//				case 2:
-//					System.out.println("Current price setting is: " + PriceConfig.getPrice(AgeCategory.STUDENT));
-//					System.out.println("Enter new price setting: ");
-//					dif = pricer.nextDouble();
-//					PriceConfig.setPrice(AgeCategory.STUDENT, dif);
-//					break;
-//				case 3:
-//					System.out.println("Current price setting is: " + PriceConfig.getPrice(AgeCategory.ADULT));
-//					System.out.println("Enter new price setting: ");
-//					dif = pricer.nextDouble();
-//					PriceConfig.setPrice(AgeCategory.ADULT, dif);
-//					break;
-//				case 4:
-//					System.out.println("Current price setting is: " + PriceConfig.getPrice(AgeCategory.SENIOR));
-//					System.out.println("Enter new price setting: ");
-//					dif = pricer.nextDouble();
-//					PriceConfig.setPrice(AgeCategory.SENIOR, dif);
-//					break;
-//				default:
-//					System.out.println("No such option");
-//					break;
-//			}
-//		} while(opt != 0);
-//	}
-//
-//	/**
-//	 * price controler UI for cinema type
-//	 */
-//	private void setPriceByCinemaType() {
-//		Scanner sc = new Scanner(System.in);
-//		int opt = 0;
-//
-//		do {
-//			System.out.println("============================");
-//			System.out.println("Choose cinema type category for which you want to change the price");
-//			System.out.println("[1] Standard");
-//			System.out.println("[2] Platinum");
-//			System.out.println("[0] Return");
-//
-//			opt = sc.nextInt();
-//			double dif;
-//			Scanner pricer = new Scanner(System.in);
-//			switch(opt) {
-//				case 0:
-//					break;
-//				case 1:
-//					System.out.println("Current price setting is: " + PriceConfig.getPrice(CinemaClass.STANDARD));
-//					System.out.println("Enter new price setting: ");
-//					dif = pricer.nextDouble();
-//					PriceConfig.setPrice(CinemaClass.STANDARD, dif);
-//					break;
-//				case 2:
-//					System.out.println("Current price setting is: " + PriceConfig.getPrice(CinemaClass.PLATINUM));
-//					System.out.println("Enter new price setting: ");
-//					dif = pricer.nextDouble();
-//					PriceConfig.setPrice(CinemaClass.PLATINUM, dif);
-//					break;
-//				default:
-//					System.out.println("No such option");
-//					break;
-//			}
-//		} while(opt != 0);
-//	}
-//
-//	/**
-//	 * price controler UI for blockbuster movies
-//	 */
-//	private void setPriceForBlockbuster() {
-//		Scanner sc = new Scanner(System.in);
-//
-//		System.out.println("============================");
-//		System.out.println("Set price for blockbuster movies");
-//		System.out.println("============================");
-//		System.out.println("Current price setting is: " + PriceConfig.getPrice(Blockbuster.TRUE));
-//
-//		System.out.println("Enter new price setting: ");
-//		double dif = sc.nextDouble();
-//
-//		PriceConfig.setPrice(Blockbuster.TRUE, dif);
-//		System.out.println("Price setting for blockbuster set to " + dif);
-//	}
-
-//	/**
-//	 * UI interface for handling holiday manager module
-//	 */
-//	private void holidayAdminModule() {
-//		Scanner sc = new Scanner(System.in);
-//		int opt = 0;
-//
-//		do {
-//			System.out.println("\n===============================");
-//			System.out.println("=== [Holiday manager menu] ===");
-//			System.out.println("[1] Add new holiday");
-//			System.out.println("[2] Remove holiday");
-//			System.out.println("[3] List holidays");
-//			System.out.println("[4] Save holidays");
-//			System.out.println("[5] Update holiday");
-//			System.out.println("[0] Return back to admin menu");
-//			opt = sc.nextInt();
-//			Scanner holsc = new Scanner(System.in);
-//			switch(opt) {
-//				case 0:
-//					System.out.println("returning to admin menu");
-//					break;
-//				case 1:
-//					System.out.println("Enter holiday name:");
-//					String name = holsc.nextLine();
-//					System.out.println("Enter holiday date in yyyy-MM-dd HH:mm format");
-//					String date = holsc.nextLine();
-//					holidayManager.addNewHoliday(holidays, new Holiday(holidays.size()+1, name, StringToCalendar(date)));
-//					break;
-//				case 2:
-//					System.out.println("Choose holiday to be removed by: \n1) id\n2) name");
-//					int choice = sc.nextInt();
-//					switch(choice) {
-//						case 1:
-//							System.out.println("Enter holiday id to be removed");
-//							int id = holsc.nextInt();
-//							holidayManager.removeHoliday(holidays, id);
-//							break;
-//						case 2:
-//							System.out.println("Enter exact holiday name to be removed");
-//							String holidayName = holsc.nextLine();
-//							holidayManager.removeHoliday(holidays, holidayName);
-//							break;
-//					}
-//					break;
-//				case 3:
-//					System.out.println("Listing all holidays\n=============================");
-//					for(Holiday hol : holidays) {
-//						if(hol != null) {
-//							System.out.println(hol.toString());
-//						}
-//					}
-//					break;
-//				case 4:
-//					System.out.println("Saving holidays to file");
-//					holidayManager.writeHolidaysToFile(holidays);
-//					break;
-//				case 5:
-//					Scanner holInp = new Scanner(System.in);
-//					System.out.println("Enter ID of the holiday to be updated: ");
-//					int id = holInp.nextInt();
-//					System.out.println("Enter new name for the holiday: ");
-//					String newName = holInp.nextLine();
-//					System.out.println("Enter new date for the holiday: ");
-//					String newDate = holInp.nextLine();
-//					holidayManager.updateHolidays(holidays, new Holiday(id, newName, StringToCalendar(newDate)));
-//				default:
-//					System.out.println("Please select valid option");
-//			}
-//		} while(opt != 0);
-//	}
-
 	/**
 	 * User is using MOBLIMA as Moviegoer and has access to moviegoer module
 	 */
@@ -555,20 +290,4 @@ public class MOBLIMA {
 
 		} while (option != 0);
 	}
-
-	public ArrayList<Movie> getMovies() {
-		return movies;
-	}
-
-	public ArrayList<Booking> getBookings() {
-		return bookings;
-	}
-
-	public ArrayList<Showtime> getShowtimes() {
-		return showtimes;
-	}
-
-	public void setMovies(ArrayList<Movie> movies) {
-		this.movies = movies;
-	}	
 }
