@@ -10,7 +10,7 @@ import java.util.Date;
 import java.io.*;
 
 /**
- * HolidayManager
+ * Performs control logic operations related to holiday
  * @author Zilvinas
  */
 
